@@ -1,0 +1,3 @@
+.terraform/
+terraform/config/ssh/key
+salt/files/unix/id_rsa
