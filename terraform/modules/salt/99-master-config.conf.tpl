@@ -4,7 +4,7 @@ fileserver_backend:
   - minion
   
 gitfs_remotes:
-  - https://github.com/terragon-social-club/infrastructure.git:
+  - http://github.com/terragon-social-club/infrastructure.git:
       - mountpoint: salt:///
       
 gitfs_root: salt
