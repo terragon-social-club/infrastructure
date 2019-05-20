@@ -1,4 +1,4 @@
-mikekeen.git.beanstalkapp.com:
+github.com:
   ssh_known_hosts:
     - present
 
