@@ -25,7 +25,7 @@ module "Salt_Master" {
   name = "saltm"
   key = ["${var.mike_key}"]
   salt_minion_roles = ["  - master"]
-  domain_id = "saltm.terragon.us"
+  domain_id = "terragon.us"
 }
 
 #module "CouchDBMasterNode" {
@@ -39,7 +39,7 @@ module "Salt_Master" {
 #  is_ubuntu = false
 #  is_bsd = true
 #  create_tld = false
-#  domain_id = "couchdb-a.terragon.us"
+#  domain_id = "terragon.us"
 #  key = ["${var.mike_key}"]
 #  salt_master_fqdn = "${module.Salt_Master.salt_master_fqdn}"
 #  salt_minion_roles = ["  - couchdb", "  - minion", "  - couchdbmaster"]
