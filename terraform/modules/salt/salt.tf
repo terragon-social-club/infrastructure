@@ -42,7 +42,7 @@ variable "region" {
 }
 
 variable "image" {
-  default = "freebsd-11-1-x64"
+  default = "freebsd-11-2-x64-zfs"
 }
 
 variable "size" {
@@ -82,6 +82,7 @@ resource "digitalocean_droplet" "salt_master" {
 
   provisioner "remote-exec" "salt-git" {
     inline = [
+      "echo \"DEFAULT_VERSIONS+= python=3.6\" >> /etc/make.conf",
       "env ASSUME_ALWAYS_YES=YES pkg install git",
       "env ASSUME_ALWAYS_YES=YES pkg install devel/py-gitpython"
     ]
@@ -126,7 +127,7 @@ resource "null_resource" "master_install" {
   provisioner "remote-exec" "salt-download" {
     inline = [
       "fetch -o /tmp/bootstrap-salt.sh https://bootstrap.saltstack.com",
-      "env IGNORE_OSVERSION=yes sh /tmp/bootstrap-salt.sh -M -X -A ${digitalocean_droplet.salt_master.ipv4_address_private} -i ${var.name}",
+      "env sh /tmp/bootstrap-salt.sh -M -X -A ${digitalocean_droplet.salt_master.ipv4_address_private} -i ${var.name}",
       "mkdir -p /usr/local/etc/salt/master.d"
     ]
     
