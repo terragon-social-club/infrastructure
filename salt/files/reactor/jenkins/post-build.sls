@@ -3,4 +3,4 @@
     - tgt: beast
     - arg:
       - cmd.run
-      - "salt butter cp.push '/usr/local/jenkins/jobs/www.mikekeen.com Build And Deploy Artifact/lastSuccessful/archive/*' upload_path='/'"
+      - "salt butter cp.push '/usr/local/jenkins/jobs/terragon.us Build And Deploy Artifact/lastSuccessful/archive/*' upload_path='/'"
