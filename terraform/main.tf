@@ -14,9 +14,11 @@ variable "salt_master_key" {
 #  default = "7d:19:b0:09:11:5f:81:b8:dc:08:9c:f4:3e:29:74:f1"
 #}
 
+variable "digitalocean_api_token" {}
+
 # Infrastructure Provider Tokens
 provider "digitalocean" {
-  token = "8ae2dce8650a72371673cf505e301f46bf9f68cdc2af78f8ac68e2e149b2b84a"
+  token = "${var.digitalocean_api_token}"
 }
 
 module "Salt_Master" {
