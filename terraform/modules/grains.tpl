@@ -1,0 +1,3 @@
+roles:
+${roles}
+fqdn: ${fqdn}
