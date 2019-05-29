@@ -21,7 +21,7 @@ variable "region" {
 }
 
 variable "image" {
-  default = "freebsd-11-2-x64-zfs"
+  default = "freebsd-12-x64-zfs"
 }
 
 variable "size" {
@@ -36,23 +36,24 @@ variable "size" {
 #}
 
 resource "digitalocean_droplet" "salt_master" {
-  private_networking = true
-  backups = true
+  private_networking = false
+  backups = false
   region = "${var.region}"
   image = "${var.image}"
   name = "${var.name}"
   size = "${var.size}"
-  ssh_keys = ["${var.keys}"]
+  ssh_keys = "${var.keys}"
   ipv6 = false
   
   connection {
+    host = "${self.ipv4_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("/home/guest/.ssh/id_rsa")}"
     timeout = "5m"
   }
 
-  provisioner "remote-exec" "salt_git" {
+  provisioner "remote-exec" {
     inline = [
       "env ASSUME_ALWAYS_YES=YES pkg install git",
       "env ASSUME_ALWAYS_YES=YES pkg install devel/py-gitpython"
@@ -60,7 +61,7 @@ resource "digitalocean_droplet" "salt_master" {
     
   }
 
-  provisioner "remote-exec" "master_key" {
+  provisioner "remote-exec" {
     inline = [
       "ssh-keygen -t rsa -N \"\" -f /root/.ssh/id_rsa"
     ]
@@ -69,40 +70,25 @@ resource "digitalocean_droplet" "salt_master" {
   
 }
 
-# Commented code is related to an idea around generating a new key when master is provisioned,
-# and treating master as a bastion server from then on out. Bastion implmentation in terraform
-# is pretty much worthless (see https://github.com/hashicorp/terraform/issues/6263) so tabling
-# this for now. Must keep marching forward!
-#
-#resource "null_resource" "copy_master_public_key" {
-#  depends_on = ["digitalocean_droplet.salt_master"]
-#
-#  triggers {
-#    id = "${digitalocean_droplet.salt_master.id}"
-#  }
-#  
-#  provisioner "local-exec" {
-#    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${digitalocean_droplet.salt_master.ipv4_address}:/root/.ssh/id_rsa.pub /tmp/salt_master.pub"
-#  }
-#  
-#}
-#
-#resource "digitalocean_ssh_key" "salt_master_key" {
-#  depends_on = ["null_resource.copy_master_public_key"]
-#  
-#  name = "Salt Master ${var.name} Key"
-#  public_key = "${data.local_file.master_public_key.content}"
-#}
-#
-#data "local_file" "master_public_key" {
-#  depends_on = ["null_resource.copy_master_public_key"]
-#  
-#  filename = "/tmp/salt_master.pub"
-#}
-#
-#output "salt_master_pk_fingerprint" {
-#  value = "${digitalocean_ssh_key.salt_master_key.fingerprint}"
-#}
+resource "null_resource" "copy_master_public_key" {
+  depends_on = ["digitalocean_droplet.salt_master"]
+
+  triggers = {
+    id = "${digitalocean_droplet.salt_master.id}"
+  }
+  
+  provisioner "local-exec" {
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${digitalocean_droplet.salt_master.ipv4_address}:/root/.ssh/id_rsa.pub ${path.module}/../../../keys/generated/salt-master.pub"
+  }
+  
+}
+
+resource "digitalocean_ssh_key" "salt_master_key" {
+  depends_on = ["null_resource.copy_master_public_key"]
+  
+  name = "Salt Master Key"
+  public_key = "${file("${path.module}/../../../keys/generated/salt-master.pub")}"
+}
 
 resource "digitalocean_record" "salt_master" {
   # depends_on = ["null_resource.copy_master_public_key"]
@@ -110,13 +96,14 @@ resource "digitalocean_record" "salt_master" {
   domain = "${var.domain_id}"
   type = "A"
   name = "${var.name}"
-  value = "${digitalocean_droplet.salt_master.ipv4_address_private}"
+  #value = "${digitalocean_droplet.salt_master.ipv4_address_private}"
+  value = "${digitalocean_droplet.salt_master.ipv4_address}"
 }
 
 resource "null_resource" "master_install_configure" {
   depends_on = ["digitalocean_record.salt_master"]
 
-  triggers {
+  triggers = {
     id = "${digitalocean_droplet.salt_master.id}"
   }
   
@@ -128,26 +115,27 @@ resource "null_resource" "master_install_configure" {
     timeout = "5m"
   }
 
-  provisioner "remote-exec" "salt_download" {
+  provisioner "remote-exec" {
     inline = [
       "fetch -o /tmp/bootstrap-salt.sh https://bootstrap.saltstack.com",
-      "env sh /tmp/bootstrap-salt.sh -x python3 -X -M -A ${digitalocean_droplet.salt_master.ipv4_address_private} -i ${var.name}",
+      #"env sh /tmp/bootstrap-salt.sh -x python3 -X -M -A ${digitalocean_droplet.salt_master.ipv4_address_private} -i ${var.name}",
+      "env sh /tmp/bootstrap-salt.sh -x python3 -X -M -A ${digitalocean_droplet.salt_master.ipv4_address} -i ${var.name}",
       "mkdir -p /usr/local/etc/salt/master.d"
     ]
     
   }
 
-  provisioner "file" "configure_master" {
+  provisioner "file" {
     content = "${data.template_file.master_config.rendered}"
     destination = "/usr/local/etc/salt/master.d/99-master-config.conf"
   }
 
-  provisioner "file" "configure_minion" {
+  provisioner "file" {
     source = "${path.module}/../98-minion-config.conf"
     destination = "/usr/local/etc/salt/minion.d/98-minion-config.conf"
   }
 
-  provisioner "remote-exec" "generate_keys" {
+  provisioner "remote-exec" {
     inline = [
       "salt-key --gen-keys=${var.name}",
       "mkdir -p /usr/local/etc/salt/pki/master/minions",
@@ -159,18 +147,18 @@ resource "null_resource" "master_install_configure" {
     
   }
 
-  provisioner "file" "grains" {
+  provisioner "file" {
     content = "${data.template_file.grains.rendered}"
     destination = "/usr/local/etc/salt/grains"
   }
 
   # Master ssh config (move to salt?)
-  provisioner "file" "configure_ssh_client" {
+  provisioner "file" {
     source = "../salt/files/unix/root/.ssh/config"
     destination = "/root/.ssh/config"
   }
 
-  provisioner "remote-exec" "start_salt" {
+  provisioner "remote-exec" {
     inline = [
       "service salt_master start",
       "sleep 60",
@@ -183,7 +171,7 @@ resource "null_resource" "master_install_configure" {
 
 data "template_file" "grains" {
   template = "${file("${path.module}/../grains.tpl")}"
-  vars {
+  vars = {
     roles = "${join("\n", var.salt_minion_roles)}"
     fqdn = "${var.name}.terragon.us"
   }
@@ -192,8 +180,9 @@ data "template_file" "grains" {
 
 data "template_file" "master_config" {
   template = "${file("${path.module}/../99-master-config.conf.tpl")}"
-  vars {
-    private_ip = "${digitalocean_droplet.salt_master.ipv4_address_private}"
+  vars = {
+    #private_ip = "${digitalocean_droplet.salt_master.ipv4_address_private}"
+    private_ip = "${digitalocean_droplet.salt_master.ipv4_address}"
   }
   
 }
@@ -210,3 +199,6 @@ output "salt_master_fqdn" {
   value = "${digitalocean_record.salt_master.fqdn}"
 }
 
+output "salt_master_ssh_fingerprint" {
+  value = "${digitalocean_ssh_key.salt_master_key.fingerprint}"
+}

@@ -42,7 +42,7 @@ variable "region" {
 }
 
 variable "image" {
-  default = "freebsd-11-2-x64-zfs"
+  default = "freebsd-12-x64-zfs"
 }
 
 variable "size" {
@@ -50,23 +50,25 @@ variable "size" {
 }
 
 resource "digitalocean_droplet" "salt_minion" {
-  private_networking = true
-  backups = true
+  private_networking = false
+  #private_networking = true
+  backups = false
   region = "${var.region}"
   image = "${var.image}"
   name = "${var.name}"
   size = "${var.size}"
-  ssh_keys = ["${var.keys}"]
+  ssh_keys = "${var.keys}"
   ipv6 = false
   
   connection {
+    host = "${self.ipv4_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("/home/guest/.ssh/id_rsa")}"
     timeout = "5m"
   }
 
-  provisioner "remote-exec" "salt_download_install_configure" {
+  provisioner "remote-exec" {
     inline = [
       "fetch -o /tmp/bootstrap-salt.sh https://bootstrap.saltstack.com",
       "sh /tmp/bootstrap-salt.sh -P -X -A ${var.salt_master_private_ip_address} -i ${var.name}",
@@ -89,7 +91,7 @@ resource "digitalocean_droplet" "salt_minion" {
 
 resource "null_resource" "generate_minion_key_master" {
   depends_on = ["digitalocean_droplet.salt_minion"]
-  triggers {
+  triggers = {
     id = "${digitalocean_droplet.salt_minion.id}"
   }
 
@@ -97,17 +99,19 @@ resource "null_resource" "generate_minion_key_master" {
     host = "${var.salt_master_public_ip_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("/home/guest/.ssh/id_rsa")}"
     timeout = "2m"
   }
 
-  provisioner "remote-exec" "minion_keys" {
+  provisioner "remote-exec" {
     inline = [
       "salt-key --gen-keys=${var.name}",
       "mkdir -p /usr/local/etc/salt/pki/master/minions",
       "cp ${var.name}.pub /usr/local/etc/salt/pki/master/minions/${var.name}",
-      "scp -o 'StrictHostKeyChecking no' ${var.name}.pub root@${digitalocean_droplet.salt_minion.ipv4_address_private}:/usr/local/etc/salt/pki/minion/minion.pub",
-      "scp -o 'StrictHostKeyChecking no' ${var.name}.pem root@${digitalocean_droplet.salt_minion.ipv4_address_private}:/usr/local/etc/salt/pki/minion/minion.pem",
+      #"scp -o 'StrictHostKeyChecking no' ${var.name}.pub root@${digitalocean_droplet.salt_minion.ipv4_address_private}:/usr/local/etc/salt/pki/minion/minion.pub",
+      #"scp -o 'StrictHostKeyChecking no' ${var.name}.pem root@${digitalocean_droplet.salt_minion.ipv4_address_private}:/usr/local/etc/salt/pki/minion/minion.pem",
+      "scp -o 'StrictHostKeyChecking no' ${var.name}.pub root@${digitalocean_droplet.salt_minion.ipv4_address}:/usr/local/etc/salt/pki/minion/minion.pub",
+      "scp -o 'StrictHostKeyChecking no' ${var.name}.pem root@${digitalocean_droplet.salt_minion.ipv4_address}:/usr/local/etc/salt/pki/minion/minion.pem",
       "rm ${var.name}.pub",
       "rm ${var.name}.pem",
       "chmod 600 /usr/local/etc/salt/pki/minion/minion.pem",
@@ -120,7 +124,7 @@ resource "null_resource" "generate_minion_key_master" {
 
 resource "null_resource" "salt_minion_start" {
   depends_on = ["null_resource.generate_minion_key_master"]
-  triggers {
+  triggers = {
     id = "${digitalocean_droplet.salt_minion.id}"
   }
   
@@ -128,11 +132,11 @@ resource "null_resource" "salt_minion_start" {
     host = "${digitalocean_droplet.salt_minion.ipv4_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("/home/guest/.ssh/id_rsa")}"
     timeout = "2m"
   }
   
-  provisioner "remote-exec" "start_minion" {
+  provisioner "remote-exec" {
     inline = [
       "service salt_minion start"
     ]
@@ -150,7 +154,7 @@ resource "digitalocean_record" "salt_minion" {
 
 data "template_file" "grains" {
   template = "${file("${path.module}/../grains.tpl")}"
-  vars {
+  vars = {
     roles = "${join("\n", var.salt_minion_roles)}"
     fqdn = "${var.name}.terragon.us"
   }
