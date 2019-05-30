@@ -32,6 +32,7 @@ module "Salt_Master" {
 
 module "CouchDBMasterNode" {
   source = "./modules/salt-minion"
+  provision = true
   name = "couchdb-a"
   size = "512mb"
   domain_id = "terragon.us"
@@ -39,9 +40,8 @@ module "CouchDBMasterNode" {
     "${digitalocean_ssh_key.mike_keen_key.fingerprint}",
     "${module.Salt_Master.salt_master_ssh_fingerprint}"
   ]
-  salt_master_fqdn = "${module.Salt_Master.salt_master_fqdn}"
+  
   salt_minion_roles = ["  - couchdb", "  - minion", "  - couchdbmaster"]
-  #salt_master_private_ip_address = "${module.Salt_Master.salt_master_private_ip_address}"
   salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
   salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
 }

@@ -1,19 +1,12 @@
 variable "salt_minion_roles" {
-  default = []
+  default = ["master"]
 }
 
-variable "domain_id" {
-  default = ""
-}
-
-variable "name" {}
+variable "domain_id" { }
+variable "name" { }
 
 variable "keys" {
-  default = []
-}
-
-variable "tld" {
-  default = ""
+  type = "list"
 }
 
 variable "region" {
@@ -27,13 +20,6 @@ variable "image" {
 variable "size" {
   default = "512mb"
 }
-
-#resource "digitalocean_ssh_key" "salt_master_key" {
-#  depends_on = ["null_resource.copy_master_public_key"]
-#  
-#  name = "Salt Master ${var.name} Key"
-#  public_key = "${data.local_file.master_public_key.content}"
-#}
 
 resource "digitalocean_droplet" "salt_master" {
   private_networking = false
@@ -53,6 +39,16 @@ resource "digitalocean_droplet" "salt_master" {
     timeout = "5m"
   }
 
+  provisioner "local-exec" {
+    when = "destroy"
+    command = "git rm ${path.cwd}/../keys/generated/${self.id}.pub || true"
+  }
+
+  provisioner "local-exec" {
+    when = "destroy"
+    command = "rm -f ${path.cwd}/../keys/generated/${self.id}.pub || true"
+  }
+  
   provisioner "remote-exec" {
     inline = [
       "env ASSUME_ALWAYS_YES=YES pkg install git",
@@ -67,27 +63,16 @@ resource "digitalocean_droplet" "salt_master" {
     ]
     
   }
-  
-}
 
-resource "null_resource" "copy_master_public_key" {
-  depends_on = ["digitalocean_droplet.salt_master"]
-
-  triggers = {
-    id = "${digitalocean_droplet.salt_master.id}"
-  }
-  
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${digitalocean_droplet.salt_master.ipv4_address}:/root/.ssh/id_rsa.pub ${path.module}/../../../keys/generated/salt-master.pub"
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${digitalocean_droplet.salt_master.ipv4_address}:/root/.ssh/id_rsa.pub ${path.cwd}/../keys/generated/${self.id}.pub"
   }
   
 }
 
 resource "digitalocean_ssh_key" "salt_master_key" {
-  depends_on = ["null_resource.copy_master_public_key"]
-  
-  name = "Salt Master Key"
-  public_key = "${file("${path.module}/../../../keys/generated/salt-master.pub")}"
+  name = "Salt Master Key ${digitalocean_droplet.salt_master.ipv4_address}"
+  public_key = "${data.local_file.salt_master_key.content}"
 }
 
 resource "digitalocean_record" "salt_master" {
@@ -118,7 +103,6 @@ resource "null_resource" "master_install_configure" {
   provisioner "remote-exec" {
     inline = [
       "fetch -o /tmp/bootstrap-salt.sh https://bootstrap.saltstack.com",
-      #"env sh /tmp/bootstrap-salt.sh -x python3 -X -M -A ${digitalocean_droplet.salt_master.ipv4_address_private} -i ${var.name}",
       "env sh /tmp/bootstrap-salt.sh -x python3 -X -M -A ${digitalocean_droplet.salt_master.ipv4_address} -i ${var.name}",
       "mkdir -p /usr/local/etc/salt/master.d"
     ]
@@ -152,12 +136,6 @@ resource "null_resource" "master_install_configure" {
     destination = "/usr/local/etc/salt/grains"
   }
 
-  # Master ssh config (move to salt?)
-  provisioner "file" {
-    source = "../salt/files/unix/root/.ssh/config"
-    destination = "/root/.ssh/config"
-  }
-
   provisioner "remote-exec" {
     inline = [
       "service salt_master start",
@@ -167,6 +145,10 @@ resource "null_resource" "master_install_configure" {
     
   }
   
+}
+
+data "local_file" "salt_master_key" {
+  filename = "${path.module}/../../../keys/generated/${digitalocean_droplet.salt_master.id}.pub"
 }
 
 data "template_file" "grains" {
