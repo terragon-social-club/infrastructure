@@ -5,5 +5,5 @@ service.running:
   - enable: True
   - reload: True
   - watch:
-      file: /usr/local/etc/apache24/httpd.conf
+      - file: /usr/local/etc/apache24/httpd.conf
       
