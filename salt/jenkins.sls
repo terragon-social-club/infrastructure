@@ -7,11 +7,10 @@ jenkins:
     - enable: True
    
 extend:
-  apache:
-    apache24:
-      service.running:
-        - watch:
-          - file: /usr/local/etc/apache24/httpd.conf
+  apache24:
+    service.running:
+      - watch:
+        - file: /usr/local/etc/apache24/httpd.conf
 
 enable modules:
   apache_module.enabled:
