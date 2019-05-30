@@ -4,4 +4,5 @@ base:
 
   'jenkins':
     - letsencrypt
+    - apache
     - jenkins
