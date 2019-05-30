@@ -24,15 +24,17 @@ provider "digitalocean" {
 
 module "Salt_Master" {
   source = "./modules/salt-master"
+  
   name = "saltm"
   keys = ["${digitalocean_ssh_key.mike_keen_key.fingerprint}"]
-  salt_minion_roles = ["  - master"]
+  salt_minion_roles = ["master"]
   domain_id = "terragon.us"
 }
 
 module "Jenkins" {
   source = "./modules/salt-minion"
   provision = true
+  
   name = "jenkins"
   size = "512mb"
   domain_id = "terragon.us"
@@ -41,7 +43,7 @@ module "Jenkins" {
     "${module.Salt_Master.salt_master_ssh_fingerprint}"
   ]
   
-  salt_minion_roles = ["  - jenkins", "  - minion"]
+  salt_minion_roles = ["jenkins", "minion"]
   salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
   salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
 }

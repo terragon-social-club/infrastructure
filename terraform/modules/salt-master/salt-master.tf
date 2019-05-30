@@ -153,13 +153,13 @@ resource "null_resource" "master_install_configure" {
 
 data "local_file" "salt_master_key" {
   depends_on = ["digitalocean_droplet.salt_master"]
-  filename = "${path.module}/../../../keys/generated/${digitalocean_droplet.salt_master.ipv4_address}.pub"
+  filename = "${path.module}/../../../keys/generated/${digitalocean_droplet.salt_master.id}.pub"
 }
 
 data "template_file" "grains" {
   template = "${file("${path.module}/../grains.tpl")}"
   vars = {
-    roles = "${join("\n", var.salt_minion_roles)}"
+    roles = join("\n", [for role in var.salt_minion_roles : "  - ${role}"])
     fqdn = "${var.name}.terragon.us"
   }
   

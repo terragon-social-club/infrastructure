@@ -89,6 +89,15 @@ resource "digitalocean_droplet" "salt_minion" {
   }
   
   provisioner "remote-exec" {
+    inline = [
+      "service salt_minion start"
+    ]
+    
+  }
+
+  provisioner "remote-exec" {
+    when = "destroy"
+    
     connection {
       host = "${var.salt_master_public_ip_address}"
       user = "root"
@@ -97,16 +106,8 @@ resource "digitalocean_droplet" "salt_minion" {
       timeout = "2m"
     }
     
-    when = "destroy"
     inline = [
       "salt-key -d ${var.name} -y",
-    ]
-    
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "service salt_minion start"
     ]
     
   }
@@ -124,7 +125,7 @@ resource "digitalocean_record" "salt_minion" {
 data "template_file" "grains" {
   template = "${file("${path.module}/../grains.tpl")}"
   vars = {
-    roles = "${join("\n", var.salt_minion_roles)}"
+    roles = join("\n", [for role in var.salt_minion_roles : "  - ${role}"])
     fqdn = "${var.name}.terragon.us"
   }
   
