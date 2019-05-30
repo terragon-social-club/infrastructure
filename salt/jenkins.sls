@@ -22,7 +22,7 @@ extend:
 
 /usr/local/etc/rc.d/jenkins:
   file.managed:
-    - source: salt:///files/jenkins/rc.conf
     - template: jinja
+    - source: salt:///files/jenkins/rc.conf
     - require:
       - pkg: jenkins
