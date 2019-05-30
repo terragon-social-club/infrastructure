@@ -30,10 +30,10 @@ module "Salt_Master" {
   domain_id = "terragon.us"
 }
 
-module "CouchDBMasterNode" {
+module "Jenkins" {
   source = "./modules/salt-minion"
   provision = true
-  name = "couchdb-a"
+  name = "jenkins"
   size = "512mb"
   domain_id = "terragon.us"
   keys = [
@@ -41,7 +41,7 @@ module "CouchDBMasterNode" {
     "${module.Salt_Master.salt_master_ssh_fingerprint}"
   ]
   
-  salt_minion_roles = ["  - couchdb", "  - minion", "  - couchdbmaster"]
+  salt_minion_roles = ["  - jenkins", "  - minion"]
   salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
   salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
 }

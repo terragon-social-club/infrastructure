@@ -148,7 +148,8 @@ resource "null_resource" "master_install_configure" {
 }
 
 data "local_file" "salt_master_key" {
-  filename = "${path.module}/../../../keys/generated/${digitalocean_droplet.salt_master.id}.pub"
+  depends_on = ["digitalocean_droplet.salt_master"]
+  filename = "${path.module}/../../../keys/generated/${digitalocean_droplet.salt_master.ipv4_address}.pub"
 }
 
 data "template_file" "grains" {
