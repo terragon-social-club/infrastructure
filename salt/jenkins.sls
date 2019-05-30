@@ -23,5 +23,8 @@ extend:
 /usr/local/etc/rc.d/jenkins:
   file.managed:
     - source: salt:///files/jenkins/rc.conf
+    - template: jinja
+    - defaults:
+        fqdn: {{grains['fqdn']}}
     - require:
       - pkg: jenkins
