@@ -65,7 +65,11 @@ resource "digitalocean_droplet" "salt_master" {
   }
 
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${digitalocean_droplet.salt_master.ipv4_address}:/root/.ssh/id_rsa.pub ${path.cwd}/../keys/generated/${self.id}.pub"
+    command = "mkdir -p ${path.cwd}/../keys/generated"
+  }
+  
+  provisioner "local-exec" {
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${self.ipv4_address}:/root/.ssh/id_rsa.pub ${path.cwd}/../keys/generated/${self.id}.pub"
   }
   
 }
