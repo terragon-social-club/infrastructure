@@ -13,11 +13,12 @@ extend:
         - watch:
           - file: /usr/local/etc/apache24/httpd.conf
 
-apache_module.enabled:
-  - names:
-    - proxy
-    - proxy_http
-    - headers
+enable modules:
+  apache_module.enabled:
+    - names:
+      - proxy
+      - proxy_http
+      - headers
         
 /usr/local/etc/apache24/httpd.conf:
   file.managed:
