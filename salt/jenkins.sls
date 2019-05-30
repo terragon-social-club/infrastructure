@@ -1,12 +1,17 @@
+include:
+  - apache
+
 jenkins:
   pkg.installed: []
   service.running:
     - enable: True
-
-apache24:
-  service.running:
-    - watch:
-      - file: /usr/local/etc/apache24/httpd.conf
+   
+extend:
+  apache:
+    apache24:
+      service.running:
+        - watch:
+          - file: /usr/local/etc/apache24/httpd.conf
 
 apache_module.enabled:
   - names:
