@@ -5,6 +5,8 @@ jenkins:
   pkg.installed: []
   service.running:
     - enable: True
+    - watch:
+      - file: /usr/local/etc/rc.d/jenkins
    
 extend:
   apache24:
@@ -17,3 +19,9 @@ extend:
     - source: salt:///files/apache/http.jenkins.conf
     - require:
       - pkg: apache24
+
+/usr/local/etc/rc.d/jenkins:
+  file.managed:
+    - source: salt:///files/jenkins/rc.conf
+    - require:
+      - pkg: jenkins
