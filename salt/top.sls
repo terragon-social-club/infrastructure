@@ -3,5 +3,5 @@ base:
     - eastern_standard_time
 
   'jenkins':
-    - certbot
+    - letsencrypt
     - jenkins
