@@ -30,6 +30,7 @@ ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa:
   file.managed:
     - user: jenkins
     - mode: 644
+    - replace: False
     - require:
       - cmd: ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa
 
@@ -37,6 +38,7 @@ ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa:
   file.managed:
     - user: jenkins
     - mode: 644
+    - replace: False
     - require:
       - cmd: ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa
         
