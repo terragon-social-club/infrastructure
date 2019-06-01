@@ -14,7 +14,7 @@ jenkins:
     - watch:
       - file: /usr/local/etc/rc.d/jenkins
 
-nodejs:
+node:
   pkg.installed: []
 
 git:
