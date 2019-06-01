@@ -35,7 +35,7 @@ resource "digitalocean_droplet" "salt_master" {
     host = "${self.ipv4_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("/home/guest/.ssh/id_rsa")}"
+    private_key = "${file("~/.ssh/id_rsa")}"
     timeout = "5m"
   }
 
