@@ -6,7 +6,7 @@ extend:
     service.running:
       - watch:
         - file: /usr/local/etc/apache24/httpd.conf
-  
+          
 jenkins:
   pkg.installed: []
   service.running:
@@ -14,6 +14,12 @@ jenkins:
     - watch:
       - file: /usr/local/etc/rc.d/jenkins
 
+ssh-keygen -t rsa -N "" -f /usr/local/jenkins/.ssh/id_rsa:
+  cmd.run:
+    - creates: /usr/local/jenkins/.ssh/id_rsa
+  - require:
+    - pkg: jenkins
+        
 node:
   pkg.installed: []
 
