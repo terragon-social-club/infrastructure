@@ -14,11 +14,11 @@ jenkins:
     - watch:
       - file: /usr/local/etc/rc.d/jenkins
 
-"ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa":
+ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa:
   cmd.run:
     - creates: /usr/local/jenkins/.ssh/id_rsa
-      - require:
-        - pkg: jenkins
+    - require:
+      - pkg: jenkins
         
 node:
   pkg.installed: []
