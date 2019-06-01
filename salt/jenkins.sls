@@ -17,6 +17,8 @@ jenkins:
 /usr/local/etc/apache24/httpd.conf:
   file.managed:
     - source: salt:///files/apache/http.jenkins.jinja.conf
+    - defaults:
+        fqdn: {{ grains['fqdn'] }}
     - require:
       - pkg: apache24
 
