@@ -15,7 +15,7 @@ jenkins:
       - file: /usr/local/etc/rc.d/jenkins
 
 pkg.installed:
-  - names:
+  - pkgs:
     - nodejs
     - git
         
