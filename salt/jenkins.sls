@@ -14,8 +14,10 @@ jenkins:
     - watch:
       - file: /usr/local/etc/rc.d/jenkins
 
-git:
-  pkg.installed: []
+pkg.installed:
+  names:
+    - nodejs
+    - git
         
 /usr/local/etc/apache24/httpd.conf:
   file.managed:
