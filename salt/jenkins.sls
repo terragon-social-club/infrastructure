@@ -17,6 +17,9 @@ jenkins:
 node:
   pkg.installed: []
 
+npm:
+  pkg.installed: []
+
 git:
   pkg.installed: []
         
