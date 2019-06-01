@@ -13,6 +13,9 @@ jenkins:
     - enable: True
     - watch:
       - file: /usr/local/etc/rc.d/jenkins
+
+git:
+  pkg.installed: []
         
 /usr/local/etc/apache24/httpd.conf:
   file.managed:
