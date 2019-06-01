@@ -1,22 +1,22 @@
 include:
   - apache
 
+extend:
+  apache24:
+    service.running:
+      - watch:
+        - file: /usr/local/etc/apache24/httpd.conf
+  
 jenkins:
   pkg.installed: []
   service.running:
     - enable: True
     - watch:
       - file: /usr/local/etc/rc.d/jenkins
-   
-extend:
-  apache24:
-    service.running:
-      - watch:
-        - file: /usr/local/etc/apache24/httpd.conf
         
 /usr/local/etc/apache24/httpd.conf:
   file.managed:
-    - source: salt:///files/apache/http.jenkins.conf
+    - source: salt:///files/apache/http.jenkins.jinja.conf
     - require:
       - pkg: apache24
 
