@@ -10,9 +10,9 @@
 #  filename = "/home/guest/.ssh/acrewise/id_rsa.pub"
 #}
 
-resource "digitalocean_ssh_key" "mike_keen_key" {
-  name = "Mike Keen Key"
-  public_key = "${file("/home/guest/.ssh/id_rsa.pub")}"
+resource "digitalocean_ssh_key" "deployer_ssh_key" {
+  name = "Deployer SSH Key"
+  public_key = "${file("~/.ssh/id_rsa.pub")}"
 }
 
 variable "digitalocean_api_token" {}
@@ -26,7 +26,7 @@ module "Salt_Master" {
   source = "./modules/salt-master"
   
   name = "saltm"
-  keys = ["${digitalocean_ssh_key.mike_keen_key.fingerprint}"]
+  keys = ["${digitalocean_ssh_key.deployer_ssh_key.fingerprint}"]
   salt_minion_roles = ["master"]
   domain_id = "terragon.us"
 }
@@ -36,7 +36,7 @@ module "Jenkins" {
   provision = true
   
   name = "jenkins"
-  size = "512mb"
+  size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
   keys = [
     "${digitalocean_ssh_key.mike_keen_key.fingerprint}",
