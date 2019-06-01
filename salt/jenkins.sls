@@ -14,11 +14,17 @@ jenkins:
     - watch:
       - file: /usr/local/etc/rc.d/jenkins
 
+/usr/local/jenkins/.ssh:
+  file.directory:
+    - user: jenkins
+    - require:
+      - pkg: jenkins
+        
 ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa:
   cmd.run:
     - creates: /usr/local/jenkins/.ssh/id_rsa
     - require:
-      - pkg: jenkins
+      - file.directory: /usr/local/jenkins/.ssh
         
 node:
   pkg.installed: []
