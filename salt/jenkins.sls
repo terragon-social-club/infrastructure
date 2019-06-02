@@ -7,16 +7,10 @@ extend:
       - watch:
         - file: /usr/local/etc/apache24/httpd.conf
 
-us_locale:
-  locale.present:
-    - name: en_US.UTF-8
+en_US.UTF-8:
+  locale.present: []
+  locale.system: []
 
-default_locale:
-  locale.system:
-    - name: en_US.UTF-8
-    - require:
-      - locale: us_locale
-          
 jenkins:
   pkg.installed: []
   service.running:
