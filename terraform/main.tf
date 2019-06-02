@@ -39,7 +39,7 @@ module "Jenkins" {
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
   keys = [
-    "${digitalocean_ssh_key.mike_keen_key.fingerprint}",
+    "${digitalocean_ssh_key.deployer_ssh_key.fingerprint}",
     "${module.Salt_Master.salt_master_ssh_fingerprint}"
   ]
   
