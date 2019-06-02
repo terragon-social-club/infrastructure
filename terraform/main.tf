@@ -16,10 +16,28 @@ resource "digitalocean_ssh_key" "deployer_ssh_key" {
 }
 
 variable "digitalocean_api_token" {}
+variable "spaces_access_id" {}
+variable "spaces_secret_key" {}
 
 # Infrastructure Provider Tokens
 provider "digitalocean" {
   token = "${var.digitalocean_api_token}"
+  spaces_access_id = "${var.spaces_access_id}"
+  spaces_secret_key = "${var.spaces_secret_key}"
+}
+
+
+
+# Create a new Spaces Bucket
+resource "digitalocean_spaces_bucket" "frontend" {
+    name   = "www-terragon-us"
+    region = "nyc3"
+    acl    = "public-read"
+}
+
+# Add a CDN endpoint to the Spaces Bucket
+resource "digitalocean_cdn" "frontend_cdn" {
+  origin = "${digitalocean_spaces_bucket.frontend.bucket_domain_name}"
 }
 
 module "Salt_Master" {
