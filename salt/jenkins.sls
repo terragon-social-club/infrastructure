@@ -8,7 +8,7 @@ extend:
         - file: /usr/local/etc/apache24/httpd.conf
 
 en_US.UTF-8:
-  locale.system
+  locale.set_locale
 
 jenkins:
   pkg.installed: []
