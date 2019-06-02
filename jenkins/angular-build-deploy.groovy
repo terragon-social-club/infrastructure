@@ -2,15 +2,15 @@ node {
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
     
         stage('Checkout') {
-            git credentialsId: 'mkeen', url: 'https://github.com/terragon-social-club/terragon'        
+            sh 'git clone https://github.com/terragon-social-club/terragon'        
         }
 
         stage('NPM Install') {
-            script: 'npm install'
+            sh 'npm install'
         }
         
         stage('NPM Build') {
-            script: 'npm run build'
+            sh 'npm run build'
         }
         
         stage('Publish') {
