@@ -11,7 +11,7 @@ node {
             }
 
              stage('NPM Build') {
-                def exitCodeBuild = sh script: 'npm build', returnStatus: true
+                def exitCodeBuild = sh script: 'npm run build', returnStatus: true
                 
                 if(exitCodeBuild != '0') {
                     currentBuild.result = 'FAILURE'
