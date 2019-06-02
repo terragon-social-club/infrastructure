@@ -32,7 +32,7 @@ node {
                 stash name: "plan", includes: "plan.out"
                 try {
                     def planDraft = readFile('/tmp/plan.out').trim()
-                    input message: "Apply Plan? ${planDraft}", ok: 'Apply'
+                    input message: "Apply Plan? $planDraft", ok: 'Apply'
                     apply = true
                 } catch (err) {
                     apply = false
