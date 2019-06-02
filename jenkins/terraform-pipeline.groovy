@@ -1,6 +1,6 @@
 node {
     stage 'Checkout'
-    git credentialsId: 'mkeen', url: 'https://github.com/terragon-social-club/infrastructure'
+    git url: 'https://github.com/terragon-social-club/infrastructure'
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
         // Mark the code build 'plan'....
         withCredentials([string(credentialsId: 'digitalocean_api_secret', variable: 'DO_API')]) {
