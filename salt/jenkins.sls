@@ -7,8 +7,8 @@ extend:
       - watch:
         - file: /usr/local/etc/apache24/httpd.conf
 
-en_US.UTF-8:
-  locale.set_locale
+awscli:
+  pkg.installed: []
 
 jenkins:
   pkg.installed: []
