@@ -17,6 +17,7 @@ node {
                     string(credentialsId: 'digitalocean_spaces_secret_key', variable: 'DO_SP_SC'),
                     string(credentialsId: 'digitalocean_spaces_access_id', variable: 'DO_SP_ID')
                 ]) {
+                    stage name: 'Spaces Upload', concurrency: 1
                     def exitCodeSpacesUpload = sh "AWS_DEFAULT_REGION=NYC3 AWS_ACCESS_KEY_ID=${DO_SP_ID} AWS_SECRET_ACCESS_KEY=${DO_SP_SC} aws s3 sync dist s3://www-terragon-us/"
                     if(exitCodeSpacesUpload != '0') {
                         // Need to roll back
