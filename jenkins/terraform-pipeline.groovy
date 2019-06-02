@@ -17,6 +17,7 @@ node {
             sh "cd terraform; terraform get"
             sh "cd terraform; TF_VAR_digitalocean_api_token=$DO_API terraform refresh"
             sh "cd terraform; set +e; TF_VAR_digitalocean_api_token=$DO_API terraform plan -out=/tmp/plan.out -detailed-exitcode; echo \$? > status"
+            
             def exitCode = readFile('terraform/status').trim()
             def apply = false
             echo "Terraform Plan Exit Code: ${exitCode}"
