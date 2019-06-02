@@ -24,7 +24,7 @@ node {
                     string(credentialsId: 'digitalocean_spaces_secret_key', variable: 'DO_SP_SC'),
                     string(credentialsId: 'digitalocean_spaces_access_id', variable: 'DO_SP_ID')
                 ]) {
-                    def exitCodeSpacesUpload = sh script: "AWS_DEFAULT_REGION=NYC3 AWS_ACCESS_KEY_ID=${DO_SP_ID} AWS_SECRET_ACCESS_KEY=${DO_SP_SC} aws s3 sync dist s3://www-terragon-us/ --endpoint-url https://nyc3.digitaloceanspaces.com", returnStatus: true
+                    def exitCodeSpacesUpload = sh script: "AWS_DEFAULT_REGION=NYC3 AWS_ACCESS_KEY_ID=${DO_SP_ID} AWS_SECRET_ACCESS_KEY=${DO_SP_SC} aws s3 sync dist/terragon s3://www-terragon-us/ --endpoint-url https://nyc3.digitaloceanspaces.com", returnStatus: true
                     if(exitCodeSpacesUpload != '0') {
                         // Need to roll back
                         currentBuild.result = 'FAILURE'
