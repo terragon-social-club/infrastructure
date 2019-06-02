@@ -1,7 +1,7 @@
 node {
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
         stage('Checkout') {
-            git url: 'https://github.com/terragon-social-club/infrastructure'     
+            git url: 'https://github.com/terragon-social-club/terragon'     
         }
 
         stage('NPM Install') {
