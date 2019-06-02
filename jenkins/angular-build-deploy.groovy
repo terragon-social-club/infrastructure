@@ -6,8 +6,11 @@ node {
                 def exitCodeInstall = sh script: 'npm install', returnStatus: true
                 if(exitCodeInstall != '0') {
                     currentBuild.result = 'FAILURE'
-                } else {
-                    stage('NPM Build') {
+                }
+                
+            }
+
+             stage('NPM Build') {
                         def exitCodeBuild = sh script: 'npm build', returnStatus: true
                         
                         if(exitCodeBuild != '0') {
@@ -34,10 +37,6 @@ node {
                         
                     }
                     
-                           
-                }
-                
-            }
         
         }
         
