@@ -7,7 +7,7 @@ extend:
       - watch:
         - file: /usr/local/etc/apache24/httpd.conf
 
-couchdb:
+couchdb2:
   pkg.installed: []
   service.running:
     - enable: True
