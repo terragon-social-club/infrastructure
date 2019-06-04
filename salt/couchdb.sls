@@ -12,7 +12,7 @@ couchdb2:
   service.running:
     - enable: True
     - watch:
-      - file: /usr/local/etc/couchdb/local.ini
+      - file: /usr/local/etc/couchdb2/local.ini
 
 /usr/local/etc/couchdb2/local.ini:
   file.managed:
