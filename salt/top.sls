@@ -7,7 +7,7 @@ base:
     - apache
     - jenkins
 
-  'couchdb':
+  'couchdb*':
     - letsencrypt
     - apache
     - couchdb
