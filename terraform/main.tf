@@ -35,11 +35,6 @@ resource "digitalocean_spaces_bucket" "frontend" {
     acl    = "public-read"
 }
 
-# Add a CDN endpoint to the Spaces Bucket
-resource "digitalocean_cdn" "frontend_cdn" {
-  origin = "${digitalocean_spaces_bucket.frontend.bucket_domain_name}"
-}
-
 module "Salt_Master" {
   source = "./modules/salt-master"
   
