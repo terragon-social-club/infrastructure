@@ -6,3 +6,8 @@ base:
     - letsencrypt
     - apache
     - jenkins
+
+  'couchdb':
+    - letsencrypt
+    - apache
+    - couchdb
