@@ -18,7 +18,7 @@ couchdb2:
   file.managed:
     - source: salt:///files/couchdb/local.ini
     - require:
-      - pkg: couchdb
+      - pkg: couchdb2
 
 /usr/local/etc/apache24/httpd.conf:
   file.managed:
