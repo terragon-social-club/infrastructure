@@ -7,7 +7,13 @@ base:
     - apache
     - jenkins
 
-  'couchdb*':
+  'couchdb':
+    - match: grain
     - letsencrypt
     - apache
     - couchdb
+
+  'redirect':
+    - match: grain
+    - letsencrypt
+    - redirect

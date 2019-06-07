@@ -13,10 +13,17 @@ couchdb2:
     - enable: True
     - watch:
       - file: /usr/local/etc/couchdb2/local.ini
+      - file: /usr/local/etc/couchdb2/vm.args
 
 /usr/local/etc/couchdb2/local.ini:
   file.managed:
-    - source: salt:///files/couchdb/local.ini
+    - source: salt:///files/couchdb/local.jinja.ini
+    - require:
+      - pkg: couchdb2
+
+/usr/local/etc/couchdb2/vm.args:
+  file.managed:
+    - source: salt:///files/couchdb/vm.jinja.args
     - require:
       - pkg: couchdb2
 
