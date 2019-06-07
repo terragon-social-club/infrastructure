@@ -13,7 +13,7 @@ base:
     - apache
     - couchdb
 
-  'redirect':
-    - match: grain
+  'web-redirect':
     - letsencrypt
+    - apache
     - redirect
