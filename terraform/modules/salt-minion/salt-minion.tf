@@ -130,3 +130,15 @@ data "template_file" "grains" {
   }
   
 }
+
+output "salt_minion_private_ip_address" {
+  value = "${digitalocean_droplet.salt_minion[0].ipv4_address_private}"
+}
+
+output "salt_minion_public_ip_address" {
+  value = "${digitalocean_droplet.salt_minion[0].ipv4_address}"
+}
+
+output "provision" {
+  value = "${var.provision}"
+}
