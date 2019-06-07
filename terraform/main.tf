@@ -77,3 +77,20 @@ module "CouchDB-A" {
   salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
   salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
 }
+
+module "CouchDB-B" {
+  source = "./modules/salt-minion"
+  provision = true
+  
+  name = "couchdb-b"
+  size = "s-2vcpu-2gb"
+  domain_id = "terragon.us"
+  keys = [
+    "${digitalocean_ssh_key.deployer_ssh_key.fingerprint}",
+    "${module.Salt_Master.salt_master_ssh_fingerprint}"
+  ]
+  
+  salt_minion_roles = ["couchdb", "minion"]
+  salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
+  salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
+}
