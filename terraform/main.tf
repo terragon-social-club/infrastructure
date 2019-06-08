@@ -26,13 +26,18 @@ provider "digitalocean" {
   spaces_secret_key = "${var.spaces_secret_key}"
 }
 
-
-
 # Create a new Spaces Bucket
 resource "digitalocean_spaces_bucket" "frontend" {
-    name   = "www-terragon-us"
-    region = "nyc3"
-    acl    = "public-read"
+  name = "www-terragon-us"
+  region = "nyc3"
+  acl = "public-read"
+}
+
+resource "digitalocean_record" "cloudfront_www" {
+  domain = "terragon.us"
+  type = "CNAME"
+  name = "www"
+  value = "dshnklusv3rdp.cloudfront.net"
 }
 
 module "Salt_Master" {
