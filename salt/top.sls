@@ -7,7 +7,7 @@ base:
     - apache
     - jenkins
 
-  'couchdb':
+  'couchdb*':
     - match: grain
     - letsencrypt
     - apache
