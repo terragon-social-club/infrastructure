@@ -18,6 +18,7 @@ couchdb2:
 /usr/local/etc/couchdb2/local.d:
   file.directory:
     - user: couchdb
+    - group: couchdb
     - require:
       - pkg: couchdb2
         
@@ -25,6 +26,7 @@ couchdb2:
   file.managed:
     - source: salt:///files/couchdb/local.jinja.ini
     - user: couchdb
+    - group: couchdb
     - require:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d
