@@ -12,14 +12,21 @@ couchdb2:
   service.running:
     - enable: True
     - watch:
-      - file: /usr/local/etc/couchdb2/local.ini
+      - file: /usr/local/etc/couchdb2/local.d/custom.ini
       - file: /usr/local/etc/couchdb2/vm.args
 
-/usr/local/etc/couchdb2/local.ini:
+/usr/local/etc/couchdb2/local.d:
+  file.directory:
+    - user: couchdb
+    - require:
+      - pkg: couchdb2
+        
+/usr/local/etc/couchdb2/local.d/custom.ini:
   file.managed:
     - source: salt:///files/couchdb/local.jinja.ini
     - require:
       - pkg: couchdb2
+      - file: /usr/local/etc/couchdb2/local.d
 
 /usr/local/etc/couchdb2/vm.args:
   file.managed:
