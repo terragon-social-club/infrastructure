@@ -19,7 +19,7 @@ node {
             sh 'git config --global user.name "Jenkins"'
             sh "cd terraform; terraform init"
             sh "cd terraform; terraform get"
-            sh "cd terraform; TF_VAR_digitalocean_api_token=$DO_API terraform refresh"
+            sh "cd terraform; TF_VAR_digitalocean_api_token=$DO_API TF_VAR_spaces_access_id=$DO_SPACES_ACCESS TF_VAR_spaces_secret_key=$DO_SPACES_SECRET terraform refresh"
             sh "cd terraform; set +e; TF_VAR_digitalocean_api_token=$DO_API TF_VAR_spaces_access_id=$DO_SPACES_ACCESS TF_VAR_spaces_secret_key=$DO_SPACES_SECRET terraform plan -out=/tmp/plan.out -detailed-exitcode; echo \$? > status"
             
             def exitCode = readFile('terraform/status').trim()
