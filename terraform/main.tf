@@ -100,23 +100,6 @@ module "CouchDB-A" {
   salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
 }
 
-module "CouchDB-B" {
-  source = "./modules/salt-minion"
-  provision = false
-  
-  name = "couchdb-b"
-  size = "s-2vcpu-2gb"
-  domain_id = "terragon.us"
-  keys = [
-    "${digitalocean_ssh_key.deployer_ssh_key.fingerprint}",
-    "${module.Salt_Master.salt_master_ssh_fingerprint}"
-  ]
-  
-  salt_minion_roles = ["couchdb", "minion"]
-  salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
-  salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
-}
-
 module "WebRedirectEndpoint" {
   source = "./modules/salt-minion"
   provision = true
@@ -144,7 +127,7 @@ resource "digitalocean_record" "redirect" {
 
 module "NodeJSApi-A" {
   source = "./modules/salt-minion"
-  provision = true
+  provision = false
   
   name = "nodejs-api-a"
   size = "s-2vcpu-2gb"

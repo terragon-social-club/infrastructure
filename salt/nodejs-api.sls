@@ -8,11 +8,12 @@ pm2:
 
 pm2 startup:
   cmd.run:
+    - runas: root
     - creates: /usr/local/etc/rc.d/pm2_root
     - require:
       - npm: pm2
 
-pm2_undefined:
+pm2_root:
   service.running:
     - enable: True
     - require:
