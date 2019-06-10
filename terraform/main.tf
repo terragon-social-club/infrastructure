@@ -26,7 +26,23 @@ provider "digitalocean" {
   spaces_secret_key = "${var.spaces_secret_key}"
 }
 
-# Create a new Spaces Bucket
+# Mail Records
+resource "digitalocean_record" "hushmail-1" {
+  domain = "terragon.us"
+  type = "MX"
+  name = "@"
+  value = "plsmtp2.hushmail.com"
+  priority = "10"
+}
+
+resource "digitalocean_record" "hushmail-2" {
+  domain = "terragon.us"
+  type = "MX"
+  name = "@"
+  value = "plsmtp1.hushmail.com"
+  priority = "10"
+}
+
 resource "digitalocean_spaces_bucket" "frontend" {
   name = "www-terragon-us"
   region = "nyc3"
@@ -123,4 +139,21 @@ resource "digitalocean_record" "redirect" {
   type = "A"
   name = "@"
   value = "${module.WebRedirectEndpoint.salt_minion_public_ip_address}"
+}
+
+module "NodeJSApi-A" {
+  source = "./modules/salt-minion"
+  provision = true
+  
+  name = "nodejs-api-a"
+  size = "s-2vcpu-2gb"
+  domain_id = "terragon.us"
+  keys = [
+    "${digitalocean_ssh_key.deployer_ssh_key.fingerprint}",
+    "${module.Salt_Master.salt_master_ssh_fingerprint}"
+  ]
+  
+  salt_minion_roles = ["nodejsapi", "minion"]
+  salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
+  salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
 }
