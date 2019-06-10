@@ -1,6 +1,8 @@
 node {
     stage 'Checkout'
-    git url: 'https://github.com/terragon-social-club/infrastructure'
+    git url: 'git@github.com:terragon-social-club/infrastructure.git',
+        credentialsId: 'github_deploy_terraform'
+    
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
         // Mark the code build 'plan'....
         withCredentials([
@@ -54,16 +56,12 @@ node {
                 sh "cd terraform; set +e; TF_VAR_digitalocean_api_token=$DO_API TF_VAR_spaces_access_id=$DO_SPACES_ACCESS TF_VAR_spaces_secret_key=$DO_SPACES_SECRET terraform apply /tmp/plan.out; echo \$? > status.apply"
                 def applyExitCode = readFile('terraform/status.apply').trim()
                 if (applyExitCode == "0") {
-                    sshagent(credentials: ['github_deploy_terraform']) {
-                        sh 'cd terraform; rm status.apply; rm /tmp/plan.out'
-                        sh 'cd terraform; git add . && git -m "A pleasure, sir. -- Jenkins"; git push git@github.com/terragon-social-club/infrastructure'
-                    }
+                    sh 'cd terraform; rm status.apply; rm /tmp/plan.out'
+                    sh 'cd terraform; git add . && git -m "A pleasure, sir. -- Jenkins"; git push origin master'
                     
                 } else {
-                    sshagent(credentials: ['github_deploy_terraform']) {
-                        sh 'cd terraform; rm status.apply; rm /tmp/plan.out'
-                        sh 'cd terraform; git add . && git -m "Something went wrong. -- Jenkins"; git push git@github.com/terragon-social-club/infrastructure'
-                    }
+                    sh 'cd terraform; rm status.apply; rm /tmp/plan.out'
+                    sh 'cd terraform; git add . && git -m "Something went wrong. -- Jenkins"; git push origin master'
                     
                     currentBuild.result = 'FAILURE'
                 }
