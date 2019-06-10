@@ -144,7 +144,7 @@ resource "digitalocean_record" "redirect" {
 
 module "NodeJSApi-A" {
   source = "./modules/salt-minion"
-  provision = true
+  provision = false
   
   name = "nodejs-api-a"
   size = "s-2vcpu-2gb"
