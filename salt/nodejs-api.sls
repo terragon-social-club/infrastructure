@@ -10,7 +10,7 @@ pm2 startup:
   cmd.run:
     - creates: /usr/local/etc/rc.d/pm2_root
     - require:
-      - npm: mp2
+      - npm: pm2
 
 pm2_root:
   service.running:
