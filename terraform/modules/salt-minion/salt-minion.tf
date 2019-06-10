@@ -44,7 +44,7 @@ resource "digitalocean_droplet" "salt_minion" {
     host = "${self.ipv4_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
     timeout = "5m"
   }
 
@@ -72,7 +72,7 @@ resource "digitalocean_droplet" "salt_minion" {
       host = "${var.salt_master_public_ip_address}"
       user = "root"
       type = "ssh"
-      private_key = "${file("~/.ssh/id_rsa")}"
+      private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
       timeout = "2m"
     }
     
@@ -102,7 +102,7 @@ resource "digitalocean_droplet" "salt_minion" {
       host = "${var.salt_master_public_ip_address}"
       user = "root"
       type = "ssh"
-      private_key = "${file("~/.ssh/id_rsa")}"
+      private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
       timeout = "2m"
     }
     

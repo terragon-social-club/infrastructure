@@ -35,7 +35,7 @@ resource "digitalocean_droplet" "salt_master" {
     host = "${self.ipv4_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
     timeout = "5m"
   }
 
@@ -100,7 +100,7 @@ resource "null_resource" "master_install_configure" {
     host = "${digitalocean_droplet.salt_master.ipv4_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
     timeout = "5m"
   }
 
