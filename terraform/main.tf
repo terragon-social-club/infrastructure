@@ -49,12 +49,13 @@ resource "digitalocean_spaces_bucket" "frontend" {
   acl = "public-read"
 }
 
-resource "digitalocean_record" "cloudfront_www" {
-  domain = "terragon.us"
-  type = "CNAME"
-  name = "www"
-  value = "dshnklusv3rdp.cloudfront.net"
-}
+# This was created outside of terraform. Will need to reprovision
+#resource "digitalocean_record" "cloudfront_www" {
+#  domain = "terragon.us"
+#  type = "CNAME"
+#  name = "www"
+#  value = "dshnklusv3rdp.cloudfront.net"
+#}
 
 module "Salt_Master" {
   source = "./modules/salt-master"
