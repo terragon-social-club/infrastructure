@@ -3,7 +3,11 @@ node {
     git url: 'https://github.com/terragon-social-club/infrastructure'
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
         // Mark the code build 'plan'....
-        withCredentials([string(credentialsId: 'digitalocean_api_secret', variable: 'DO_API')]) {
+        withCredentials([
+            string(credentialsId: 'digitalocean_api_secret', variable: 'DO_API'),
+            string(credentialsId: 'digitalocean_spaces_secret_key', variable: 'DO_SPACES_SECRET'),
+            string(credentialsId: 'digitalocean_spaces_access_id', variable: 'DO_SPACES_ACCESS')
+        ]) {
             stage name: 'Plan', concurrency: 1
             // Output Terraform version
             sh "cd terraform; terraform --version"
@@ -16,7 +20,7 @@ node {
             sh "cd terraform; terraform init"
             sh "cd terraform; terraform get"
             sh "cd terraform; TF_VAR_digitalocean_api_token=$DO_API terraform refresh"
-            sh "cd terraform; set +e; TF_VAR_digitalocean_api_token=$DO_API terraform plan -out=/tmp/plan.out -detailed-exitcode; echo \$? > status"
+            sh "cd terraform; set +e; TF_VAR_digitalocean_api_token=$DO_API TF_VAR_spaces_access_id=$DO_SPACES_ACCESS TF_VAR_spaces_secret_key=$DO_SPACES_SECRET terraform plan -out=/tmp/plan.out -detailed-exitcode; echo \$? > status"
             
             def exitCode = readFile('terraform/status').trim()
             def apply = false
@@ -47,10 +51,11 @@ node {
                     sh "cd terraform; rm status.apply"
                 }
                 
-                sh "cd terraform; set +e; terraform apply ../plan.out; echo \$? > status.apply"
+                sh "cd terraform; set +e; TF_VAR_digitalocean_api_token=$DO_API TF_VAR_spaces_access_id=$DO_SPACES_ACCESS TF_VAR_spaces_secret_key=$DO_SPACES_SECRET terraform apply /tmp/plan.out; echo \$? > status.apply"
                 def applyExitCode = readFile('terraform/status.apply').trim()
                 if (applyExitCode == "0") {
                     sshagent(credentials: ['github_deploy_terraform']) {
+                        sh 'cd terraform; rm status.apply; rm /tmp/plan.out'
                         sh 'cd terraform; git add . && git -m "A pleasure, sir. -- Jenkins"; git push git@github.com/terragon-social-club/infrastructure'
                     }
                     
