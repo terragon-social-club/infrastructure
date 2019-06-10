@@ -12,6 +12,9 @@ base:
     - apache
     - couchdb
 
+  'nodejs-api*':
+    - nodejs-api
+    
   'web-redirect':
     - letsencrypt
     - apache
