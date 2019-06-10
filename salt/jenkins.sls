@@ -23,29 +23,13 @@ jenkins:
     - require:
       - pkg: jenkins
         
-ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa:
+ssh-keygen -t rsa -N '' -f /usr/local/jenkins/.ssh/id_rsa:
   cmd.run:
     - runas: jenkins
     - creates: /usr/local/jenkins/.ssh/id_rsa
     - require:
       - file: /usr/local/jenkins/.ssh
 
-#/usr/local/jenkins/.ssh/id_rsa:
-#  file.managed:
-#    - user: jenkins
-#    - mode: 600
-#    - replace: False
-#    - require:
-#      - cmd: ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa
-
-#/usr/local/jenkins/.ssh/id_rsa.pub:
-#  file.managed:
-#    - user: jenkins
-#    - mode: 644
-#    - replace: False
-#    - require:
-#      - cmd: ssh-keygen -t rsa -N \"\" -f /usr/local/jenkins/.ssh/id_rsa
-        
 node:
   pkg.installed: []
 
