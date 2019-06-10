@@ -56,11 +56,11 @@ node {
                 def applyExitCode = readFile('terraform/status.apply').trim()
                 if (applyExitCode == "0") {
                     sh 'cd terraform; rm status.apply; rm /tmp/plan.out'
-                    sh 'cd terraform; git add . && git -m "A pleasure, sir. -- Jenkins"; git push origin master'
+                    sh 'cd terraform; git add . && git --message "A pleasure, sir. -- Jenkins"; git push origin master'
                     
                 } else {
                     sh 'cd terraform; rm status.apply; rm /tmp/plan.out'
-                    sh 'cd terraform; git add . && git -m "Something went wrong. -- Jenkins"; git push origin master'
+                    sh 'cd terraform; git add . && git --message "Something went wrong. -- Jenkins"; git push origin master'
                     
                     currentBuild.result = 'FAILURE'
                 }
