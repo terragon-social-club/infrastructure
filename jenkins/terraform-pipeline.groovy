@@ -60,6 +60,11 @@ node {
                     }
                     
                 } else {
+                    sshagent(credentials: ['github_deploy_terraform']) {
+                        sh 'cd terraform; rm status.apply; rm /tmp/plan.out'
+                        sh 'cd terraform; git add . && git -m "Something went wrong. -- Jenkins"; git push git@github.com/terragon-social-club/infrastructure'
+                    }
+                    
                     currentBuild.result = 'FAILURE'
                 }
                 
