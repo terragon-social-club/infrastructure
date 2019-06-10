@@ -35,7 +35,6 @@ node {
             }
             
             if (exitCode == "2") {
-                stash name: "plan", includes: "plan.out"
                 try {
                     input message: "Apply Plan?", ok: 'Apply'
                     apply = true
@@ -47,7 +46,6 @@ node {
             
             if (apply) {
                 stage name: 'Apply', concurrency: 1
-                unstash 'plan'
                 if (fileExists("terraform/status.apply")) {
                     sh "cd terraform; rm status.apply"
                 }
