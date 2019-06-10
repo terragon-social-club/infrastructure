@@ -1,7 +1,6 @@
 node {
     stage 'Checkout'
-    git url: 'git@github.com:terragon-social-club/infrastructure.git',
-        credentialsId: 'github_deploy_terraform'
+    git credentialsId: 'github_deploy_terraform', url: 'git@github.com:terragon-social-club/infrastructure.git'
     
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
         // Mark the code build 'plan'....
