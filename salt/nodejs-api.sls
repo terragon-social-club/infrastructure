@@ -12,7 +12,7 @@ pm2 startup:
     - require:
       - npm: pm2
 
-pm2_root:
+pm2_undefined:
   service.running:
     - enable: True
     - require:
