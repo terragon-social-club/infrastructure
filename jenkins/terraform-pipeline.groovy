@@ -50,8 +50,8 @@ node {
                 sh "cd terraform; set +e; terraform apply ../plan.out; echo \$? > status.apply"
                 def applyExitCode = readFile('terraform/status.apply').trim()
                 if (applyExitCode == "0") {
-                    withCredentials([usernamePassword(credentialsId: 'mkeen', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        sh('cd terraform; git commit -a -m "A pleasure, sir. -- Jenkins"; git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/terragon-social-club/infrastructure')
+                    sshagent(credentials: ['github_deploy_terraform']) {
+                        sh 'cd terraform; git add . && git -m "A pleasure, sir. -- Jenkins"; git push git@github.com/terragon-social-club/infrastructure'
                     }
                     
                 } else {
