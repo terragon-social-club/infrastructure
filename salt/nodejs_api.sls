@@ -19,3 +19,7 @@ pm2_root:
     - require:
       - cmd: pm2 startup
 
+@terragon/api:
+  npm.installed:
+    - require:
+      - service: pm2_root
