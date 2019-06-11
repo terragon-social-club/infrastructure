@@ -20,7 +20,7 @@ pm2_root:
     - watch:
       - npm: "@terragon/api"
     - require:
-      - cmd: pm2 start /usr/local/etc/process.yml && pm2 startup:
+      - cmd: pm2 start /usr/local/etc/process.yml && pm2 startup
 
 "@terragon/api":
   npm.installed:
