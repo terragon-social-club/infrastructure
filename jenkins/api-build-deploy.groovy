@@ -20,8 +20,10 @@ node {
                 string(credentialsId: 'npm_token', variable: 'N_TOKEN')
             ]) {
                 sh 'git add . && git commit -m "Jolly good."'
-                sh "npm version patch"
-                sh "NPM_TOKEN=$N_TOKEN npm publish"
+                sh 'npm version patch'
+                sh "echo //registry.npmjs.org/:_authToken=$N_TOKEN > .npmrc"
+                sh 'npm publish'
+                sh 'rm .npmrc'
                 sh 'git push origin master'
                 cleanWs()
             }
