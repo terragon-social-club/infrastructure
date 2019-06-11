@@ -21,6 +21,6 @@ pm2_root:
 
 "@terragon/api":
   npm.installed:
-    - force_reinstall: []
+    - force_reinstall: True
     - require:
       - service: pm2_root
