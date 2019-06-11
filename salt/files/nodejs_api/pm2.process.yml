@@ -1,0 +1,4 @@
+apps:
+  - script: /usr/local/lib/node_modules/@terragon/api/dist/server.js
+    instances: 4
+    exec_mode: cluster
