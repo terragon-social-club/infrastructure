@@ -1,3 +1,12 @@
+include:
+  - apache
+
+extend:
+  apache24:
+    service.running:
+      - watch:
+        - file: /usr/local/etc/apache24/httpd.conf
+
 www/npm:
   pkg.installed: []
 
@@ -33,3 +42,10 @@ pm2_root:
   file.managed:
     - source: salt:///files/nodejs_api/pm2.process.yml
     - template: jinja
+
+/usr/local/etc/apache24/httpd.conf:
+  file.managed:
+    - source: salt:///files/apache/http.pm2.jinja.conf
+    - template: jinja
+    - require:
+      - pkg: apache24

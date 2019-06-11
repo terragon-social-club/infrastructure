@@ -13,6 +13,8 @@ base:
     - couchdb
 
   'nodejs-api*':
+    - letsencrypt
+    - apache
     - nodejs_api
     
   'web-redirect':
