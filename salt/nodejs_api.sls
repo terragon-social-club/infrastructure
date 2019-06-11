@@ -12,6 +12,7 @@ pm2 start /usr/local/etc/process.yml && pm2 startup:
     - creates: /usr/local/etc/rc.d/pm2_root
     - require:
       - npm: pm2
+      - npm: "@terragon/api"
       - file: /usr/local/etc/process.yml
 
 pm2_root:
