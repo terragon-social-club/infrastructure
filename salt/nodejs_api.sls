@@ -15,24 +15,28 @@ pm2:
     - require:
       - pkg: www/npm
 
-pm2 start /usr/local/etc/process.yml && sleep 5 && pm2 startup:
+pm2 startup:
   cmd.run:
     - runas: root
     - creates: /usr/local/etc/rc.d/pm2_root
     - env:
       - PM2_API_IPADDR: '127.0.0.1'
     - require:
-      - npm: pm2
-      - npm: "@terragon/api"
-      - file: /usr/local/etc/process.yml
+      - cmd: pm2 start /usr/local/etc/process.yml
 
+pm2 start /usr/local/etc/process.yml:
+  cmd.run:
+    - unless: pm2 describe terragon
+    - require:
+      - npm: "@terragon/api"
+        
 pm2_root:
   service.running:
     - enable: True
     - watch:
       - npm: "@terragon/api"
     - require:
-      - cmd: pm2 start /usr/local/etc/process.yml && sleep 5 && pm2 startup
+      - cmd: pm2 startup
 
 "@terragon/api":
   npm.installed:
