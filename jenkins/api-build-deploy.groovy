@@ -18,7 +18,7 @@ node {
             withCredentials([
                 string(credentialsId: 'npm_token', variable: 'N_TOKEN')
             ]) {
-                sh 'git add . && git commit -m "Jolly good." && git push origin master'
+                sh 'git add . && git commit -m "Jolly good."'
                 sh "npm version minor"
                 sh "NPM_TOKEN=${N_TOKEN} npm publish"
                 sh 'git push origin master'
