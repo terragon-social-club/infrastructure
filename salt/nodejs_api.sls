@@ -25,4 +25,4 @@ pm2_root:
   npm.installed:
     - force_reinstall: True
     - require:
-      - service: pm2_root
+      - pkg: www/npm
