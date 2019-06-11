@@ -18,7 +18,7 @@ node {
             sh 'npm publish'
             sh 'rm .npmrc'
             sh 'git add . && git commit -m "Jolly good."'
-            sh 'GIT_SSH_COMMAND="ssh -i ~/id_rsa_deploy_api" git push -v origin master'
+            sh 'GIT_SSH_COMMAND="ssh -i ~/id_rsa_deploy_api" git push origin master'
             
             cleanWs()
         }
