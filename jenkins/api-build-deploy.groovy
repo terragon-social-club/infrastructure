@@ -1,10 +1,9 @@
 node {
+    stage 'Checkout'
+    cleanWs()
+    git credentialsId: 'github_deploy_api', url: 'git@github.com:terragon-social-club/api.git'
+    
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-        stage('Checkout') {
-            cleanWs()
-            git credentialsId: 'github_deploy_api', url: 'git@github.com:terragon-social-club/api.git'
-        }
-
         stage('NPM Install') {
             sh 'npm install'
         }
