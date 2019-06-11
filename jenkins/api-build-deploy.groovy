@@ -20,7 +20,7 @@ node {
             ]) {
                 sh 'git add . && git commit -m "Jolly good."'
                 sh "npm version minor"
-                sh "NPM_TOKEN=${N_TOKEN} npm publish"
+                sh "NPM_TOKEN=$N_TOKEN npm publish"
                 sh 'git push origin master'
                 cleanWs()
             }
