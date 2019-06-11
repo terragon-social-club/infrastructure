@@ -18,7 +18,7 @@ node {
             sh 'npm publish'
             sh 'rm .npmrc'
             sh 'git add . && git commit -m "Jolly good."'
-            sh 'git push origin master'
+            sh 'git push -v origin master'
             
             cleanWs()
         }
