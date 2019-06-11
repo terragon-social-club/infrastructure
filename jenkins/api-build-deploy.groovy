@@ -20,6 +20,7 @@ node {
             sh 'rm .npmrc'
             sh 'git add . && git commit -m "Jolly good."'
             sshagent(credentials: ['github_deploy_api']) {
+                sh 'cp /usr/local/jenkins/workspace/API@tmp/* /tmp'
                 sh 'git push origin master'
             }
             
