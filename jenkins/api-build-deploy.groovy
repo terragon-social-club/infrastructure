@@ -13,16 +13,14 @@ node {
             sh 'npm run build-ts'
             
             stage name: 'Publish', concurrency: 1
+            git credentialsId: 'github_deploy_api', url: 'git@github.com:terragon-social-club/api.git'
             sh 'git add . && git commit -m "Jolly good."'
             sh 'npm version patch --no-git-tag-version'
             sh "echo //registry.npmjs.org/:_authToken=$N_TOKEN > .npmrc"
             sh 'npm publish'
             sh 'rm .npmrc'
             sh 'git add . && git commit -m "Jolly good."'
-            sshagent(credentials: ['github_deploy_api']) {
-                sh 'cp "/usr/local/jenkins/workspace/API@tmp/*" /tmp'
-                sh 'git push origin master'
-            }
+            sh 'git push origin master'
             
             cleanWs()
         }
