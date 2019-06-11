@@ -19,7 +19,10 @@ node {
             sh 'npm publish'
             sh 'rm .npmrc'
             sh 'git add . && git commit -m "Jolly good."'
-            git push origin master
+            sshagent(['github_deploy_api']) {
+                git push origin master
+            }
+            
             cleanWs()
         }
         
