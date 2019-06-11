@@ -1,10 +1,8 @@
 node {
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-        git credentialsId: 'github_deploy_api', url: 'git@github.com:terragon-social-club/infrastructure.git'
-        
         stage('Checkout') {
             cleanWs()
-            git url: 'https://github.com/terragon-social-club/api'     
+            git credentialsId: 'github_deploy_api', url: 'git@github.com:terragon-social-club/api.git'
         }
 
         stage('NPM Install') {
@@ -24,6 +22,7 @@ node {
                 sh "echo //registry.npmjs.org/:_authToken=$N_TOKEN > .npmrc"
                 sh 'npm publish'
                 sh 'rm .npmrc'
+                sh 'git add . && git commit -m "Jolly good."'
                 sh 'git push origin master'
                 cleanWs()
             }
