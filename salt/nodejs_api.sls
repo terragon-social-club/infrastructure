@@ -26,6 +26,8 @@ pm2 startup:
 
 pm2 start /usr/local/etc/process.yml:
   cmd.run:
+    - env:
+      - PM2_API_IPADDR: '127.0.0.1'
     - unless: pm2 describe terragon
     - require:
       - npm: "@terragon/api"
