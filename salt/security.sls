@@ -1,9 +1,6 @@
 # Basic FreeBSD Security
-/etc/rc.conf:
-  file.blockreplace:
-    - source: salt:///files/freebsd-11.1/rc.security.conf
-    - show_changes: True
-    - prepend_if_not_found: True
+sendmail:
+  service.disabled
 
 # IDS
 #aide:

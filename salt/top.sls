@@ -1,6 +1,7 @@
 base:
   '*':
     - eastern_standard_time
+    - security
 
   'jenkins':
     - letsencrypt
