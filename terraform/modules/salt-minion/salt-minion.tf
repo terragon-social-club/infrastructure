@@ -30,8 +30,8 @@ variable "size" {
 
 resource "digitalocean_droplet" "salt_minion" {
   count = "${var.provision ? 1 : 0}"
-  private_networking = false
-  #private_networking = true
+  #private_networking = false
+  private_networking = true
   backups = false
   region = "${var.region}"
   image = "${var.image}"

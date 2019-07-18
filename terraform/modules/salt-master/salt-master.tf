@@ -22,7 +22,7 @@ variable "size" {
 }
 
 resource "digitalocean_droplet" "salt_master" {
-  private_networking = false
+  private_networking = true
   backups = false
   region = "${var.region}"
   image = "${var.image}"
@@ -85,8 +85,8 @@ resource "digitalocean_record" "salt_master" {
   domain = "${var.domain_id}"
   type = "A"
   name = "${var.name}"
-  #value = "${digitalocean_droplet.salt_master.ipv4_address_private}"
-  value = "${digitalocean_droplet.salt_master.ipv4_address}"
+  value = "${digitalocean_droplet.salt_master.ipv4_address_private}"
+  #value = "${digitalocean_droplet.salt_master.ipv4_address}"
 }
 
 resource "null_resource" "master_install_configure" {
@@ -168,8 +168,8 @@ data "template_file" "grains" {
 data "template_file" "master_config" {
   template = "${file("${path.module}/../99-master-config.conf.tpl")}"
   vars = {
-    #private_ip = "${digitalocean_droplet.salt_master.ipv4_address_private}"
-    private_ip = "${digitalocean_droplet.salt_master.ipv4_address}"
+    private_ip = "${digitalocean_droplet.salt_master.ipv4_address_private}"
+    #private_ip = "${digitalocean_droplet.salt_master.ipv4_address}"
   }
   
 }
