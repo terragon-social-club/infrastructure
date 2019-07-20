@@ -30,7 +30,6 @@ variable "size" {
 
 resource "digitalocean_droplet" "salt_minion" {
   count = "${var.provision ? 1 : 0}"
-  #private_networking = false
   private_networking = true
   backups = false
   region = "${var.region}"
@@ -41,10 +40,12 @@ resource "digitalocean_droplet" "salt_minion" {
   ipv6 = false
   
   connection {
-    host = "${self.ipv4_address}"
+    bastion_host = "${var.salt_master_public_ip_address}"
+    bastion_private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("~/.ssh/id_rsa")}"
+    host = "${self.ipv4_address_private}"
     user = "root"
     type = "ssh"
-    private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
     timeout = "5m"
   }
 
@@ -72,7 +73,7 @@ resource "digitalocean_droplet" "salt_minion" {
       host = "${var.salt_master_public_ip_address}"
       user = "root"
       type = "ssh"
-      private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
+      private_key = "${file("~/.ssh/id_rsa")}"
       timeout = "2m"
     }
     
@@ -82,7 +83,7 @@ resource "digitalocean_droplet" "salt_minion" {
       "cp ${var.name}.pub /usr/local/etc/salt/pki/master/minions/${var.name}",
       "scp -o 'StrictHostKeyChecking no' ${var.name}.pub root@${digitalocean_droplet.salt_minion[0].ipv4_address}:/usr/local/etc/salt/pki/minion/minion.pub",
       "scp -o 'StrictHostKeyChecking no' ${var.name}.pem root@${digitalocean_droplet.salt_minion[0].ipv4_address}:/usr/local/etc/salt/pki/minion/minion.pem",
-      "rm ${var.name}.pub",
+       "rm ${var.name}.pub",
       "rm ${var.name}.pem",
     ]
     
@@ -102,24 +103,32 @@ resource "digitalocean_droplet" "salt_minion" {
       host = "${var.salt_master_public_ip_address}"
       user = "root"
       type = "ssh"
-      private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
+      private_key = "${file("~/.ssh/id_rsa")}"
       timeout = "2m"
     }
     
     inline = [
-      "salt-key -d ${var.name} -y",
+      "salt-key -d ${var.name} -y"
     ]
     
   }
  
 }
 
-resource "digitalocean_record" "salt_minion" {
+resource "digitalocean_record" "salt_minion_public" {
   count = "${var.provision ? 1 : 0}" 
   domain = "${var.domain_id}"
   type = "A"
   name = "${var.name}"
   value = "${digitalocean_droplet.salt_minion[0].ipv4_address}"
+}
+
+resource "digitalocean_record" "salt_minion_private" {
+  count = "${var.provision ? 1 : 0}" 
+  domain = "${var.domain_id}"
+  type = "A"
+  name = "${var.name}.private"
+  value = "${digitalocean_droplet.salt_minion[0].ipv4_address_private}"
 }
 
 data "template_file" "grains" {
@@ -141,4 +150,8 @@ output "salt_minion_public_ip_address" {
 
 output "provision" {
   value = "${var.provision}"
+}
+
+output "droplet_id" {
+  value = "${digitalocean_droplet.salt_minion[0].id}"
 }

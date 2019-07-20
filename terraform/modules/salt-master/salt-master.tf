@@ -35,7 +35,7 @@ resource "digitalocean_droplet" "salt_master" {
     host = "${self.ipv4_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
+    private_key = "${file("~/.ssh/id_rsa")}"
     timeout = "5m"
   }
 
@@ -75,18 +75,22 @@ resource "digitalocean_droplet" "salt_master" {
 }
 
 resource "digitalocean_ssh_key" "salt_master_key" {
-  name = "Salt Master Key ${digitalocean_droplet.salt_master.ipv4_address}"
+  name = "Salt Master Key ${digitalocean_droplet.salt_master.ipv4_address_private}"
   public_key = "${data.local_file.salt_master_key.content}"
 }
 
 resource "digitalocean_record" "salt_master" {
-  # depends_on = ["null_resource.copy_master_public_key"]
-  
   domain = "${var.domain_id}"
   type = "A"
   name = "${var.name}"
+  value = "${digitalocean_droplet.salt_master.ipv4_address}"
+}
+
+resource "digitalocean_record" "salt_master_private" {
+  domain = "${var.domain_id}"
+  type = "A"
+  name = "${var.name}.private"
   value = "${digitalocean_droplet.salt_master.ipv4_address_private}"
-  #value = "${digitalocean_droplet.salt_master.ipv4_address}"
 }
 
 resource "null_resource" "master_install_configure" {
@@ -100,14 +104,14 @@ resource "null_resource" "master_install_configure" {
     host = "${digitalocean_droplet.salt_master.ipv4_address}"
     user = "root"
     type = "ssh"
-    private_key = "${file("/usr/local/jenkins/.ssh/id_rsa")}"
+    private_key = "${file("~/.ssh/id_rsa")}"
     timeout = "5m"
   }
 
   provisioner "remote-exec" {
     inline = [
       "fetch -o /tmp/bootstrap-salt.sh https://bootstrap.saltstack.com",
-      "env sh /tmp/bootstrap-salt.sh -x python3 -X -M -A ${digitalocean_droplet.salt_master.ipv4_address} -i ${var.name}",
+      "env sh /tmp/bootstrap-salt.sh -x python3 -X -M -A ${digitalocean_droplet.salt_master.ipv4_address_private} -i ${var.name}",
       "mkdir -p /usr/local/etc/salt/master.d"
     ]
     
@@ -169,7 +173,6 @@ data "template_file" "master_config" {
   template = "${file("${path.module}/../99-master-config.conf.tpl")}"
   vars = {
     private_ip = "${digitalocean_droplet.salt_master.ipv4_address_private}"
-    #private_ip = "${digitalocean_droplet.salt_master.ipv4_address}"
   }
   
 }
@@ -188,4 +191,8 @@ output "salt_master_fqdn" {
 
 output "salt_master_ssh_fingerprint" {
   value = "${digitalocean_ssh_key.salt_master_key.fingerprint}"
+}
+
+output "droplet_id" {
+  value = "${digitalocean_droplet.salt_master.id}"
 }
