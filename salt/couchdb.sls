@@ -35,6 +35,7 @@ couchdb2:
 /usr/local/etc/couchdb2/vm.args:
   file.managed:
     - source: salt:///files/couchdb/vm.jinja.args
+    - template: jinja
     - require:
       - pkg: couchdb2
 
