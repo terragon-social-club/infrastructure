@@ -24,29 +24,94 @@ variable "size" {
 resource "digitalocean_droplet" "salt_master" {
   private_networking = true
   backups = false
-  region = "${var.region}"
-  image = "${var.image}"
-  name = "${var.name}"
-  size = "${var.size}"
-  ssh_keys = "${var.keys}"
+  region = var.region
+  image = var.image
+  name = var.name
+  size = var.size
+  ssh_keys = var.keys
   ipv6 = false
+}
+
+resource "digitalocean_ssh_key" "salt_master_key" {
+  name = "Salt Master Key ${digitalocean_droplet.salt_master.ipv4_address_private}"
+  public_key = data.local_file.salt_master_key.content
+}
+
+resource "digitalocean_record" "salt_master" {
+  domain = var.domain_id
+  type = "A"
+  name = var.name
+  value = digitalocean_droplet.salt_master.ipv4_address
+}
+
+resource "digitalocean_record" "salt_master_private" {
+  domain = var.domain_id
+  type = "A"
+  name = "${var.name}.private"
+  value = digitalocean_droplet.salt_master.ipv4_address_private
+}
+
+resource "digitalocean_firewall" "ssh_public_access" {
+  name="Public-To-Master"
+  droplet_ids = [digitalocean_droplet.salt_master.id]
+  
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "22"
+    source_addresses = ["0.0.0.0/0"]
+  }
+  
+}
+
+resource "digitalocean_firewall" "all_outbound" {
+  name="All-Salt-Master-Outbound"
+  droplet_ids = [digitalocean_droplet.salt_master.id]
+
+  outbound_rule {
+    protocol = "udp"
+    port_range = "1-65535"
+    destination_addresses = ["0.0.0.0/0"]
+  }
+  
+  outbound_rule {
+    protocol = "icmp"
+    destination_addresses = ["0.0.0.0/0"]
+  }
+  
+  outbound_rule {
+    protocol = "tcp"
+    port_range = "1-65535"
+    destination_addresses = ["0.0.0.0/0"]
+  }
+  
+}
+
+resource "null_resource" "master_prep" {
+  depends_on = [
+    digitalocean_firewall.ssh_public_access,
+    digitalocean_firewall.all_outbound
+  ]
+
+  triggers = {
+    ids = digitalocean_droplet.salt_master.id
+  }
   
   connection {
-    host = "${self.ipv4_address}"
+    host = digitalocean_droplet.salt_master.ipv4_address
     user = "root"
     type = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = file("~/.ssh/id_rsa")
     timeout = "5m"
   }
 
   provisioner "local-exec" {
     when = "destroy"
-    command = "git rm ${path.cwd}/../keys/generated/${self.id}.pub || true"
+    command = "git rm ${path.module}/keys/${self.id}.pub || true"
   }
 
   provisioner "local-exec" {
     when = "destroy"
-    command = "rm -f ${path.cwd}/../keys/generated/${self.id}.pub || true"
+    command = "rm -f ${path.module}/keys/${self.id}.pub || true"
   }
   
   provisioner "remote-exec" {
@@ -65,47 +130,11 @@ resource "digitalocean_droplet" "salt_master" {
   }
 
   provisioner "local-exec" {
-    command = "mkdir -p ${path.cwd}/../keys/generated"
+    command = "mkdir -p ${path.module}/keys"
   }
   
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${self.ipv4_address}:/root/.ssh/id_rsa.pub ${path.cwd}/../keys/generated/${self.id}.pub"
-  }
-  
-}
-
-resource "digitalocean_ssh_key" "salt_master_key" {
-  name = "Salt Master Key ${digitalocean_droplet.salt_master.ipv4_address_private}"
-  public_key = "${data.local_file.salt_master_key.content}"
-}
-
-resource "digitalocean_record" "salt_master" {
-  domain = "${var.domain_id}"
-  type = "A"
-  name = "${var.name}"
-  value = "${digitalocean_droplet.salt_master.ipv4_address}"
-}
-
-resource "digitalocean_record" "salt_master_private" {
-  domain = "${var.domain_id}"
-  type = "A"
-  name = "${var.name}.private"
-  value = "${digitalocean_droplet.salt_master.ipv4_address_private}"
-}
-
-resource "null_resource" "master_install_configure" {
-  depends_on = ["digitalocean_record.salt_master"]
-
-  triggers = {
-    id = "${digitalocean_droplet.salt_master.id}"
-  }
-  
-  connection {
-    host = "${digitalocean_droplet.salt_master.ipv4_address}"
-    user = "root"
-    type = "ssh"
-    private_key = "${file("~/.ssh/id_rsa")}"
-    timeout = "5m"
+    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${digitalocean_droplet.salt_master.ipv4_address}:/root/.ssh/id_rsa.pub ${path.module}/keys/${digitalocean_droplet.salt_master.id}.pub"
   }
 
   provisioner "remote-exec" {
@@ -118,7 +147,7 @@ resource "null_resource" "master_install_configure" {
   }
 
   provisioner "file" {
-    content = "${data.template_file.master_config.rendered}"
+    content = data.template_file.master_config.rendered
     destination = "/usr/local/etc/salt/master.d/99-master-config.conf"
   }
 
@@ -140,7 +169,7 @@ resource "null_resource" "master_install_configure" {
   }
 
   provisioner "file" {
-    content = "${data.template_file.grains.rendered}"
+    content = data.template_file.grains.rendered
     destination = "/usr/local/etc/salt/grains"
   }
 
@@ -155,13 +184,14 @@ resource "null_resource" "master_install_configure" {
   
 }
 
+
 data "local_file" "salt_master_key" {
-  depends_on = ["digitalocean_droplet.salt_master"]
-  filename = "${path.module}/../../../keys/generated/${digitalocean_droplet.salt_master.id}.pub"
+  depends_on = [null_resource.master_prep]
+  filename = "${path.module}/keys/${digitalocean_droplet.salt_master.id}.pub"
 }
 
 data "template_file" "grains" {
-  template = "${file("${path.module}/../grains.tpl")}"
+  template = file("${path.module}/../grains.tpl")
   vars = {
     roles = join("\n", [for role in var.salt_minion_roles : "  - ${role}"])
     fqdn = "${var.name}.terragon.us"
@@ -170,29 +200,29 @@ data "template_file" "grains" {
 }
 
 data "template_file" "master_config" {
-  template = "${file("${path.module}/../99-master-config.conf.tpl")}"
+  template = file("${path.module}/../99-master-config.conf.tpl")
   vars = {
-    private_ip = "${digitalocean_droplet.salt_master.ipv4_address_private}"
+    private_ip = digitalocean_droplet.salt_master.ipv4_address_private
   }
   
 }
 
 output "salt_master_private_ip_address" {
-  value = "${digitalocean_droplet.salt_master.ipv4_address_private}"
+  value = digitalocean_droplet.salt_master.ipv4_address_private
 }
 
 output "salt_master_public_ip_address" {
-  value = "${digitalocean_droplet.salt_master.ipv4_address}"
+  value = digitalocean_droplet.salt_master.ipv4_address
 }
 
 output "salt_master_fqdn" {
-  value = "${digitalocean_record.salt_master.fqdn}"
+  value = digitalocean_record.salt_master.fqdn
 }
 
 output "salt_master_ssh_fingerprint" {
-  value = "${digitalocean_ssh_key.salt_master_key.fingerprint}"
+  value = digitalocean_ssh_key.salt_master_key.fingerprint
 }
 
 output "droplet_id" {
-  value = "${digitalocean_droplet.salt_master.id}"
+  value = digitalocean_droplet.salt_master.id
 }
