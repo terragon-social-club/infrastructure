@@ -68,49 +68,84 @@ module "Firewalls" {
 
 module "Salt_Master" {
   source = "./modules/salt-master"
-  
   name = "saltm"
-  keys = ["${digitalocean_ssh_key.deployer_ssh_key.fingerprint}"]
+  keys = [digitalocean_ssh_key.deployer_ssh_key.fingerprint]
   salt_minion_roles = ["master"]
   domain_id = "terragon.us"
 }
 
 module "Jenkins" {
   source = "./modules/salt-minion"
-  node_count = 0
-  provision = false
-  
+  node_count = 1
+  provision = true
   name = "jenkins"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
   keys = [
-    "${digitalocean_ssh_key.deployer_ssh_key.fingerprint}",
-    "${module.Salt_Master.salt_master_ssh_fingerprint}"
+    digitalocean_ssh_key.deployer_ssh_key.fingerprint,
+    module.Salt_Master.salt_master_ssh_fingerprint
   ]
   
   salt_minion_roles = ["jenkins", "minion"]
-  salt_master_droplet_id = "${module.Salt_Master.droplet_id}"
-  salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
-  salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
+  salt_master_droplet_id = module.Salt_Master.droplet_id
+  salt_master_private_ip_address = module.Salt_Master.salt_master_private_ip_address
+  salt_master_public_ip_address = module.Salt_Master.salt_master_public_ip_address
+}
+
+resource "digitalocean_firewall" "web_traffic_for_jenkins" {
+  name="Web-To-Jenkins"
+  droplet_ids = module.Jenkins.droplet_ids
+  count = module.Jenkins.provision ? 1 : 0
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "80"
+    source_addresses = ["0.0.0.0/0"]
+  }
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "443"
+    source_addresses = ["0.0.0.0/0"]
+  }
+  
 }
 
 module "CouchDB" {
   source = "./modules/salt-minion"
   node_count = 1
   provision = true
-  
   name = "couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
   keys = [
-    "${module.Salt_Master.salt_master_ssh_fingerprint}",
-    "${digitalocean_ssh_key.deployer_ssh_key.fingerprint}"
+    digitalocean_ssh_key.deployer_ssh_key.fingerprint,
+    module.Salt_Master.salt_master_ssh_fingerprint
   ]
   
   salt_minion_roles = ["couchdb", "minion"]
-  salt_master_droplet_id = "${module.Salt_Master.droplet_id}"
-  salt_master_private_ip_address = "${module.Salt_Master.salt_master_private_ip_address}"
-  salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
+  salt_master_droplet_id = module.Salt_Master.droplet_id
+  salt_master_private_ip_address = module.Salt_Master.salt_master_private_ip_address
+  salt_master_public_ip_address = module.Salt_Master.salt_master_public_ip_address
+}
+
+resource "digitalocean_firewall" "web_traffic_for_couchdb" {
+  name="Web-To-CouchDB"
+  droplet_ids = module.CouchDB.droplet_ids
+  count = module.CouchDB.provision ? 1 : 0
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "80"
+    source_addresses = ["0.0.0.0/0"]
+  }
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "443"
+    source_addresses = ["0.0.0.0/0"]
+  }
+  
 }
 
 module "WebRedirectEndpoint" {
@@ -122,14 +157,14 @@ module "WebRedirectEndpoint" {
   size = "s-1vcpu-1gb"
   domain_id = "terragon.us"
   keys = [
-    "${module.Salt_Master.salt_master_ssh_fingerprint}",
-    "${digitalocean_ssh_key.deployer_ssh_key.fingerprint}"
+    module.Salt_Master.salt_master_ssh_fingerprint,
+    digitalocean_ssh_key.deployer_ssh_key.fingerprint
   ]
 
-  salt_master_droplet_id = "${module.Salt_Master.droplet_id}"
+  salt_master_droplet_id = module.Salt_Master.droplet_id
   salt_minion_roles = ["redirect", "minion"]
-  salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
-  salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
+  salt_master_private_ip_address = module.Salt_Master.salt_master_private_ip_address
+  salt_master_public_ip_address = module.Salt_Master.salt_master_public_ip_address
 }
 
 resource "digitalocean_firewall" "web_traffic_for_redirect" {
@@ -152,27 +187,47 @@ resource "digitalocean_firewall" "web_traffic_for_redirect" {
 }
 
 resource "digitalocean_record" "redirect" {
-  count = "${module.WebRedirectEndpoint.provision ? 1 : 0}" 
+  count = module.WebRedirectEndpoint.provision ? 1 : 0
   domain = "terragon.us"
   type = "A"
   name = "@"
   value = module.WebRedirectEndpoint.salt_minion_public_ip_addresses[0]
 }
 
-module "NodeJSApi-A" {
+module "NodeJSApi" {
   source = "./modules/salt-minion"
   node_count = 0
   provision = false
   
-  name = "nodejs-api-a"
+  name = "nodejs-api"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
   keys = [
-    "${module.Salt_Master.salt_master_ssh_fingerprint}"
+    module.Salt_Master.salt_master_ssh_fingerprint,
+    digitalocean_ssh_key.deployer_ssh_key.fingerprint
   ]
   
   salt_minion_roles = ["nodejsapi", "minion"]
-  salt_master_droplet_id = "${module.Salt_Master.droplet_id}"
-  salt_master_private_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
-  salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
+  salt_master_droplet_id = module.Salt_Master.droplet_id
+  salt_master_private_ip_address = module.Salt_Master.salt_master_private_ip_address
+  salt_master_public_ip_address = module.Salt_Master.salt_master_public_ip_address
+}
+
+resource "digitalocean_firewall" "web_traffic_for_api" {
+  name="Web-To-API"
+  droplet_ids = module.NodeJSApi.droplet_ids
+  count = module.NodeJSApi.provision ? 1 : 0
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "80"
+    source_addresses = ["0.0.0.0/0"]
+  }
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "443"
+    source_addresses = ["0.0.0.0/0"]
+  }
+  
 }

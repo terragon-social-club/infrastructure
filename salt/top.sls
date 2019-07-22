@@ -3,7 +3,7 @@ base:
     - eastern_standard_time
     - security
 
-  'jenkins':
+  'jenkins*':
     - letsencrypt
     - apache
     - jenkins
@@ -18,7 +18,7 @@ base:
     - apache
     - nodejs_api
     
-  'web-redirect':
+  'web-redirect*':
     - letsencrypt
     - apache
     - redirect
