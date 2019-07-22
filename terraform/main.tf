@@ -169,7 +169,7 @@ module "WebRedirectEndpoint" {
 
 resource "digitalocean_firewall" "web_traffic_for_redirect" {
   name="Web-To-Redirect"
-  droplet_ids = [module.WebRedirectEndpoint.droplet_ids[0]]
+  droplet_ids = module.WebRedirectEndpoint.droplet_ids
   count = module.WebRedirectEndpoint.provision ? 1 : 0
 
   inbound_rule {

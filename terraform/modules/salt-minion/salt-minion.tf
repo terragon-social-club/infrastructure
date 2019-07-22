@@ -32,7 +32,7 @@ variable "size" {
 }
 
 variable "alpha" {
-  default = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"]
+  default = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 }
 
 resource "digitalocean_droplet" "salt_minion" {
@@ -148,7 +148,7 @@ resource "null_resource" "configure_firewalled_minion" {
   }
   
   provisioner "file" {
-    content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${var.name}-${var.alpha[count.index]}.terragon.us"
+    content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${var.name}-${var.alpha[count.index]}.terragon.us\nprivate_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)}\npublic_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address, count.index)}"
     destination = "/usr/local/etc/salt/grains"
   }
 
