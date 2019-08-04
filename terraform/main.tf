@@ -148,6 +148,25 @@ resource "digitalocean_firewall" "web_traffic_for_couchdb" {
   
 }
 
+resource "digitalocean_firewall" "couchdb_to_couchdb" {
+  name="CouchDB-To-CouchDB"
+  droplet_ids = module.CouchDB.droplet_ids
+  count = module.CouchDB.provision ? 1 : 0
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "5984"
+    source_addresses = module.CouchDB.salt_minion_private_ips
+  }
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "4369"
+    source_addresses = module.CouchDB.salt_minion_private_ips
+  }
+  
+}
+
 module "WebRedirectEndpoint" {
   source = "./modules/salt-minion"
   node_count = 1
