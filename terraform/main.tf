@@ -83,8 +83,9 @@ module "CouchDB" {
   
   salt_minion_roles = ["couchdb", "minion"]
   salt_master_droplet_id = module.Salt_Master.droplet_id
-  salt_master_private_ip_address = module.Salt_Master.salt_master_private_ip_address
-  salt_master_public_ip_address = module.Salt_Master.salt_master_public_ip_address
+  salt_master_private_ip_address = module.Salt_Master.private_ip_address
+  salt_master_public_ip_address = module.Salt_Master.public_ip_address
+  salt_master_ssh_private_key = module.Salt_Master.ssh_private_key
 }
 
 resource "digitalocean_firewall" "web_traffic_for_couchdb" {
@@ -140,6 +141,7 @@ module "NodeJSApi" {
   
   salt_minion_roles = ["nodejsapi", "minion"]
   salt_master_droplet_id = module.Salt_Master.droplet_id
-  salt_master_private_ip_address = module.Salt_Master.salt_master_private_ip_address
-  salt_master_public_ip_address = module.Salt_Master.salt_master_public_ip_address
+  salt_master_private_ip_address = module.Salt_Master.private_ip_address
+  salt_master_public_ip_address = module.Salt_Master.public_ip_address
+  salt_master_ssh_private_key = module.Salt_Master.ssh_private_key
 }
