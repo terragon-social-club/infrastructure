@@ -8,7 +8,7 @@ variable "name" { }
 variable "provision" { }
 
 variable "keys" {
-  type = "list"
+  type = list
 }
 
 variable "node_count" {

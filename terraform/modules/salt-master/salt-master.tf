@@ -6,7 +6,7 @@ variable "domain_id" { }
 variable "name" { }
 
 variable "keys" {
-  type = "list"
+  type = list
 }
 
 variable "region" {
