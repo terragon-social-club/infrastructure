@@ -175,6 +175,16 @@ resource "null_resource" "master_prep" {
     destination = "/usr/local/etc/salt/grains"
   }
 
+  provisioner "file" {
+    content = tls_private_key.master_key.public_key_openssh
+    destination = "/root/.ssh/id_rsa.pub"
+  }
+
+  provisioner "file" {
+    content = tls_private_key.master_key.private_key_pem
+    destination = "/root/.ssh/id_rsa"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "service salt_master start",
