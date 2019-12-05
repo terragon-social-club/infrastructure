@@ -32,7 +32,7 @@ resource "digitalocean_droplet" "salt_master" {
   ipv6 = false
 }
 
-resource "digitalocean_ssh_key" "salt_master_key" {
+resource "digitalocean_ssh_key" "salt_master" {
   name = "Salt Master Key ${digitalocean_droplet.salt_master.ipv4_address_private}"
   public_key = data.local_file.salt_master_key.content
 }
@@ -90,6 +90,11 @@ resource "tls_private_key" "master_key" {
   algorithm   = "RSA"
 }
 
+resource "digitalocean_ssh_key" "salt_master" {
+  name = "Salt Master"
+  public_key = tls_private_key.master_key.public_key_pem
+}
+
 resource "null_resource" "master_prep" {
   depends_on = [
     digitalocean_firewall.ssh_public_access,
@@ -104,7 +109,6 @@ resource "null_resource" "master_prep" {
     host = digitalocean_droplet.salt_master.ipv4_address
     user = "root"
     type = "ssh"
-    private_key = tls_private_key.master_key.private_key_pem
     timeout = "5m"
   }
 

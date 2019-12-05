@@ -1,7 +1,7 @@
 # SSH Tokens
 # This is managed thru Terraform Cloud now
 variable "digitalocean_api_token" {}
-variable "master_key" {
+variable "generated_key" {
   default = "c6:c4:6f:23:f0:50:09:f6:55:28:ca:62:57:7f:00:c8"
 }
 
@@ -39,7 +39,7 @@ module "Firewalls" {
 module "Salt_Master" {
   source = "./modules/salt-master"
   name = "saltm"
-  keys = [var.master_key]
+  keys = [var.generated_key]
   salt_minion_roles = ["master"]
   domain_id = "terragon.us"
 }
@@ -52,7 +52,7 @@ module "Jenkins" {
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
   keys = [
-    var.master_key,
+    var.generated_key,
     module.Salt_Master.salt_master_ssh_fingerprint
   ]
   
@@ -89,7 +89,7 @@ module "CouchDB" {
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
   keys = [
-    var.master_key,
+    var.generated_key,
     module.Salt_Master.salt_master_ssh_fingerprint
   ]
   

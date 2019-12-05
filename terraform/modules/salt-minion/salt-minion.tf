@@ -53,7 +53,6 @@ resource "digitalocean_droplet" "salt_minion" {
       host = var.salt_master_public_ip_address
       user = "root"
       type = "ssh"
-      private_key = file("~/.ssh/id_rsa")
       timeout = "2m"
     }
     
@@ -130,8 +129,6 @@ resource "null_resource" "configure_firewalled_minion" {
 
   connection {
     bastion_host = var.salt_master_public_ip_address
-    bastion_private_key = file("~/.ssh/id_rsa")
-    private_key = file("~/.ssh/id_rsa")
     host = element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)
     user = "root"
     type = "ssh"
@@ -176,7 +173,6 @@ resource "null_resource" "bootstrap_salt_keys" {
       host = var.salt_master_public_ip_address
       user = "root"
       type = "ssh"
-      private_key = file("~/.ssh/id_rsa")
       timeout = "2m"
     }
 
@@ -207,8 +203,6 @@ resource "null_resource" "start_minion" {
 
   connection {
     bastion_host = var.salt_master_public_ip_address
-    bastion_private_key = file("~/.ssh/id_rsa")
-    private_key = file("~/.ssh/id_rsa")
     host = element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)
     user = "root"
     type = "ssh"
