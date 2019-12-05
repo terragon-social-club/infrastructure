@@ -32,11 +32,6 @@ resource "digitalocean_droplet" "salt_master" {
   ipv6 = false
 }
 
-resource "digitalocean_ssh_key" "salt_master" {
-  name = "Salt Master Key ${digitalocean_droplet.salt_master.ipv4_address_private}"
-  public_key = data.local_file.salt_master_key.content
-}
-
 resource "digitalocean_record" "salt_master" {
   domain = var.domain_id
   type = "A"
