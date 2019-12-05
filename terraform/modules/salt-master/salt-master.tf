@@ -187,12 +187,6 @@ resource "null_resource" "master_prep" {
   
 }
 
-
-data "local_file" "salt_master_key" {
-  depends_on = [null_resource.master_prep]
-  filename = "${path.module}/keys/${digitalocean_droplet.salt_master.id}.pub"
-}
-
 data "template_file" "grains" {
   template = file("${path.module}/../grains.tpl")
   vars = {
@@ -223,7 +217,7 @@ output "salt_master_fqdn" {
 }
 
 output "salt_master_ssh_fingerprint" {
-  value = digitalocean_ssh_key.salt_master_key.fingerprint
+  value = digitalocean_ssh_key.salt_master.fingerprint
 }
 
 output "droplet_id" {
