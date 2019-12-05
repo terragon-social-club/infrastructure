@@ -1,19 +1,9 @@
 # SSH Tokens
-
-
-#variable "jenkins_key" {
-#  type = "string"
-#  default = "7d:19:b0:09:11:5f:81:b8:dc:08:9c:f4:3e:29:74:f1"
+# This is managed thru Terraform Cloud now
+#resource "digitalocean_ssh_key" "deployer_ssh_key" {
+#  name = "Originator"
+#  public_key = "${file("~/.ssh/id_rsa.pub")}"
 #}
-
-#data "local_file" "mike_key" {
-#  filename = "/home/guest/.ssh/acrewise/id_rsa.pub"
-#}
-
-resource "digitalocean_ssh_key" "deployer_ssh_key" {
-  name = "Originator"
-  public_key = "${file("~/.ssh/id_rsa.pub")}"
-}
 
 variable "digitalocean_api_token" {}
 
