@@ -3,10 +3,8 @@ base:
     - eastern_standard_time
     - security
 
-  'jenkins*':
-    - letsencrypt
-    - apache
-    - jenkins
+  'master':
+    - master
 
   'couchdb*':
     - letsencrypt
@@ -17,8 +15,3 @@ base:
     - letsencrypt
     - apache
     - nodejs_api
-    
-  'web-redirect*':
-    - letsencrypt
-    - apache
-    - redirect
