@@ -1,11 +1,10 @@
+variable "alpha" {
+  default = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+}
+
 variable "salt_minion_roles" {
   default = ["minion"]
 }
-
-variable "domain_id" { }
-variable "name" { }
-
-variable "provision" { }
 
 variable "keys" {
   type = list
@@ -15,8 +14,14 @@ variable "node_count" {
   default = 1
 }
 
+variable "provision" { }
+
+variable "domain_id" { }
+variable "name" { }
+
 variable "salt_master_private_ip_address" { }
 variable "salt_master_public_ip_address" { }
+variable "salt_master_ssh_private_key" { }
 variable "salt_master_droplet_id" { }
 
 variable "region" {
@@ -29,10 +34,6 @@ variable "image" {
 
 variable "size" {
   default = "512mb"
-}
-
-variable "alpha" {
-  default = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 }
 
 resource "digitalocean_droplet" "salt_minion" {
