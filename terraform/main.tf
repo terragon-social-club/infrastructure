@@ -16,8 +16,6 @@ resource "digitalocean_ssh_key" "deployer_ssh_key" {
 }
 
 variable "digitalocean_api_token" {}
-variable "spaces_access_id" {}
-variable "spaces_secret_key" {}
 
 # Infrastructure Provider Tokens
 provider "digitalocean" {
