@@ -82,12 +82,12 @@ resource "digitalocean_firewall" "all_outbound" {
 }
 
 resource "tls_private_key" "master_key" {
-  algorithm = "ECDSA"
+  algorithm = "RSA"
 }
 
 resource "digitalocean_ssh_key" "salt_master" {
   name = "Salt Master"
-  public_key = tls_private_key.master_key.public_key_pem
+  public_key = tls_private_key.master_key.public_key_openssh
 }
 
 resource "null_resource" "master_prep" {
