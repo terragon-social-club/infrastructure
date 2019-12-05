@@ -3,7 +3,7 @@ base:
     - eastern_standard_time
     - security
 
-  'master':
+  'saltm':
     - master
 
   'couchdb*':
