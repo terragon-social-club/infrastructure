@@ -82,7 +82,7 @@ resource "digitalocean_firewall" "all_outbound" {
 }
 
 resource "tls_private_key" "master_key" {
-  algorithm   = "RSA"
+  algorithm = "ECDSA"
 }
 
 resource "digitalocean_ssh_key" "salt_master" {
