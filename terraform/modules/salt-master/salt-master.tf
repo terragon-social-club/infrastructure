@@ -108,12 +108,12 @@ resource "null_resource" "master_prep" {
   }
 
   provisioner "local-exec" {
-    when = "destroy"
+    when = destroy
     command = "git rm ${path.module}/keys/${self.id}.pub || true"
   }
 
   provisioner "local-exec" {
-    when = "destroy"
+    when = destroy
     command = "rm -f ${path.module}/keys/${self.id}.pub || true"
   }
   

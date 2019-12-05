@@ -1,21 +1,21 @@
 variable "salt_minion_droplet_ids" {
-  type = "list"
+  type = list
 }
 
 variable "salt_master_droplet_id" {
-  type = "string"
+  type = string
 }
 
 variable "salt_minion_private_ips" {
-  type = "list"
+  type = list
 }
 
 variable "salt_master_private_ip_address" {
-  type = "string"
+  type = string
 }
 
 variable "salt_master_public_ip_address" {
-  type = "string"
+  type = string
 }
 
 resource "digitalocean_firewall" "minions_master_ping_each_other" {

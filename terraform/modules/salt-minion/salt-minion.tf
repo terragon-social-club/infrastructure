@@ -47,7 +47,7 @@ resource "digitalocean_droplet" "salt_minion" {
   ipv6 = false
   
   provisioner "remote-exec" {
-    when = "destroy"
+    when = destroy
     
     connection {
       host = var.salt_master_public_ip_address
