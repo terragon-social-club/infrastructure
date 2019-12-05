@@ -11,7 +11,7 @@
 #}
 
 resource "digitalocean_ssh_key" "deployer_ssh_key" {
-  name = "Deployer SSH Key"
+  name = "Originator"
   public_key = "${file("~/.ssh/id_rsa.pub")}"
 }
 
@@ -42,20 +42,6 @@ resource "digitalocean_record" "hushmail-2" {
   value = "plsmtp1.hushmail.com."
   priority = "10"
 }
-
-resource "digitalocean_spaces_bucket" "frontend" {
-  name = "www-terragon-us"
-  region = "nyc3"
-  acl = "public-read"
-}
-
-# This was created outside of terraform. Will need to reprovision
-#resource "digitalocean_record" "cloudfront_www" {
-#  domain = "terragon.us"
-#  type = "CNAME"
-#  name = "www"
-#  value = "dshnklusv3rdp.cloudfront.net"
-#}
 
 module "Firewalls" {
   source = "./modules/firewall"
