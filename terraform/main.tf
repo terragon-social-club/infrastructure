@@ -126,13 +126,13 @@ resource "digitalocean_firewall" "couchdb_to_couchdb" {
   inbound_rule {
     protocol = "tcp"
     port_range = "5984"
-    source_addresses = module.CouchDB.salt_minion_private_ips
+    source_addresses = module.CouchDB.salt_minion_private_ip_addresses
   }
 
   inbound_rule {
     protocol = "tcp"
     port_range = "4369"
-    source_addresses = module.CouchDB.salt_minion_private_ips
+    source_addresses = module.CouchDB.salt_minion_private_ip_addresses
   }
   
 }
