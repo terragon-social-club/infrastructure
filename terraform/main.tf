@@ -21,9 +21,7 @@ variable "spaces_secret_key" {}
 
 # Infrastructure Provider Tokens
 provider "digitalocean" {
-  token = "${var.digitalocean_api_token}"
-  spaces_access_id = "${var.spaces_access_id}"
-  spaces_secret_key = "${var.spaces_secret_key}"
+  token = var.digitalocean_api_token
 }
 
 # Mail Records
