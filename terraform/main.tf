@@ -147,7 +147,7 @@ module "NodeJSApi" {
   domain_id = "terragon.us"
   keys = [
     module.Salt_Master.salt_master_ssh_fingerprint,
-    digitalocean_ssh_key.deployer_ssh_key.fingerprint
+    var.generated_key
   ]
   
   salt_minion_roles = ["nodejsapi", "minion"]
