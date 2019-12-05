@@ -105,16 +105,6 @@ resource "null_resource" "master_prep" {
     type = "ssh"
     timeout = "5m"
   }
-
-  provisioner "local-exec" {
-    when = destroy
-    command = "git rm ${path.module}/keys/${self.id}.pub || true"
-  }
-
-  provisioner "local-exec" {
-    when = destroy
-    command = "rm -f ${path.module}/keys/${self.id}.pub || true"
-  }
   
   provisioner "remote-exec" {
     inline = [
@@ -122,21 +112,6 @@ resource "null_resource" "master_prep" {
       "env ASSUME_ALWAYS_YES=YES pkg install devel/py-gitpython"
     ]
     
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "ssh-keygen -t rsa -N \"\" -f /root/.ssh/id_rsa"
-    ]
-    
-  }
-
-  provisioner "local-exec" {
-    command = "mkdir -p ${path.module}/keys"
-  }
-  
-  provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${digitalocean_droplet.salt_master.ipv4_address}:/root/.ssh/id_rsa.pub ${path.module}/keys/${digitalocean_droplet.salt_master.id}.pub"
   }
 
   provisioner "remote-exec" {
