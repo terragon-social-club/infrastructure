@@ -174,7 +174,7 @@ resource "null_resource" "master_prep" {
 data "template_file" "grains" {
   template = file("${path.module}/../grains.tpl")
   vars = {
-    roles = ["master"]
+    roles = "- master\n"
     fqdn = "${var.name}.terragon.us"
   }
   
