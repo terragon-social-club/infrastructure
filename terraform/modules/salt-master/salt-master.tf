@@ -164,7 +164,12 @@ resource "null_resource" "master_prep" {
     inline = [
       "service salt_master start",
       "sleep 60",
-      "service salt_minion start"
+      "service salt_minion start",
+      "sleep 60",
+      "salt-run fileserver.update",
+      "sleep 10",
+      "salt-call state.apply",
+      "sleep 5"
     ]
     
   }
@@ -174,7 +179,7 @@ resource "null_resource" "master_prep" {
 data "template_file" "grains" {
   template = file("${path.module}/../grains.tpl")
   vars = {
-    roles = "- master\n"
+    roles = "- master"
     fqdn = "${var.name}.terragon.us"
   }
   
