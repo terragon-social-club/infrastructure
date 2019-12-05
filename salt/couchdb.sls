@@ -1,12 +1,3 @@
-include:
-  - apache
-
-extend:
-  apache24:
-    service.running:
-      - watch:
-        - file: /usr/local/etc/apache24/httpd.conf
-
 couchdb2:
   pkg.installed: []
   service.running:
@@ -45,10 +36,3 @@ couchdb2:
     - require:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
-
-/usr/local/etc/apache24/httpd.conf:
-  file.managed:
-    - source: salt:///files/apache/http.couchdb.jinja.conf
-    - template: jinja
-    - require:
-      - pkg: apache24

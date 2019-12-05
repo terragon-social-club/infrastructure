@@ -3,4 +3,3 @@ apache24:
   service.running:
     - enable: True
     - reload: True
- 

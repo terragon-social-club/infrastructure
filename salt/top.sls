@@ -7,9 +7,10 @@ base:
     - master
 
   'couchdb*':
-    - letsencrypt
-    - apache
     - couchdb
+
+  'haproxy*':
+    - haproxy
 
   'nodejs-api*':
     - letsencrypt
