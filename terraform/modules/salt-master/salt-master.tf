@@ -86,6 +86,10 @@ resource "digitalocean_firewall" "all_outbound" {
   
 }
 
+resource "tls_private_key" "master_key" {
+  algorithm   = "RSA"
+}
+
 resource "null_resource" "master_prep" {
   depends_on = [
     digitalocean_firewall.ssh_public_access,
@@ -100,7 +104,7 @@ resource "null_resource" "master_prep" {
     host = digitalocean_droplet.salt_master.ipv4_address
     user = "root"
     type = "ssh"
-    private_key = file("~/.ssh/id_rsa")
+    private_key = tls_private_key.master_key.private_key_pem
     timeout = "5m"
   }
 

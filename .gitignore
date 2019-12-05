@@ -1,3 +1,6 @@
 .terraform/
 terraform/config/ssh/key
-salt/files/unix/id_rsa
+salt/files/unix/id_rsa# ignore node_modules symlink
+node_modules
+node_modules.nosync
+.DS_Store
