@@ -1,3 +1,6 @@
+variable "name" { }
+variable "domain_id" { }
+
 variable "keys" {
   type = list
 }
