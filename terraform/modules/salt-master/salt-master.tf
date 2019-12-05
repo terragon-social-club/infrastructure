@@ -204,20 +204,24 @@ data "template_file" "master_config" {
   
 }
 
-output "salt_master_private_ip_address" {
+output "private_ip_address" {
   value = digitalocean_droplet.salt_master.ipv4_address_private
 }
 
-output "salt_master_public_ip_address" {
+output "public_ip_address" {
   value = digitalocean_droplet.salt_master.ipv4_address
 }
 
-output "salt_master_fqdn" {
+output "fqdn" {
   value = digitalocean_record.salt_master.fqdn
 }
 
-output "salt_master_ssh_fingerprint" {
+output "ssh_fingerprint" {
   value = digitalocean_ssh_key.salt_master.fingerprint
+}
+
+output "private_key" {
+  value = tls_private_key.master_key.private_key_pem
 }
 
 output "droplet_id" {
