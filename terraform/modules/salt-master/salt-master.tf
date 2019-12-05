@@ -220,7 +220,7 @@ output "ssh_fingerprint" {
   value = digitalocean_ssh_key.salt_master.fingerprint
 }
 
-output "private_key" {
+output "ssh_private_key" {
   value = tls_private_key.master_key.private_key_pem
 }
 
