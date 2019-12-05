@@ -52,8 +52,8 @@ resource "digitalocean_record" "hushmail-2" {
 module "Firewalls" {
   source = "./modules/firewall"
   salt_master_droplet_id = "${module.Salt_Master.droplet_id}"
-  salt_master_private_ip_address = "${module.Salt_Master.salt_master_private_ip_address}"
-  salt_master_public_ip_address = "${module.Salt_Master.salt_master_public_ip_address}"
+  salt_master_private_ip_address = "${module.Salt_Master.private_ip_address}"
+  salt_master_public_ip_address = "${module.Salt_Master.public_ip_address}"
   salt_minion_droplet_ids = module.CouchDB.droplet_ids
   salt_minion_private_ips = module.CouchDB.salt_minion_private_ip_addresses
 }
