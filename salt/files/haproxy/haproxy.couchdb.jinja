@@ -15,6 +15,9 @@
         bind *:80
         bind *:443 ssl crt /usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem
         default_backend servers
+        acl restricted_page path_beg,url_dec -i /_utils
+        http-request deny if restricted_page
 
     backend servers
         server couchdb1 {{ grains['couchdb_ip_addresses'] | traverse('0', 'default') }}:5984 maxconn 1000
+        
