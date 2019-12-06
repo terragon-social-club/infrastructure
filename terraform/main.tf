@@ -205,7 +205,7 @@ module "NodeJSAPIHAProxy" {
 }
 
 resource "digitalocean_firewall" "nodejsapihaproxy_to_nodejsapi" {
-  name="World-To-NodeJSApi-HAProxy"
+  name="NodeJSAPI-HAProxy-To-NodeJSApi"
   droplet_ids = module.NodeJSApi.droplet_ids
 
   inbound_rule {
