@@ -10,6 +10,7 @@ base:
     - couchdb
 
   'haproxy*':
+    - letsencrypt
     - haproxy
 
   'nodejs-api*':
