@@ -103,10 +103,21 @@ module "HAProxy" {
   couchdb_ip_addresses = module.CouchDB.salt_minion_private_ip_addresses
 }
 
-resource "digitalocean_firewall" "web_traffic_for_couchdb" {
-  name="Web-To-CouchDB"
+resource "digitalocean_firewall" "haproxy_to_couch" {
+  name="HAProxy-To-CouchDB"
   droplet_ids = module.CouchDB.droplet_ids
-  count = module.CouchDB.provision ? 1 : 0
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "5984"
+    source_addresses = module.HAProxy.salt_minion_private_ip_addresses
+  }
+  
+}
+
+resource "digitalocean_firewall" "world_to_haproxy" {
+  name="World-To-HProxy"
+  droplet_ids = module.HProxy.droplet_ids
 
   inbound_rule {
     protocol = "tcp"
