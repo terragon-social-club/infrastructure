@@ -199,3 +199,16 @@ resource "digitalocean_firewall" "world_to_nodejsapi" {
   }
   
 }
+
+resource "digitalocean_firewall" "nodejsapi_to_couchdb" {
+  name="NodeJSApi-To-CouchDB"
+  droplet_ids = module.CouchDB.droplet_ids
+  count = module.CouchDB.provision ? 1 : 0
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "5984"
+    source_addresses = module.NodeJSApi.salt_minion_private_ip_addresses
+  }
+  
+}
