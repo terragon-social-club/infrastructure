@@ -1,9 +1,3 @@
-extend:
-  haproxy:
-    service.running:
-      - watch:
-        - file: /usr/local/etc/haproxy.conf
-
 couchdb2:
   pkg.installed: []
   service.running:
