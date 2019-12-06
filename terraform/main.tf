@@ -211,14 +211,14 @@ resource "digitalocean_firewall" "nodejsapihaproxy_to_nodejsapi" {
   inbound_rule {
     protocol = "tcp"
     port_range = "3000"
-    source_addresses = module.NodeJSAPIHAProxy.salt_minion_private_ip_addresses
+    source_addresses = module.HAProxyNodeJSAPI.salt_minion_private_ip_addresses
   }
   
 }
 
 resource "digitalocean_firewall" "world_to_nodejsapi_haproxy" {
   name="World-To-NodeJSApi-HAProxy"
-  droplet_ids = module.NodeJSAPIHAProxy.droplet_ids
+  droplet_ids = module.HAProxyNodeJSAPI.droplet_ids
 
   inbound_rule {
     protocol = "tcp"
