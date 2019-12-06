@@ -152,6 +152,13 @@ resource "digitalocean_firewall" "couchdb_to_couchdb" {
   
 }
 
+resource "digitalocean_record" "couchdb_frontend" {
+  domain = "terragon.us"
+  type = "A"
+  name = "couchdb"
+  value = module.HAProxy.salt_minion_public_ip_addresses.*
+}
+
 module "NodeJSApi" {
   source = "./modules/salt-minion"
   node_count = 0
