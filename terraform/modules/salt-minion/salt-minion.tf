@@ -128,7 +128,7 @@ resource "null_resource" "configure_firewalled_minion" {
   count = var.node_count
   
   triggers = {
-    ids = join(",", digitalocean_droplet.salt_minion.*.id)
+    id = digitalocean_droplet.salt_minion[count.index].id
   }
 
   depends_on = [
@@ -175,9 +175,8 @@ resource "null_resource" "bootstrap_salt_keys" {
   ]
 
   triggers = {
-    ids = join(",", digitalocean_droplet.salt_minion.*.id)
+    id = digitalocean_droplet.salt_minion[count.index].id
   }
-
 
   provisioner "remote-exec" {
     connection {
@@ -210,7 +209,7 @@ resource "null_resource" "start_minion" {
   ]
 
   triggers = {
-    ids = join(",", digitalocean_droplet.salt_minion.*.id)
+    id = digitalocean_droplet.salt_minion[count.index].id
   }
 
   connection {
