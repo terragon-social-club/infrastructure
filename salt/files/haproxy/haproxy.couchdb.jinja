@@ -1,45 +1,36 @@
-# Licensed under the Apache License, Version 2.0 (the "License"); you may not
-# use this file except in compliance with the License. You may obtain a copy of
-# the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-# License for the specific language governing permissions and limitations under
-# the License.
+# Simple configuration for an HTTP proxy listening on port 80 on all
+    # interfaces and forwarding requests to a single backend "servers" with a
+    # single server "server1" listening on 127.0.0.1:8000
+    global
+        daemon
+        maxconn 256
 
-global
-        maxconn 512
-        spread-checks 5
-
-defaults
+    defaults
         mode http
-        log global
-        monitor-uri /_haproxy_health_check
-        option log-health-checks
-        option httplog
-        balance roundrobin
-        option forwardfor
-        option redispatch
-        retries 4
-        option http-server-close
-        timeout client 150000
-        timeout server 3600000
-        timeout connect 500
+        timeout connect 5000ms
+        timeout client 50000ms
+        timeout server 50000ms
 
-        stats enable
-        stats uri /_haproxy_stats
-        # stats auth admin:admin # Uncomment for basic auth
+    frontend http-in
+        bind *:80
+        default_backend servers
 
-frontend http-in
-         # This requires HAProxy 1.5.x
-         # bind *:$HAPROXY_PORT
-         bind *:80
-         default_backend couchdbs
+    backend servers
+        server couchdb-a :8000 maxconn 32
 
-backend couchdbs
-        option httpchk GET /_up
-        http-check disable-on-404
-        server couchdb1 127.0.0.1:5984 check inter 5s
+
+    # The same configuration defined with a single listen block. Shorter but
+    # less expressive, especially in HTTP mode.
+    global
+        daemon
+        maxconn 256
+
+    defaults
+        mode http
+        timeout connect 5000ms
+        timeout client 50000ms
+        timeout server 50000ms
+
+    listen http-in
+        bind *:80
+        server server1 {{ grains['couchdb_ip_addresses'][0] }}:5984 maxconn 1000
