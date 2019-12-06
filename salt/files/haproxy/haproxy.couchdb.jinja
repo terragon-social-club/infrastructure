@@ -31,5 +31,6 @@
         http-request deny if { path -i -m beg /favicon }
 
     backend servers
-        server couchdb1 {{ grains['couchdb_ip_addresses'] | traverse('0', 'default') }}:5984 maxconn 250
-        
+        {% for address in grains['couchdb_ip_addresses'] %}
+        server couchdb1 {{ address }}:5984 maxconn 500
+        {% endfor %}

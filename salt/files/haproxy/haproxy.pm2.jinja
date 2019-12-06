@@ -16,20 +16,8 @@
         bind *:443 ssl crt /usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem
         redirect scheme https if !{ ssl_fc }
         default_backend servers
-        http-request deny if { path -i -m beg /_utils }
-        http-request deny if { path -i -m beg /_active_tasks }
-        http-request deny if { path -i -m beg /_all_dbs }
-        http-request deny if { path -i -m beg /_dbs_info }
-        http-request deny if { path -i -m beg /_cluster_setup }
-        http-request deny if { path -i -m beg /_db_updates }
-        http-request deny if { path -i -m beg /_membership }
-        http-request deny if { path -i -m beg /_replicate }
-        http-request deny if { path -i -m beg /_scheduler }
-        http-request deny if { path -i -m beg /_node }
-        http-request deny if { path -i -m beg /_up }
-        http-request deny if { path -i -m beg /_uuids }
-        http-request deny if { path -i -m beg /favicon }
 
     backend servers
-        server couchdb1 {{ grains['couchdb_ip_addresses'] | traverse('0', 'default') }}:5984 maxconn 500
-        server couchdb1 {{ grains['couchdb_ip_addresses'] | traverse('1', 'default') }}:5984 maxconn 500
+        {% for address in grains['nodejsapi_ip_addresses'] %}
+        server couchdb{{ loop.index }} {{ address }}:3000 maxconn 500
+        {% endfor %}

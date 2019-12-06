@@ -9,11 +9,13 @@ base:
   'couchdb*':
     - couchdb
 
-  'haproxy*':
-    - letsencrypt
-    - haproxy
-
-  'nodejs-api*':
-    - letsencrypt
-    - haproxy
+  'pm2-nodejs-api*':
     - nodejs_api
+
+  'haproxy-couchdb*':
+    - letsencrypt
+    - haproxy.couchdb
+
+  'haproxy-nodejs-api*':
+    - letsencrypt
+    - haproxy.pm2

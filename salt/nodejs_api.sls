@@ -1,12 +1,3 @@
-include:
-  - haproxy
-
-extend:
-  haproxy:
-    service.running:
-      - watch:
-        - file: /usr/local/etc/haproxy.conf
-
 www/npm:
   pkg.installed: []
 
@@ -20,14 +11,14 @@ pm2 startup:
     - runas: root
     - creates: /usr/local/etc/rc.d/pm2_root
     - env:
-      - PM2_API_IPADDR: '127.0.0.1'
+      - PM2_API_IPADDR: {{ grains['private_ip_address'] }}
     - require:
       - cmd: pm2 start /usr/local/etc/process.yml
 
 pm2 start /usr/local/etc/process.yml:
   cmd.run:
     - env:
-      - PM2_API_IPADDR: '127.0.0.1'
+      - PM2_API_IPADDR: {{ grains['private_ip_address'] }}
     - unless: pm2 describe terragon
     - require:
       - npm: pm2
@@ -50,11 +41,3 @@ pm2_root:
   file.managed:
     - source: salt:///files/nodejs_api/pm2.process.yml
     - template: jinja
-
-/usr/local/etc/haproxy.conf:
-  file.managed:
-    - source: salt:///files/haproxy/haproxy.pm2.jinja
-    - template: jinja
-    - require:
-      - pkg: haproxy
-      
