@@ -7,6 +7,7 @@ base:
     - master
 
   'couchdb*':
+    - haproxy
     - couchdb
 
   'haproxy*':
