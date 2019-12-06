@@ -195,7 +195,7 @@ resource "null_resource" "bootstrap_salt_keys" {
       "scp -o 'StrictHostKeyChecking no' ${var.name}-${var.alpha[count.index]}.pub root@${element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)}:/usr/local/etc/salt/pki/minion/minion.pub",
       "scp -o 'StrictHostKeyChecking no' ${var.name}-${var.alpha[count.index]}.pem root@${element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)}:/usr/local/etc/salt/pki/minion/minion.pem",
       "rm ${var.name}-${var.alpha[count.index]}.pub",
-      "rm ${var.name}-${var.alpha[count.index]}.pem",
+      "rm ${var.name}-${var.alpha[count.index]}.pem"
     ]
     
   }
