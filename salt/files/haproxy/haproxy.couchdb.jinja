@@ -36,10 +36,10 @@ defaults
 frontend http-in
          # This requires HAProxy 1.5.x
          # bind *:$HAPROXY_PORT
-         bind *:5984
+         bind *:80
          default_backend couchdbs
 
 backend couchdbs
         option httpchk GET /_up
         http-check disable-on-404
-        <<server couchdb{node_idx} 127.0.0.1:{port} check inter 5s>>
+        server couchdb1 127.0.0.1:5984 check inter 5s
