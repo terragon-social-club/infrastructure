@@ -16,4 +16,4 @@
         default_backend servers
 
     backend servers
-        server couchdb1 {{ grains['couchdb_ip_addresses'][0] }}:5984 maxconn 1000
+        server couchdb1 {{ grains['couchdb_ip_addresses']:0 }}:5984 maxconn 1000
