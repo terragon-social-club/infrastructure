@@ -155,11 +155,11 @@ resource "digitalocean_firewall" "couchdb_to_couchdb" {
 
 # Round robin dns for haproxy instances
 resource "digitalocean_record" "couchdb_frontend" {
-  count = length(module.HAProxy.salt_minion_public_ip_addresses)
+  count = length(module.HAProxyCouchDB.salt_minion_public_ip_addresses)
   domain = "terragon.us"
   type = "A"
   name = "couchdb"
-  value = module.HAProxy.salt_minion_public_ip_addresses[count.index]
+  value = module.HAProxyCouchDB.salt_minion_public_ip_addresses[count.index]
 }
 
 module "NodeJSApi" {
