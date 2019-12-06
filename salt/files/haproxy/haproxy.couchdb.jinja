@@ -3,7 +3,7 @@
     # single server "server1" listening on 127.0.0.1:8000
     global
         daemon
-        maxconn 256
+        maxconn 1000
 
     defaults
         mode http
@@ -14,6 +14,7 @@
     frontend http-in
         bind *:80
         bind *:443 ssl crt /usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem
+        redirect scheme https if !{ ssl_fc }
         default_backend servers
         http-request deny if { path -i -m beg /_utils }
         http-request deny if { path -i -m beg /_active_tasks }
@@ -30,5 +31,5 @@
         http-request deny if { path -i -m beg /favicon }
 
     backend servers
-        server couchdb1 {{ grains['couchdb_ip_addresses'] | traverse('0', 'default') }}:5984 maxconn 1000
+        server couchdb1 {{ grains['couchdb_ip_addresses'] | traverse('0', 'default') }}:5984 maxconn 250
         
