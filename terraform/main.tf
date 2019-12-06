@@ -116,8 +116,8 @@ resource "digitalocean_firewall" "haproxy_to_couch" {
 }
 
 resource "digitalocean_firewall" "world_to_haproxy" {
-  name="World-To-HProxy"
-  droplet_ids = module.HProxy.droplet_ids
+  name="World-To-HAProxy"
+  droplet_ids = module.HAProxy.droplet_ids
 
   inbound_rule {
     protocol = "tcp"
