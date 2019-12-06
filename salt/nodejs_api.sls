@@ -1,11 +1,11 @@
 include:
-  - apache
+  - haproxy
 
 extend:
-  apache24:
+  haproxy:
     service.running:
       - watch:
-        - file: /usr/local/etc/apache24/httpd.conf
+        - file: /usr/local/etc/haproxy.conf
 
 www/npm:
   pkg.installed: []
@@ -51,9 +51,10 @@ pm2_root:
     - source: salt:///files/nodejs_api/pm2.process.yml
     - template: jinja
 
-/usr/local/etc/apache24/httpd.conf:
+/usr/local/etc/haproxy.conf:
   file.managed:
-    - source: salt:///files/apache/http.pm2.jinja.conf
+    - source: salt:///files/haproxy/haproxy.pm2.jinja
     - template: jinja
     - require:
-      - pkg: apache24
+      - pkg: haproxy
+      

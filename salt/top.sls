@@ -15,5 +15,5 @@ base:
 
   'nodejs-api*':
     - letsencrypt
-    - apache
+    - haproxy
     - nodejs_api

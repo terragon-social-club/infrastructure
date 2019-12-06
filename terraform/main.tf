@@ -65,7 +65,7 @@ module "Salt_Master" {
 
 module "CouchDB" {
   source = "./modules/salt-minion"
-  node_count = 1
+  node_count = 2
   provision = true
   name = "couchdb"
   size = "s-2vcpu-2gb"

@@ -1,3 +1,9 @@
+extend:
+  haproxy:
+    service.running:
+      - watch:
+        - file: /usr/local/etc/haproxy.conf
+
 couchdb2:
   pkg.installed: []
   service.running:
@@ -37,3 +43,10 @@ couchdb2:
     - require:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
+
+/usr/local/etc/haproxy.conf:
+  file.managed:
+    - source: salt:///files/haproxy/haproxy.couchdb.jinja
+    - template: jinja
+    - require:
+      - pkg: haproxy
