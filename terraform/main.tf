@@ -162,7 +162,7 @@ resource "digitalocean_record" "couchdb_frontend" {
   value = module.HAProxyCouchDB.salt_minion_public_ip_addresses[count.index]
 }
 
-module "NodeJSApi" {
+module "NodeJSAPI" {
   source = "./modules/salt-minion"
   node_count = 0
   provision = false
@@ -206,7 +206,7 @@ module "HAProxyNodeJSAPI" {
 
 resource "digitalocean_firewall" "nodejsapihaproxy_to_nodejsapi" {
   name="NodeJSAPI-HAProxy-To-NodeJSApi"
-  droplet_ids = module.NodeJSApi.droplet_ids
+  droplet_ids = module.NodeJSAPI.droplet_ids
 
   inbound_rule {
     protocol = "tcp"
@@ -242,7 +242,7 @@ resource "digitalocean_firewall" "nodejsapi_to_couchdb" {
   inbound_rule {
     protocol = "tcp"
     port_range = "5984"
-    source_addresses = module.NodeJSApi.salt_minion_private_ip_addresses
+    source_addresses = module.NodeJSAPI.salt_minion_private_ip_addresses
   }
   
 }
