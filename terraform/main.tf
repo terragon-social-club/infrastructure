@@ -48,8 +48,8 @@ module "Firewalls" {
   salt_master_droplet_id = "${module.Salt_Master.droplet_id}"
   salt_master_private_ip_address = "${module.Salt_Master.private_ip_address}"
   salt_master_public_ip_address = "${module.Salt_Master.public_ip_address}"
-  salt_minion_droplet_ids = concat(module.CouchDB.droplet_ids, module.HAProxy.droplet_ids)
-  salt_minion_private_ips = concat(module.CouchDB.salt_minion_private_ip_addresses, module.HAProxy.salt_minion_private_ip_addresses)
+  salt_minion_droplet_ids = concat(module.CouchDB.droplet_ids, module.HAProxyCouchDB.droplet_ids, module.NodeJSAPI.droplet_ids, module.HAProxyNodeJSAPI.droplet_ids)
+  salt_minion_private_ips = concat(module.CouchDB.salt_minion_private_ip_addresses, module.HAProxyCouchDB.salt_minion_private_ip_addresses, module.NodeJSAPI.salt_minion_private_ip_addresses, module.HAProxyNodeJSAPI.salt_minion_private_ip_addresses)
 }
 
 module "Salt_Master" {
@@ -111,14 +111,14 @@ resource "digitalocean_firewall" "haproxy_to_couch" {
   inbound_rule {
     protocol = "tcp"
     port_range = "5984"
-    source_addresses = module.HAProxy.salt_minion_private_ip_addresses
+    source_addresses = module.HAProxyCouchDB.salt_minion_private_ip_addresses
   }
   
 }
 
 resource "digitalocean_firewall" "world_to_haproxy" {
   name="World-To-HAProxy"
-  droplet_ids = module.HAProxy.droplet_ids
+  droplet_ids = module.HAProxyCouchDB.droplet_ids
 
   inbound_rule {
     protocol = "tcp"
