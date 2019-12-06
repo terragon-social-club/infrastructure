@@ -8,5 +8,6 @@ haproxy:
 /usr/local/etc/haproxy.conf:
   file.managed:
     - source: salt:///files/haproxy/haproxy.couchdb.jinja
+    - template: jinja
     - require:
       - pkg: haproxy
