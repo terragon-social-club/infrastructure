@@ -65,8 +65,8 @@ module "Salt_Master" {
 
 module "CouchDB" {
   source = "./modules/salt-minion"
-  node_count = 2
-  provision = true
+  node_count = 0
+  provision = false
   name = "couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
@@ -84,8 +84,8 @@ module "CouchDB" {
 
 module "HAProxy" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "haproxy-couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
@@ -164,7 +164,7 @@ resource "digitalocean_record" "couchdb_frontend" {
 
 module "NodeJSApi" {
   source = "./modules/salt-minion"
-  node_count = 1
+  node_count = 0
   provision = false
   
   name = "nodejs-api"
@@ -184,8 +184,8 @@ module "NodeJSApi" {
 
 module "NodeJSAPIHAProxy" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "haproxy-nodejsapi"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
