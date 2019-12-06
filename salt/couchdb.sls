@@ -17,6 +17,7 @@ couchdb2:
 /usr/local/etc/couchdb2/local.d/custom.ini:
   file.managed:
     - source: salt:///files/couchdb/local.jinja.ini
+    - template: jinja
     - user: couchdb
     - group: couchdb
     - require:
