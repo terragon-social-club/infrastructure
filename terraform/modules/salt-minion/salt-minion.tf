@@ -36,6 +36,10 @@ variable "size" {
   default = "512mb"
 }
 
+variable "couchdb_ip_addresses" {
+  default = []
+}
+
 resource "digitalocean_droplet" "salt_minion" {
   count = var.node_count
   private_networking = true
@@ -148,7 +152,7 @@ resource "null_resource" "configure_firewalled_minion" {
   }
   
   provisioner "file" {
-    content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${var.name}-${var.alpha[count.index]}.terragon.us\nprivate_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)}\npublic_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address, count.index)}"
+    content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${var.name}-${var.alpha[count.index]}.terragon.us\nprivate_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)}\npublic_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address, count.index)}\ncouchdb_ip_addresses: ${var.couchdb_ip_addresses}"
     destination = "/usr/local/etc/salt/grains"
   }
 
