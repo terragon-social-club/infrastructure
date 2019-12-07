@@ -18,6 +18,8 @@
         default_backend servers
 
     backend servers
+        mode http
+        balance roundrobin
         {% for address in grains['nodejsapi_ip_addresses'] %}
-        server express{{ loop.index }} {{ address }}:3000 maxconn 500
+        server express{{ loop.index }} {{ address }}:3000 check
         {% endfor %}
