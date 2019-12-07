@@ -19,5 +19,5 @@
 
     backend servers
         {% for address in grains['nodejsapi_ip_addresses'] %}
-        server couchdb{{ loop.index }} {{ address }}:3000 maxconn 500
+        server express{{ loop.index }} {{ address }}:3000 maxconn 500
         {% endfor %}

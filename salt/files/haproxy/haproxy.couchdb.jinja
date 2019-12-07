@@ -32,5 +32,5 @@
 
     backend servers
         {% for address in grains['couchdb_ip_addresses'] %}
-        server couchdb1 {{ address }}:5984 maxconn 500
+        server couchdb1{{ loop.index }} {{ address }}:5984 maxconn 500
         {% endfor %}
