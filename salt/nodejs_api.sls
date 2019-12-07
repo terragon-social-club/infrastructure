@@ -31,11 +31,11 @@ pm2_root:
   service.running:
     - enable: True
     - watch:
-      - npm: "@terragon/api@1.5.13"
+      - npm: "@terragon/api@1.5.14"
     - require:
       - cmd: pm2 startup
 
-"@terragon/api@1.5.13":
+"@terragon/api@1.5.14":
   npm.installed:
     - require:
       - pkg: www/npm
