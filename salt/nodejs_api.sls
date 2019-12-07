@@ -4,7 +4,7 @@ libnghttp2:
 
 pkg install -y libnghttp2:
   cmd.run:
-    - unless: npm
+    - unless: npm version
   
 www/npm:
   pkg.installed:
