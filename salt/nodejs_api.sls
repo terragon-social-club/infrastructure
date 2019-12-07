@@ -1,11 +1,11 @@
-"libnghttp2-1.39.2":
+"libnghttp2":
   pkg.installed:
     - refresh_db: True
 
 www/npm:
   pkg.installed:
     - require:
-      - pkg: "libnghttp2-1.39.2"
+      - pkg: "libnghttp2"
 
 pm2:
   npm.installed:
