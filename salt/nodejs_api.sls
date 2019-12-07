@@ -35,9 +35,8 @@ pm2_root:
     - require:
       - cmd: pm2 startup
 
-"@terragon/api":
+"@terragon/api@1.5.13":
   npm.installed:
-    - force_reinstall: True
     - require:
       - pkg: www/npm
 
