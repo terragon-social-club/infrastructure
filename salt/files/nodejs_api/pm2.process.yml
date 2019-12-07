@@ -7,3 +7,5 @@ apps:
       COUCH_USER: {{ grains['couch_user'] }}
       COUCH_PASS: {{ grains['couch_pass'] }}
       STRIPE_KEY: {{ grains['stripe_api_key'] }}
+      API_BIND_IP: {{ grains['private_ip_address'] }}
+      
