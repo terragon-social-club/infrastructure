@@ -1,6 +1,8 @@
 libnghttp2:
-  pkg.installed:
+  pkg.downloaded:
     - version: 1.39.2
+  pkg.installed:
+    - version: 
 
 www/npm:
   pkg.installed:
