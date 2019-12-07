@@ -1,6 +1,6 @@
 apps:
   - script: /usr/local/lib/node_modules/@terragon/api/dist/server.js
-    instances: 2
+    instances: 1
     exec_mode: cluster
     name: terragon
     env:
