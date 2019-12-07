@@ -31,7 +31,7 @@ pm2_root:
   service.running:
     - enable: True
     - watch:
-      - npm: "@terragon/api"
+      - npm: "@terragon/api@1.5.13"
     - require:
       - cmd: pm2 startup
 
