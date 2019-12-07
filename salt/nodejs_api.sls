@@ -34,6 +34,7 @@ pm2 start /usr/local/etc/process.yml:
     - require:
       - npm: pm2
       - npm: "@terragon/api@1.5.14"
+      - file: /usr/local/etc/process.yml
         
 pm2_root:
   service.running:
