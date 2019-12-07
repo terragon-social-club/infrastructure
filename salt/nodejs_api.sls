@@ -1,10 +1,14 @@
 www/npm:
   pkg.installed: []
 
+libnghttp2:
+  pkg.installed: []
+
 pm2:
   npm.installed:
     - require:
       - pkg: www/npm
+      - pkg: libnghttp2
 
 pm2 startup:
   cmd.run:
