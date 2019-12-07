@@ -56,6 +56,10 @@ variable "couch_pass" {
   default = ""
 }
 
+variable "stripe_api_key" {
+  default = ""
+}
+
 resource "digitalocean_droplet" "salt_minion" {
   count = var.node_count
   private_networking = true
@@ -168,7 +172,7 @@ resource "null_resource" "configure_firewalled_minion" {
   }
   
   provisioner "file" {
-    content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${length(var.custom_fqdn) > 0 ? var.custom_fqdn : "${var.name}-${var.alpha[count.index]}"}.terragon.us\nprivate_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)}\npublic_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address, count.index)}\ncouchdb_ip_addresses: [${join(",", [for address in var.couchdb_ip_addresses : "'${address}'"])}]\nnodejsapi_ip_addresses: [${join(",", [for address in var.nodejsapi_ip_addresses : "'${address}'"])}]\ncouch_user: ${var.couch_user}\ncouch_pass: ${var.couch_pass}\n"
+    content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${length(var.custom_fqdn) > 0 ? var.custom_fqdn : "${var.name}-${var.alpha[count.index]}"}.terragon.us\nprivate_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)}\npublic_ip_address: ${element(digitalocean_droplet.salt_minion.*.ipv4_address, count.index)}\ncouchdb_ip_addresses: [${join(",", [for address in var.couchdb_ip_addresses : "'${address}'"])}]\nnodejsapi_ip_addresses: [${join(",", [for address in var.nodejsapi_ip_addresses : "'${address}'"])}]\ncouch_user: ${var.couch_user}\ncouch_pass: ${var.couch_pass}\nstripe_api_key: ${var.stripe_api_key}\n"
     destination = "/usr/local/etc/salt/grains"
   }
 
