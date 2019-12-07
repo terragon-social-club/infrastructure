@@ -27,14 +27,14 @@ pm2 start /usr/local/etc/process.yml:
     - unless: pm2 describe terragon
     - require:
       - npm: pm2
+      - npm: "@terragon/api@1.5.14"
         
 pm2_root:
   service.running:
     - enable: True
-    - watch:
-      - npm: "@terragon/api@1.5.14"
     - require:
       - cmd: pm2 startup
+      
 
 "@terragon/api@1.5.14":
   npm.installed:
