@@ -1,5 +1,6 @@
 "libnghttp2-1.39.2":
-  pkg.installed: []
+  pkg.installed:
+    - refresh_db: True
 
 www/npm:
   pkg.installed:
