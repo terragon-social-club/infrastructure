@@ -1,4 +1,4 @@
-"libnghttp2":
+libnghttp2:
   pkg.installed:
     - refresh_db: True
 
@@ -7,7 +7,7 @@ www/npm:
     - require:
       - pkg: "libnghttp2"
 
-"@terragon/api@1.5.17":
+"@terragon/api@1.5.18":
   npm.installed:
     - require:
       - pkg: www/npm
@@ -33,7 +33,7 @@ pm2 start /usr/local/etc/process.yml:
     - unless: pm2 describe terragon
     - require:
       - npm: pm2
-      - npm: "@terragon/api@1.5.17"
+      - npm: "@terragon/api@1.5.18"
       - file: /usr/local/etc/process.yml
         
 pm2_root:
