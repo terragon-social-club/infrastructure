@@ -208,8 +208,8 @@ resource "digitalocean_record" "couchdb_frontend" {
 
 module "NodeJSAPI" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   
   name = "nodejs-api"
   size = "s-2vcpu-2gb"
@@ -227,12 +227,13 @@ module "NodeJSAPI" {
   couch_user = random_password.couch_user.result
   couch_pass = random_password.couch_pass.result
   stripe_api_key = var.stripe_api_key
+  couchdb_ip_addresses = module.CouchDB.salt_minion_private_ip_addresses
 }
 
 module "HAProxyNodeJSAPI" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "haproxy-nodejsapi"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
