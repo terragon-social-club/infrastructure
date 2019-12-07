@@ -9,7 +9,7 @@ base:
   'couchdb*':
     - couchdb
 
-  'pm2-nodejs-api*':
+  'nodejs-api*':
     - nodejs_api
 
   'haproxy-couchdb*':
