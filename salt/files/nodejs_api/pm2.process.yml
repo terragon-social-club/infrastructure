@@ -6,7 +6,7 @@ apps:
     env:
       COUCH_USER: {{ grains['couch_user'] }}
       COUCH_PASS: {{ grains['couch_pass'] }}
-      COUCH_ADDRESSES: [{% for address in grains['couchdb_ip_addresses'] %}"{{ address }}"{% if loop.counter != grains['couchdb_ip_addresses']|length %},{% endif %}{% endfor %}]
+      COUCH_ADDRESSES: [{% for address in grains['couchdb_ip_addresses'] %}"{{ address }}"{% if loop.index != grains['couchdb_ip_addresses']|length %},{% endif %}{% endfor %}]
       STRIPE_KEY: {{ grains['stripe_api_key'] }}
       API_BIND_IP: {{ grains['private_ip_address'] }}
       
