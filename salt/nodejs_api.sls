@@ -1,10 +1,10 @@
-libnghttp2:
+libnghttp2-1.39.2:
   pkg.installed: []
 
 www/npm:
   pkg.installed:
     - require:
-      - pkg: libnghttp2
+      - pkg: libnghttp2-1.39.2
 
 pm2:
   npm.installed:
