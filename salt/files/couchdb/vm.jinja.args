@@ -26,7 +26,7 @@
 #
 # Multiple CouchDBs running on the same machine can use couchdb1@, couchdb2@,
 # etc.
--name couchdb@{{grains['private_ip_address']}}
+-name couchdb@{{ grains['private_ip_address'] }}
 
 # All nodes must share the same magic cookie for distributed Erlang to work.
 # Comment out this line if you synchronized the cookies by other means (using

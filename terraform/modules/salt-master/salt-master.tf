@@ -163,13 +163,13 @@ resource "null_resource" "master_prep" {
   provisioner "remote-exec" {
     inline = [
       "service salt_master start",
-      "sleep 60",
+      "sleep 30",
       "service salt_minion start",
-      "sleep 60",
+      "sleep 30",
       "salt-run fileserver.update",
       "sleep 10",
       "salt-call state.apply",
-      "sleep 5"
+      "sleep 10"
     ]
     
   }

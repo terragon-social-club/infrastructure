@@ -11,7 +11,7 @@ pm2:
   npm.installed:
     - require:
       - pkg: www/npm
-      
+
 pm2 startup:
   cmd.run:
     - runas: root
