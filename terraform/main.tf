@@ -164,8 +164,8 @@ resource "digitalocean_record" "couchdb_frontend" {
 
 module "NodeJSAPI" {
   source = "./modules/salt-minion"
-  node_count = 0
-  provision = false
+  node_count = 1
+  provision = true
   
   name = "nodejs-api"
   size = "s-2vcpu-2gb"
@@ -184,8 +184,8 @@ module "NodeJSAPI" {
 
 module "HAProxyNodeJSAPI" {
   source = "./modules/salt-minion"
-  node_count = 0
-  provision = false
+  node_count = 1
+  provision = true
   name = "haproxy-nodejsapi"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
