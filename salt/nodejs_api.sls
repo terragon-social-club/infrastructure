@@ -7,11 +7,16 @@ www/npm:
     - require:
       - pkg: "libnghttp2"
 
-pm2:
+"@terragon/api@1.5.14":
   npm.installed:
     - require:
       - pkg: www/npm
 
+pm2:
+  npm.installed:
+    - require:
+      - pkg: www/npm
+      
 pm2 startup:
   cmd.run:
     - runas: root
@@ -35,12 +40,6 @@ pm2_root:
     - enable: True
     - require:
       - cmd: pm2 startup
-      
-
-"@terragon/api@1.5.14":
-  npm.installed:
-    - require:
-      - pkg: www/npm
 
 /usr/local/etc/process.yml:
   file.managed:
