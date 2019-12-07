@@ -16,6 +16,6 @@ base:
     - letsencrypt
     - haproxy.couchdb
 
-  'haproxy-nodejs-api*':
+  'haproxy-nodejsapi*':
     - letsencrypt
     - haproxy.pm2
