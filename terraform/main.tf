@@ -204,6 +204,15 @@ module "HAProxyNodeJSAPI" {
   couchdb_ip_addresses = module.CouchDB.salt_minion_private_ip_addresses
 }
 
+# Round robin dns for haproxy instances
+resource "digitalocean_record" "nodejsapi_frontend" {
+  count = length(module.HAProxyNodeJSAPI.salt_minion_public_ip_addresses)
+  domain = "terragon.us"
+  type = "A"
+  name = "api"
+  value = module.HAProxyNodeJSAPI.salt_minion_public_ip_addresses[count.index]
+}
+
 resource "digitalocean_firewall" "nodejsapihaproxy_to_nodejsapi" {
   name="NodeJSAPI-HAProxy-To-NodeJSApi"
   droplet_ids = module.NodeJSAPI.droplet_ids
