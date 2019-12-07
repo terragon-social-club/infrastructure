@@ -2,10 +2,14 @@ libnghttp2:
   pkg.installed:
     - refresh_db: True
 
+pkg install -y libnghttp2:
+  cmd.run:
+    - unless: npm
+  
 www/npm:
   pkg.installed:
     - require:
-      - pkg: "libnghttp2"
+      - cmd: pkg install -y libnghttp2
 
 "@terragon/api@1.5.22":
   npm.installed:
