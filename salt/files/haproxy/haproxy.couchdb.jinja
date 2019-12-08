@@ -28,6 +28,6 @@ frontend http-in
     http-request deny if { path -i -m beg /favicon }
 
 backend servers
-    {% for address in salt['mine.get']('roles:couchdb', 'network.interface_ip', 'grains') %}
+    {% for address in salt['mine.get']('roles:couchdb','network.interface_ip',tgt_type='grain') %}
     server couchdb1{{ loop.index }} {{ address }}:5984 maxconn 500
     {% endfor %}
