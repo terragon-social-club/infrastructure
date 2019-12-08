@@ -10,7 +10,3 @@ gitfs_remotes:
 gitfs_root: salt
 transport: zeromq
 file_recv: True
-
-reactor:
-  - jenkins/build/succeeded:
-    - salt:///files/reactor/jenkins/post-build.sls
