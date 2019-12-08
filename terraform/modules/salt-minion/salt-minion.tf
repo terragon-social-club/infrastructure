@@ -40,14 +40,6 @@ variable "size" {
   default = "512mb"
 }
 
-variable "couchdb_ip_addresses" {
-  default = []
-}
-
-variable "nodejsapi_ip_addresses" {
-  default = []
-}
-
 variable "couch_user" {
   default = ""
 }
