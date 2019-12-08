@@ -20,6 +20,7 @@
     backend servers
         mode http
         balance roundrobin
-        {% for address in grains['nodejsapi_ip_addresses'] %}
+        {% for address in salt.saltutil.runner('mine.get', tgt='roles:pm2-nodejs-api', tgt_type='grain', fun='network.interface_ip') %}
         server express{{ loop.index }} {{ address }}:3000 check
         {% endfor %}
+        
