@@ -6,8 +6,8 @@ ipfw:
 
 /etc/rc.conf:
   file.append:
-    - text: firewall_enable="YES"
     - text: firewall_script="/usr/local/etc/ipfw.rules"
+    - text: firewall_enable="YES"
 
 /usr/local/etc/ipfw.rules:
   file.managed:
