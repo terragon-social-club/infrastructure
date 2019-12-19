@@ -3,6 +3,7 @@ base:
     - eastern_standard_time
     - security
     - fail2ban
+    - fastboot
 
   'saltm':
     - master
