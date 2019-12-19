@@ -36,7 +36,6 @@ resource "digitalocean_droplet" "salt_master" {
 }
 
 resource "digitalocean_record" "salt_master" {
-  count = var.provision ? 1 : 0
   domain = var.domain_id
   type = "A"
   name = var.name
@@ -44,7 +43,6 @@ resource "digitalocean_record" "salt_master" {
 }
 
 resource "digitalocean_record" "salt_master_private" {
-  count = var.provision ? 1 : 0
   domain = var.domain_id
   type = "A"
   name = "${var.name}.private"
@@ -205,7 +203,7 @@ output "public_ip_address" {
 }
 
 output "fqdn" {
-  value = digitalocean_record.salt_master[0].fqdn
+  value = digitalocean_record.salt_master.fqdn
 }
 
 output "ssh_fingerprint" {
