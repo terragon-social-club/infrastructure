@@ -116,6 +116,7 @@ resource "null_resource" "master_prep" {
 
   provisioner "remote-exec" {
     inline = [
+      "pkg install -y ca_root_nss py36-salt",
       "fetch -o /tmp/bootstrap-salt.sh https://bootstrap.saltstack.com",
       "env sh /tmp/bootstrap-salt.sh -x python3 -X -M -A ${digitalocean_droplet.salt_master.ipv4_address_private} -i ${var.name}",
       "mkdir -p /usr/local/etc/salt/master.d"

@@ -156,6 +156,7 @@ resource "null_resource" "configure_firewalled_minion" {
 
   provisioner "remote-exec" {
     inline = [
+      "pkg install -y ca_root_nss py36-salt",
       "fetch -o /tmp/bootstrap-salt.sh https://bootstrap.saltstack.com",
       "sh /tmp/bootstrap-salt.sh -P -X -A ${var.salt_master_private_ip_address} -i ${var.name}-${var.alpha[count.index]}",
       "mkdir -p /usr/local/etc/salt/pki/minion"
