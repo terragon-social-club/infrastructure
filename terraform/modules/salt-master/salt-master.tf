@@ -205,11 +205,11 @@ output "public_ip_address" {
 }
 
 output "fqdn" {
-  value = digitalocean_record.salt_master[0].fqdn
+  value = digitalocean_record.salt_master.fqdn
 }
 
 output "ssh_fingerprint" {
-  value = digitalocean_ssh_key.salt_master[0].fingerprint
+  value = digitalocean_ssh_key.salt_master.fingerprint
 }
 
 output "droplet_id" {
