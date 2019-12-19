@@ -24,7 +24,7 @@ resource "digitalocean_droplet" "salt_master" {
   backups = false
   region = var.region
   image = var.image
-  name = "${var.name}.terragon.us"
+  name = "${var.name}.private.terragon.us"
   size = var.size
   ssh_keys = var.keys
   ipv6 = false
