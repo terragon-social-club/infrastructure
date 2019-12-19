@@ -2,6 +2,7 @@ ipfw:
   service.running: []
   require:
     - file: /etc/rc.conf
+    - file: /usr/local/etc/ipfw.rules
 
 /etc/rc.conf:
   file.append:
@@ -12,5 +13,3 @@ ipfw:
   file.managed:
     - source: salt:///files/ipfw/base.rules
     - template: jinja
-    - require:
-      - service: ipfw
