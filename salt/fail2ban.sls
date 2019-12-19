@@ -1,3 +1,6 @@
+include:
+  - ipfw
+
 py36-fail2ban:
   pkg.installed
 
