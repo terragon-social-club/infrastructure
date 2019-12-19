@@ -168,8 +168,7 @@ resource "null_resource" "master_prep" {
       "sleep 30",
       "salt-run fileserver.update",
       "sleep 10",
-      "salt-call state.apply",
-      "sleep 10"
+      "salt-call state.apply"
     ]
     
   }
