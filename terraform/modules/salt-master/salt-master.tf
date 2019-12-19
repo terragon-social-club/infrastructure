@@ -117,11 +117,13 @@ resource "null_resource" "master_prep" {
   provisioner "remote-exec" {
     inline = [
       "pkg install -y ca_root_nss py36-salt",
-      "fetch -o /tmp/bootstrap-salt.sh https://bootstrap.saltstack.com",
-      "env sh /tmp/bootstrap-salt.sh -x python3 -X -M -A ${digitalocean_droplet.salt_master.ipv4_address_private} -i ${var.name}",
-      "mkdir -p /usr/local/etc/salt/master.d"
     ]
     
+  }
+
+  provisioner "file" {
+    content = data.template_file.master_address.rendered
+    destination = "/usr/local/etc/salt/minion.d/99-master-address.conf"
   }
 
   provisioner "file" {
@@ -132,6 +134,11 @@ resource "null_resource" "master_prep" {
   provisioner "file" {
     source = "${path.module}/../98-minion-config.conf"
     destination = "/usr/local/etc/salt/minion.d/98-minion-config.conf"
+  }
+
+  provisioner "file" {
+    content = data.template_file.minion_id.rendered
+    destination = "/usr/local/etc/salt/minion_id"
   }
 
   provisioner "remote-exec" {
@@ -161,6 +168,11 @@ resource "null_resource" "master_prep" {
     destination = "/root/.ssh/id_rsa"
   }
 
+  provisioner "file" {
+    content = data.template_file.minion_id.rendered
+    destination = "/usr/local/etc/salt/minion_id"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "service salt_master start",
@@ -178,6 +190,22 @@ data "template_file" "grains" {
   vars = {
     roles = "- master"
     fqdn = "${var.name}.terragon.us"
+  }
+  
+}
+
+data "template_file" "master_address" {
+  template = file("${path.module}/../99-master-address.conf.tpl")
+  vars = {
+    private_ip = digitalocean_droplet.salt_master.ipv4_address_private
+  }
+  
+}
+
+data "template_file" "minion_id" {
+  template = file("${path.module}/../minion_id.tpl")
+  vars = {
+    minion_id = var.name
   }
   
 }

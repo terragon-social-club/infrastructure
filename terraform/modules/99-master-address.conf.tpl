@@ -1,0 +1,1 @@
+master: ${private_ip}
