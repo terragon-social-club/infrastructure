@@ -205,7 +205,7 @@ output "public_ip_address" {
 }
 
 output "fqdn" {
-  value = digitalocean_record.salt_master.fqdn
+  value = digitalocean_record.salt_master[0].fqdn
 }
 
 output "ssh_fingerprint" {
