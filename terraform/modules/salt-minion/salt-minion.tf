@@ -58,7 +58,7 @@ resource "digitalocean_droplet" "salt_minion" {
   backups = false
   region = var.region
   image = var.image
-  name = "${var.name}-${var.alpha[count.index]}"
+  name = "${var.name}-${var.alpha[count.index]}.terragon.us"
   size = var.size
   ssh_keys = var.keys
   ipv6 = false
