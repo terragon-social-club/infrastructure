@@ -1,9 +1,9 @@
 base:
   '*':
-    - eastern_standard_time
     - security
-    - fail2ban
     - fastboot
+    - eastern_standard_time
+    - fail2ban
 
   'saltm':
     - master

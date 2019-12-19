@@ -1,9 +1,3 @@
-ipfw:
-  service.running: []
-  require:
-    - file: /etc/rc.conf
-    - file: /usr/local/etc/ipfw.rules
-
 /etc/rc.conf:
   file.append:
     - text: firewall_script="/usr/local/etc/ipfw.rules"
