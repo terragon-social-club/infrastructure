@@ -2,7 +2,7 @@ import sys, json, os, subprocess
 data = json.load(sys.stdin)
 data['uuids'] = ["dedd"]
 
-text_file = open("./key", "w")
+text_file = open("./key", "w+")
 n = text_file.write(data['private_key'])
 text_file.close()
 
