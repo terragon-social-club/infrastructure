@@ -1,3 +1,3 @@
 salt_minion:
   service.running:
-    - enabled: True
+    - enable: True
