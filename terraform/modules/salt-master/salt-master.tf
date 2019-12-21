@@ -177,8 +177,8 @@ resource "null_resource" "master_prep" {
 
   provisioner "remote-exec" {
     inline = [
-      "service salt_master start",
-      "service salt_minion start",
+      "service salt_master onestart",
+      "service salt_minion onestart",
       "salt-run fileserver.update",
       "salt-call state.apply"
     ]
