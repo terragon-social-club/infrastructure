@@ -6,7 +6,7 @@ text_file = open("./key", "w+")
 n = text_file.write(data['private_key'])
 text_file.close()
 
-subprocess.call(['chmod', '0600', './key'])
+#subprocess.call(['chmod', '0600', './key'])
 
 d = json.loads(subprocess.check_output(['ssh', '-i ./key', "root@" + data['master_public_ip'] + " \"ssh -o StrictHostKeyChecking=no " + data['couch_private_ip'] + " curl -s 'http://" + data['couch_private_ip'] + ":5984/_uuids/\?count=1'\""]))
 print("{\"uuid\": \"" + d['uuids'][0] + "\"}")
