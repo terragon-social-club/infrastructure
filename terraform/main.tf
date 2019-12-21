@@ -159,7 +159,7 @@ data "external" "generate_couchdb_uuid" {
 data "template_file" "couchdb_uuid" {
   template = file("${path.module}/uuid.ini")
   vars = {
-    uuid = data.external.generate_couchdb_uuid.result.uuids
+    uuid = data.external.generate_couchdb_uuid.result.uuid
   }
   
 }
