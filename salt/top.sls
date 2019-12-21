@@ -4,6 +4,7 @@ base:
     - fastboot
     - eastern_standard_time
     - fail2ban
+    - minion
 
   'saltm':
     - master
