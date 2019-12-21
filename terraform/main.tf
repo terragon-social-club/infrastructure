@@ -149,7 +149,7 @@ resource "null_resource" "couch_cluster_uuid" {
 }
 
 data "external" "generate_couchdb_uuid" {
-  program = ["sh", "${path.module}/generate_couchdb_uuid.sh"]
+  program = ["python", "${path.module}/generate_couchdb_uuid.py"]
 
   query = {
     master_public_ip = module.Salt_Master.public_ip_address
