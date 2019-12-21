@@ -108,7 +108,7 @@ resource "random_password" "couch_pass" {
 module "CouchDB" {
   source = "./modules/salt-minion"
   node_count = 1
-  provision = false
+  provision = true
   name = "couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
