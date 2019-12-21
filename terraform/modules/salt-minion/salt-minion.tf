@@ -157,16 +157,24 @@ resource "null_resource" "configure_firewalled_minion" {
   provisioner "remote-exec" {
     inline = [
       "pkg install -y ca_root_nss py36-salt",
-      "fetch -o /tmp/bootstrap-salt.sh https://bootstrap.saltstack.com",
-      "sh /tmp/bootstrap-salt.sh -P -X -A ${var.salt_master_private_ip_address} -i ${var.name}-${var.alpha[count.index]}",
       "mkdir -p /usr/local/etc/salt/pki/minion"
     ]
     
   }
   
   provisioner "file" {
+    content = data.template_file.master_address.rendered
+    destination = "/usr/local/etc/salt/minion.d/99-master-address.conf"
+  }
+  
+  provisioner "file" {
     content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${length(var.custom_fqdn) > 0 ? var.custom_fqdn : "${var.name}-${var.alpha[count.index]}"}.terragon.us\ncouch_user: ${var.couch_user}\ncouch_pass: ${var.couch_pass}\nstripe_api_key: ${var.stripe_api_key}\n"
     destination = "/usr/local/etc/salt/grains"
+  }
+
+  provisioner "file" {
+    content = "${var.name}-${var.alpha[count.index]}"
+    destination = "/usr/local/etc/salt/minion_id"
   }
 
   provisioner "file" {
@@ -232,7 +240,7 @@ resource "null_resource" "start_minion" {
   
   provisioner "remote-exec" {
     inline = [
-      "service salt_minion start"
+      "service salt_minion onestart"
     ]
     
   }
@@ -253,6 +261,14 @@ resource "digitalocean_record" "salt_minion_private" {
   type = "A"
   name = "${var.name}-${var.alpha[count.index]}.private"
   value = element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)
+}
+
+data "template_file" "master_address" {
+  template = file("${path.module}/../99-master-address.conf.tpl")
+  vars = {
+    private_ip = var.salt_master_private_ip_address
+  }
+  
 }
 
 output "salt_minion_private_ip_addresses" {

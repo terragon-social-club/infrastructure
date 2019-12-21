@@ -107,7 +107,7 @@ resource "random_password" "couch_pass" {
 
 module "CouchDB" {
   source = "./modules/salt-minion"
-  node_count = 0
+  node_count = 1
   provision = false
   name = "couchdb"
   size = "s-2vcpu-2gb"
