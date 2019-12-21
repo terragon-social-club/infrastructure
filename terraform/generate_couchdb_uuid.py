@@ -5,4 +5,4 @@ command = "echo " + data['private_key'] + " | ssh -q -i /dev/stdin root@" + data
 
 stream = os.popen(command)
 output = stream.read()
-output
+print output
