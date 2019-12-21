@@ -138,12 +138,9 @@ resource "null_resource" "couch_cluster_uuid" {
     timeout = "5m"
   }
   
-  provisioner "remote-exec" {
-    inline = [
-      "env ASSUME_ALWAYS_YES=YES pkg install git",
-      "env ASSUME_ALWAYS_YES=YES pkg install devel/py-gitpython"
-    ]
-    
+  provisioner "file" {
+    content = data.template_file.couchdb_uuid.rendered
+    destination = "/usr/local/etc/couchdb2/local.d/uuid.ini"
   }
 
 }
@@ -159,7 +156,7 @@ data "external" "generate_couchdb_uuid" {
 
 }
 
-data "template_file" "master_address" {
+data "template_file" "couchdb_uuid" {
   template = file("${path.module}/uuid.ini")
   vars = {
     uuid = data.external.generate_couchdb_uuid.result.uuids
