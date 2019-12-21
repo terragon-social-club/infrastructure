@@ -1,8 +1,12 @@
-import sys, json, os;
+import sys, json, os
+from subprocess import Popen, PIPE, STDOUT
 data = json.load(sys.stdin)
 
-command = "echo " + data['private_key'] + " | ssh -q -i /dev/stdin root@" + data['master_public_ip'] + "\"ssh " + data['couch_private_ip'] + "\" 'curl -s http://'" + data['couch_private_ip'] + ":5984\?count=1"
+command = "ssh -i /dev/stdin root@" + data['master_public_ip'] + " \"ssh " + data['couch_private_ip'] + " curl -s 'http://" + data['couch_private_ip'] + ":5984/_uuids/\?count=1'\""
 
-stream = os.popen(command)
-output = stream.read()
-print output
+p = Popen([command], shell=True, stdout=PIPE, stdin=PIPE, stderr=PIPE)
+stdout_data = p.communicate(input=data['private_key'])[0]
+
+
+print stdout_data.decode()
+
