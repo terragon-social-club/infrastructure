@@ -1,4 +1,4 @@
-import sys, json, os
+import sys, json, os, subprocess
 from subprocess import Popen, PIPE, STDOUT
 data = json.load(sys.stdin)
 data['uuids'] = ["dedd"]
