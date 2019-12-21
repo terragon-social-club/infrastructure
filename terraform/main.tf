@@ -107,7 +107,7 @@ resource "random_password" "couch_pass" {
 
 module "CouchDB" {
   source = "./modules/salt-minion"
-  node_count = 1
+  node_count = 2
   provision = true
   name = "couchdb"
   size = "s-2vcpu-2gb"
@@ -128,8 +128,8 @@ module "CouchDB" {
 
 module "HAProxyCouchDB" {
   source = "./modules/salt-minion"
-  node_count = 0
-  provision = false
+  node_count = 1
+  provision = true
   name = "haproxy-couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
