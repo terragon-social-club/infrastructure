@@ -7,6 +7,5 @@ command = "ssh -i /dev/stdin root@" + data['master_public_ip'] + " \"ssh " + dat
 p = Popen([command], shell=True, stdout=PIPE, stdin=PIPE, stderr=PIPE)
 stdout_data = p.communicate(input=data['private_key'])[0]
 
-print '{\"mike\": 12}'
+print data
 #print stdout_data.decode()
-
