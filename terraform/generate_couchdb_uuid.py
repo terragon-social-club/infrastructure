@@ -8,4 +8,4 @@ command = "ssh -i /dev/stdin root@" + data['master_public_ip'] + " \"ssh " + dat
 p = Popen([command], shell=True, stdout=PIPE, stdin=PIPE, stderr=PIPE)
 stdout_data = p.communicate(input=data['private_key'])[0]
 
-print json.dumps(json.loads('{"uuids": "something"}'))
+print json.dumps(json.loads('{"uuids": "'+stdout_data+'}"'))
