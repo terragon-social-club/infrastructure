@@ -12,9 +12,6 @@ base:
   'couchdb*':
     - couchdb.base
 
-  'couchdb-a':
-    - couchdb.cluster_master
-
   'nodejs-api*':
     - nodejs_api
 
