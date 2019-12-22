@@ -6,4 +6,4 @@ p = Popen(['ssh', '-i /dev/stdin', "root@" + data['master_public_ip'] + " \"ssh 
 grep_stdout = p.communicate(input=data['private_key'])[0]
 
 #d = json.loads(grep_stdout.decode())
-print("{\"uuid\": \"" + grep_stdout.replace('\r\n', '') + "\"}")
+print("{\"uuid\": \"" + grep_stdout.replace('\n', '').replace('\r', '') + "\"}")
