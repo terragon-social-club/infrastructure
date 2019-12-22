@@ -40,4 +40,4 @@ couchdb2:
 
 mine_functions:
   cmd.run:
-    - curl -s http://${salt['network.interface_ip']('vtnet1')}:5984/_uuids/\?count=1
+    - "curl -s http://${salt['network.interface_ip']('vtnet1')}:5984/_uuids/?count=1"
