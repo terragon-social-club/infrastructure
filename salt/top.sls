@@ -10,7 +10,7 @@ base:
     - master
 
   'couchdb*':
-    - couchdb.base
+    - couchdb
 
   'nodejs-api*':
     - nodejs_api
