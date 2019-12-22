@@ -39,4 +39,7 @@ couchdb2:
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
 
 mine_functions:
-  cmd.run: ["curl -s http://{{ salt['network.interface_ip']('vtnet1') }}:5984/_uuids"]
+  uuid:
+    - mine_function: cmd.run
+    - ["curl -s http://{{ salt['network.interface_ip']('vtnet1') }}:5984/_uuids?count=1"]
+
