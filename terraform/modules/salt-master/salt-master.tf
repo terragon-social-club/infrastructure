@@ -178,6 +178,7 @@ resource "null_resource" "master_prep" {
   provisioner "remote-exec" {
     inline = [
       "service salt_master onestart",
+      "sleep 120",
       "service salt_minion onestart"
     ]
     
