@@ -54,4 +54,11 @@ couchdb2:
         - service: couchdb2
 {% endif %}
 {% endfor %}
+"curl -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_cluster_setup -d '{\"action\": \"finish_cluster\"}' > '/root/clustered-finalized'":
+  cmd.run:
+      - creates: /root/clustered-finalized
+      - hide_output: True
+      - output_loglevel: quiet
+      - require:
+        - service: couchdb2
 {% endif %}
