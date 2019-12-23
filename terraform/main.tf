@@ -105,8 +105,8 @@ resource "random_password" "couch_pass" {
 
 module "CouchDB" {
   source = "./modules/salt-minion"
-  node_count = 3
-  provision = true
+  node_count = 0
+  provision = false
   name = "couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
@@ -204,7 +204,7 @@ resource "digitalocean_record" "couchdb_frontend" {
   count = length(module.HAProxyCouchDB.salt_minion_public_ip_addresses)
   domain = "terragon.us"
   type = "A"
-  name = "couchdb"
+  name = "relax"
   value = module.HAProxyCouchDB.salt_minion_public_ip_addresses[count.index]
 }
 
