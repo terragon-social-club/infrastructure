@@ -96,7 +96,7 @@ resource "random_password" "couch_user" {
 }
 
 resource "random_password" "couch_pass" {
-  length = random_integer.couch_admin_user_length.result
+  length = random_integer.couch_admin_password_length.result
   special = false
   upper = true
   lower = true
@@ -105,8 +105,8 @@ resource "random_password" "couch_pass" {
 
 module "CouchDB" {
   source = "./modules/salt-minion"
-  node_count = 2
-  provision = true
+  node_count = 0
+  provision = false
   name = "couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
@@ -126,8 +126,8 @@ module "CouchDB" {
 
 module "HAProxyCouchDB" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "haproxy-couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
