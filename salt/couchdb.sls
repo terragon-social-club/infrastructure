@@ -40,7 +40,7 @@ couchdb2:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
 
-curl -s -X POST -H "Content-Type: application/json" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_cluster_setup -d '{"action":"enable_cluster", "bind_address":"{{ salt['network.interface_ip']('vtnet1') }}", "username":"{{ grains['couch_user'] }}", "password":"{{ grains['couch_pass'] }}", "node_count":"{{ couch_node_count }}"}' > /root/clustered:
+"curl -s -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_cluster_setup -d '{\"action\":\"enable_cluster\", \"bind_address\":\"{{ salt['network.interface_ip']('vtnet1') }}\", \"username\":\"{{ grains['couch_user'] }}\", \"password\":\"{{ grains['couch_pass'] }}\", \"node_count\":\"{{ couch_node_count }}\"}' > /root/clustered":
   cmd.run:
     - creates: "/root/clustered"
     - require:
