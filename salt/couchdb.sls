@@ -45,7 +45,7 @@ couchdb2:
 {% set couchdb_nodes = salt['mine.get']('roles:couchdb', 'network.interface_ip', tgt_type='grain').items() %}
 {% for couchdb_node_private_address in couchdb_nodes %}
 {% if salt['network.interface_ip']('vtnet1') != couchdb_node_private_address[1] %}
-"curl -s -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_cluster_setup -d '{\"action\": \"add_node\", \"host\": \"{{ couchdb_node_private_address }}\", \"port\": 5984, \"username\": \"{{ grains['couch_user'] }}\", \"password\": \"{{ grains['couch_pass'] }}\"}' > '/root/clustered-{{ couchdb_node_private_address[0] }}'":
+"curl -s -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_cluster_setup -d '{\"action\": \"add_node\", \"host\": \"{{ couchdb_node_private_address[1] }}\", \"port\": 5984, \"username\": \"{{ grains['couch_user'] }}\", \"password\": \"{{ grains['couch_pass'] }}\"}' > '/root/clustered-{{ couchdb_node_private_address[0] }}'":
   cmd.run:
       - creates: /root/clustered-{{ couchdb_node_private_address[0] }}
       - hide_output: True
