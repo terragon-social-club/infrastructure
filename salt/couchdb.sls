@@ -1,4 +1,8 @@
-{% set couch_node_count = salt['mine.get']('roles:couchdb', 'network.interface_ip', tgt_type='grain').items()|length %}
+extend:
+  salt_minion:
+    service.running:
+      - watch:
+        - file: /usr/local/etc/salt/minion.d/mine.conf
 
 couchdb2:
   pkg.installed: []
@@ -39,12 +43,6 @@ couchdb2:
     - require:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
-
-extend:
-  salt_minion:
-    service.running:
-      - watch:
-        - file: /usr/local/etc/salt/minion.d/mine.couchdb.conf
 
 /usr/local/etc/salt/minion.d/mine.couchdb.conf:
   file.managed:
