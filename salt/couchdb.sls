@@ -44,7 +44,7 @@ extend:
   salt_minion:
     service.running:
       - watch:
-        - file:
+        - file: /usr/local/etc/salt/minion.d/mine.couchdb.conf
 
 /usr/local/etc/salt/minion.d/mine.couchdb.conf:
   file.managed:
