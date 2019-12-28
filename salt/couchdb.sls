@@ -4,6 +4,11 @@ extend:
       - watch:
         - file: /usr/local/etc/salt/minion.d/mine.conf
 
+/usr/local/etc/salt/minion.d/mine.conf:
+  file.managed:
+    - source: salt:///files/salt/mine/couchdb.jinja.conf
+    - template: jinja
+
 couchdb2:
   pkg.installed: []
   service.running:
@@ -43,8 +48,3 @@ couchdb2:
     - require:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
-
-/usr/local/etc/salt/minion.d/mine.couchdb.conf:
-  file.managed:
-    - source: salt:///files/salt/mine/couchdb.jinja.conf
-    - template: jinja
