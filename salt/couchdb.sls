@@ -39,3 +39,15 @@ couchdb2:
     - require:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
+
+extend:
+  minion:
+    salt_minion:
+      service.running:
+        - watch:
+          - file:
+
+/usr/local/etc/salt/minion.d/mine.couchdb.conf:
+  file.managed:
+    - source: salt:///files/salt/mine/couchdb.jinja.conf
+    - template: jinja
