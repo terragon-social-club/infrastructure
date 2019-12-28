@@ -41,11 +41,10 @@ couchdb2:
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
 
 extend:
-  minion:
-    salt_minion:
-      service.running:
-        - watch:
-          - file:
+  salt_minion:
+    service.running:
+      - watch:
+        - file:
 
 /usr/local/etc/salt/minion.d/mine.couchdb.conf:
   file.managed:
