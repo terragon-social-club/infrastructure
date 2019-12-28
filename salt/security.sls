@@ -1,14 +1,19 @@
-# Disable Sendmail
+# Basic Security
+#
+# 1. Sendmail disabled
+# 2. Firewall enabled
+include:
+  - ipfw
+
 /etc/rc.conf:
   file.append:
-    - text: sendmail_enable="NONE"
-    - text: sendmail_msp_queue_enable="NO"
-    - text: sendmail_outbound_enable="NO"
-    - text: sendmail_submit_enable="NO"
-    - text: firewall_script="/usr/local/etc/ipfw.rules"
-    - text: firewall_enable="NO"
-
-
+    - text:
+      - sendmail_enable="NONE"
+      - sendmail_msp_queue_enable="NO"
+      - sendmail_outbound_enable="NO"
+      - sendmail_submit_enable="NO"
+      - firewall_script="/usr/local/etc/ipfw.rules"
+      - firewall_enable="NO"
 
 # IDS
 #aide:

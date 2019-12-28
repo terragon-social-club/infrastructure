@@ -9,7 +9,8 @@ base:
   'saltm':
     - master
 
-  'couchdb*':
+  'roles:couchdb':
+    - match: grain
     - couchdb
 
   'nodejs-api*':
