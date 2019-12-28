@@ -1,6 +1,11 @@
 # Basic FreeBSD Security
-sendmail:
-  service.disabled
+/etc/rc.conf:
+  file.append:
+    - text: sendmail_enable="NONE"
+    - text: sendmail_msp_queue_enable="NO"
+    - text: sendmail_outbound_enable="NO"
+    - text: sendmail_submit_enable="NO"
+
 
 # IDS
 #aide:
