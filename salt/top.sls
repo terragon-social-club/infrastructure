@@ -9,6 +9,10 @@ base:
   'saltm':
     - master
 
+  'roles:logstash':
+    - match: grain
+    - logstash
+
   'roles:couchdb':
     - match: grain
     - couchdb
