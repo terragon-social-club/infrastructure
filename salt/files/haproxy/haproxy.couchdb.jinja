@@ -15,4 +15,5 @@ frontend http-in
     default_backend servers
 
 backend servers
-    {% for address in salt['mine.get']('roles:couchdb', 'network.interface_ip', tgt_type='grain').items() %}server couchdb{{ loop.index }} {{ address[1] }}:5984 maxconn 500 check on-marked-down shutdown-sessions\r\n{% endfor %}
+    {% for address in salt['mine.get']('roles:couchdb', 'network.interface_ip', tgt_type='grain').items() %}server couchdb{{ loop.index }} {{ address[1] }}:5984 maxconn 500 check on-marked-down shutdown-sessions
+    {% endfor %}
