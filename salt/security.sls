@@ -1,7 +1,5 @@
-# Basic Security
+# Firewall Enabled & Misc Services Disabled
 #
-# 1. Sendmail disabled
-# 2. Firewall enabled
 include:
   - ipfw
 
@@ -14,6 +12,10 @@ include:
       - sendmail_submit_enable="NO"
       - firewall_script="/usr/local/etc/ipfw.rules"
       - firewall_enable="NO"
+
+# Logging
+beats:
+  pkg.installed: []
 
 # IDS
 #aide:
