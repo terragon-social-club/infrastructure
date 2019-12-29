@@ -1,6 +1,11 @@
-"limit descriptors 1048576 && touch /root/.maxfiles-tuned":
+"limit descriptors 65536 && touch /root/.maxfiles-tuned":
   cmd.run:
     - creates: /root/.maxfiles-tuned
+
+/etc/login.conf:
+  file.managed:
+    - source: salt:///files/freebsd/login.jinja.conf
+    - template: jinja
 
 extend:
   /boot/loader.conf:
@@ -8,6 +13,5 @@ extend:
       - require:
         - cmd: "limit descriptors 1048576 && touch /root/.maxfiles-tuned"
       - text:
-        - sysctl kern.maxfilesperproc=1048576
-        - sysctl kern.maxvnodes=1048576
-        - sysctl kern.maxfiles=1048576
+        - sysctl kern.maxfilesperproc=65536
+        - sysctl kern.maxfiles=65536
