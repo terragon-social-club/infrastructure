@@ -18,6 +18,10 @@ base:
     - match: grain
     - elasticsearch
 
+  'roles:kibana':
+    - match: grain
+    - kibana
+
   'roles:couchdb':
     - match: grain
     - couchdb
