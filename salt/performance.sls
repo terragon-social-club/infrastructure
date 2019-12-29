@@ -1,6 +1,6 @@
 sysctl kern.maxfiles=65536 && touch /root/.maxfiles-tuned:
   cmd.run:
-    creates: /root/.maxfiles-tuned
+    - creates: /root/.maxfiles-tuned
 
 /etc/sysctl.conf:
   file.append:
