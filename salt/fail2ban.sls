@@ -10,6 +10,9 @@ py36-fail2ban:
 
 fail2ban:
   service.running:
+    - require: 
+      - pkg: py36-fail2ban
+      - file: /usr/local/etc/fail2ban/jail.d/jail-ssh.conf
     - enable: True
     - watch:
       - file: /usr/local/etc/fail2ban/jail.d/jail-ssh.conf

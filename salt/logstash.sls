@@ -23,6 +23,10 @@ logstash6:
 logstash:
   service.running:
     - enable: True
+    - require:
+      - pkg: logstash6
+      - file: /usr/local/etc/logstash/logstash.yml
+      - file: /usr/local/etc/logstash/logstash.conf
     - watch:
       - file: /usr/local/etc/logstash/logstash.yml
       - file: /usr/local/etc/logstash/logstash.conf
