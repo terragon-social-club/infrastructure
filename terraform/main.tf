@@ -221,6 +221,14 @@ resource "digitalocean_firewall" "world_to_haproxy_kibana" {
   
 }
 
+resource "digitalocean_record" "kibana_frontend" {
+  count = length(module.Kibana.salt_minion_public_ip_addresses)
+  domain = "terragon.us"
+  type = "A"
+  name = "kibana"
+  value = module.HAProxyKibana.salt_minion_public_ip_addresses[count.index]
+}
+
 resource "random_integer" "couch_admin_user_length" {
   min = 10
   max = 20
