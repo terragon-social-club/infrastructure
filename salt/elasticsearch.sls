@@ -14,7 +14,5 @@ elasticsearch:
   file.managed:
     - source: salt:///files/elasticsearch/elasticsearch.jinja.yml
     - template: jinja
-    - user: couchdb
-    - group: couchdb
     - require:
       - pkg: elasticsearch6
