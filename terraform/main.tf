@@ -136,7 +136,7 @@ resource "random_integer" "couch_admin_user_length" {
 }
 
 resource "digitalocean_firewall" "logstash_to_elasticsearch" {
-  name="Beats-To-Logstash"
+  name="Beats-To-ElasticSearch"
   droplet_ids = module.ElasticSearch.droplet_ids
   count = module.ElasticSearch.provision ? 1 : 0
 
