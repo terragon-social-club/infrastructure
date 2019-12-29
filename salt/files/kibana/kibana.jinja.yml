@@ -1,4 +1,4 @@
-{% set elastic_search_nodes = salt['mine.get']('roles:elasticsearch', 'network.interface_ip', tgt_type='grain').items() %}
+{% set elastic_search_nodes = salt['mine.get']('roles:elasticsearch', 'network.interface_ip', tgt_type='grain').items()|first %}
 # Kibana is served by a back end server. This setting specifies the port to use.
 server.port: 5601
 
@@ -26,7 +26,7 @@ server.host: "{{ salt['network.interface_ip']('vtnet1') }}"
 #server.name: "your-hostname"
 
 # The URL of the Elasticsearch instance to use for all your queries.
-elasticsearch.url: "http://{{ elastic_search_nodes['elasticsearch-a'][1] }}:9200"
+elasticsearch.url: "http://{{ elastic_search_nodes[1] }}:9200"
 
 # When this setting's value is true Kibana uses the hostname specified in the server.host
 # setting. When the value of this setting is false, Kibana uses the hostname of the host
