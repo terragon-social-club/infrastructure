@@ -1,0 +1,19 @@
+global
+    daemon
+    maxconn 1000
+
+defaults
+    mode http
+    timeout connect 2000ms
+    timeout client 120000ms
+    timeout server 120000ms
+
+frontend http-in
+    bind *:80
+    bind *:443 ssl crt /usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem
+    redirect scheme https if !{ ssl_fc }
+    default_backend servers
+
+backend servers
+    {% for address in salt['mine.get']('roles:kibana', 'network.interface_ip', tgt_type='grain').items() %}server kibana{{ loop.index }} {{ address[1] }}:5601 maxconn 500 check on-marked-down shutdown-sessions
+    {% endfor %}

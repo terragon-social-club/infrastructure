@@ -22,6 +22,10 @@ base:
     - match: grain
     - kibana
 
+  'roles:haproxy-kibana':
+    - match: grain
+    - haproxy.kibana
+
   'roles:couchdb':
     - match: grain
     - couchdb
