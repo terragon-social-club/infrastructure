@@ -24,6 +24,7 @@ base:
 
   'roles:haproxy-kibana':
     - match: grain
+    - letsencrypt
     - haproxy.kibana
 
   'roles:couchdb':
