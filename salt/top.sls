@@ -1,10 +1,10 @@
 base:
   '*':
-    - security
-    - fastboot
     - eastern_standard_time
-    - fail2ban
+    - security
     - minion
+    - fail2ban
+    - fastboot
 
   'saltm':
     - master
@@ -12,6 +12,10 @@ base:
   'roles:logstash':
     - match: grain
     - logstash
+
+  'roles:elasticsearch':
+    - match: grain
+    - elasticsearch
 
   'roles:couchdb':
     - match: grain
