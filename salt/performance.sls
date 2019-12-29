@@ -11,7 +11,7 @@ extend:
   /boot/loader.conf:
     file.append:
       - require:
-        - cmd: "limit descriptors 1048576 && touch /root/.maxfiles-tuned"
+        - cmd: "limit descriptors 65536 && touch /root/.maxfiles-tuned"
       - text:
         - sysctl kern.maxfilesperproc=65536
         - sysctl kern.maxfiles=65536
