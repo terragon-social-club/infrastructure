@@ -1,3 +1,4 @@
-limits:
+kern.maxfiles:
   sysctl.present:
-    - kern.maxfiles: 65536
+    - value: 65536
+    - config: /etc/sysctl.conf
