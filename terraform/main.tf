@@ -143,7 +143,7 @@ resource "digitalocean_firewall" "logstash_to_elasticsearch" {
   inbound_rule {
     protocol = "tcp"
     port_range = "9300"
-    source_addresses = module.LogStash.salt_minion_private_ip_addresses
+    source_addresses = module.Logstash.salt_minion_private_ip_addresses
   }
   
 }
