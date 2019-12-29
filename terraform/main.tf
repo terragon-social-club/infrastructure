@@ -116,7 +116,7 @@ resource "digitalocean_firewall" "filebeat_to_elasticsearch" {
     protocol = "tcp"
     port_range = "9200"
     source_addresses = concat(
-      module.SaltMaster.salt_minion_private_ip_addresses,
+      module.Salt_Master.salt_minion_private_ip_addresses,
       module.CouchDB.salt_minion_private_ip_addresses,
       module.SaltMaster.salt_minion_private_ip_addresses,
       module.HAProxyCouchDB.salt_minion_private_ip_addresses,
