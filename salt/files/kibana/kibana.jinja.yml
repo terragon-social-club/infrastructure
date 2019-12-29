@@ -112,3 +112,5 @@ elasticsearch.url: "http://{{ elastic_search_nodes[1] }}:9200"
 
 # Specifies locale to be used for all localizable strings, dates and number formats.
 #i18n.locale: "en"
+
+xpack.reporting.enabled: false
