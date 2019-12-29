@@ -97,7 +97,7 @@ resource "digitalocean_firewall" "beats_to_logstash" {
     protocol = "tcp"
     port_range = "5044"
     source_addresses = concat(
-      module.Salt_Master.private_ip_address,
+      [module.Salt_Master.private_ip_address],
       module.CouchDB.salt_minion_private_ip_addresses,
       module.HAProxyCouchDB.salt_minion_private_ip_addresses,
       module.NodeJSAPI.salt_minion_private_ip_addresses
