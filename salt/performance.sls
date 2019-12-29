@@ -7,4 +7,4 @@
     - require:
       - cmd: "limit descriptors 200000 && touch /root/.maxfiles-tuned"
     - text:
-      - sysctl kern.maxfiles=200000
+      - kern.maxfiles=200000
