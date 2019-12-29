@@ -118,7 +118,6 @@ resource "digitalocean_firewall" "filebeat_to_elasticsearch" {
     source_addresses = concat(
       module.Salt_Master.salt_minion_private_ip_addresses,
       module.CouchDB.salt_minion_private_ip_addresses,
-      module.SaltMaster.salt_minion_private_ip_addresses,
       module.HAProxyCouchDB.salt_minion_private_ip_addresses,
       module.NodeJSAPI.salt_minion_private_ip_addresses
     )
