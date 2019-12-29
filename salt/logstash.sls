@@ -11,7 +11,7 @@ extend:
 
 /usr/local/etc/salt/minion.d/mine.conf:
   file.managed:
-    - source: salt:///files/mine/logstash.jinja.conf
+    - source: salt:///files/salt/mine/logstash.jinja.conf
     - template: jinja
 
 include:
