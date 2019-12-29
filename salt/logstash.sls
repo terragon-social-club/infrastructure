@@ -43,4 +43,4 @@ logstash:
 
 /usr/local/logstash/bin/logstash-plugin install --version 5.1.9 logstash-input-beats:
   cmd.run:
-    - creates: /usr/local/logstash/vendor/bundle/jruby/2.3.0/gems/logstash-input-beats-5.1.6-java/Gemfile
+    - creates: /usr/local/logstash/vendor/bundle/jruby/2.3.0/gems/logstash-input-beats-5.1.9-java/Gemfile
