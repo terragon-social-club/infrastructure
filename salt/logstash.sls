@@ -3,11 +3,6 @@ extend:
     service.running:
       - watch:
         - file: /usr/local/etc/salt/minion.d/mine.conf
-  /etc/rc.conf:
-    file.append:
-      - text:
-        - logstash_mode="standalone"
-        - logstash_log="YES"
 
 /usr/local/etc/salt/minion.d/mine.conf:
   file.managed:

@@ -12,6 +12,8 @@ include:
       - sendmail_submit_enable="NO"
       - firewall_script="/usr/local/etc/ipfw.rules"
       - firewall_enable="NO"
+      - logstash_mode="standalone"
+      - logstash_log="YES"
 
 # Logging
 beats:
