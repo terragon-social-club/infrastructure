@@ -1,5 +1,5 @@
 extend:
-  haproxy:
+  haproxy.haproxy:
     service.running:
       - watch:
         - file: /usr/local/etc/haproxy.conf

@@ -1,9 +1,9 @@
 base:
   '*':
     - eastern_standard_time
+    - minion
     - security
     - performance
-    - minion
     - fail2ban
     - fastboot
 
