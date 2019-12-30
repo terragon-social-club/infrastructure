@@ -13,7 +13,7 @@ base:
   'roles:haproxy':
     - match: grain
     - letsencrypt
-    - haproxy
+    - haproxy.haproxy
 
   'roles:logstash':
     - match: grain
