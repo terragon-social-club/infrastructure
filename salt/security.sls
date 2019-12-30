@@ -2,6 +2,7 @@
 #
 include:
   - ipfw
+  - filebeat
 
 /etc/rc.conf:
   file.append:
@@ -13,22 +14,6 @@ include:
       - firewall_script="/usr/local/etc/ipfw.rules"
       - firewall_enable="NO"
 
-# Logging
-beats:
-  pkg.installed
-
-/usr/local/etc/filebeat.yml:
-  file.managed:
-    - source: salt:///files/filebeat/filebeat.jinja.yml
-    - template: jinja
-    - require:
-      - pkg: beats
-
-filebeat:
-  service.running:
-    - enable: True
-    - watch:
-      - file: /usr/local/etc/filebeat.yml
 
 # IDS
 #aide:
