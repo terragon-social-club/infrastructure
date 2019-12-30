@@ -10,6 +10,11 @@ base:
   'saltm':
     - master
 
+  'roles:haproxy':
+    - match: grain
+    - letsencrypt
+    - haproxy
+
   'roles:logstash':
     - match: grain
     - logstash
@@ -24,20 +29,17 @@ base:
 
   'roles:haproxy-kibana':
     - match: grain
-    - letsencrypt
     - haproxy.kibana
 
   'roles:couchdb':
     - match: grain
     - couchdb
 
+  'haproxy-couchdb*':
+    - haproxy.couchdb
+
   'nodejs-api*':
     - nodejs_api
 
-  'haproxy-couchdb*':
-    - letsencrypt
-    - haproxy.couchdb
-
   'haproxy-nodejsapi*':
-    - letsencrypt
     - haproxy.pm2

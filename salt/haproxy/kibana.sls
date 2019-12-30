@@ -1,6 +1,3 @@
-include:
-  - haproxy
-
 extend:
   haproxy:
     service.running:

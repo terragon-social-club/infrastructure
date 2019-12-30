@@ -9,8 +9,6 @@ beats:
       - pkg: beats
     - default:
       - log_files:
-        - /var/log/salt/minion
-        - /var/log/salt/master
         - /var/log/auth
 
 filebeat:
