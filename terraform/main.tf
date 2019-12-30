@@ -71,8 +71,8 @@ module "Salt_Master" {
 
 module "Logstash" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "logstash"
   size = "c-2"
   domain_id = "terragon.us"
@@ -113,8 +113,8 @@ resource "digitalocean_firewall" "beats_to_logstash" {
 
 module "ElasticSearch" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "elasticsearch"
   size = "c-2"
   domain_id = "terragon.us"
@@ -145,8 +145,8 @@ resource "digitalocean_firewall" "logstash_to_elasticsearch" {
 
 module "Kibana" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "kibana"
   size = "c-4"
   domain_id = "terragon.us"
@@ -177,8 +177,8 @@ resource "digitalocean_firewall" "kibana_to_elasticsearch" {
 
 module "HAProxyKibana" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "haproxy-kibana"
   size = "512mb"
   custom_fqdn = "kibana"
@@ -269,8 +269,8 @@ resource "random_password" "couch_pass" {
 
 module "CouchDB" {
   source = "./modules/salt-minion"
-  node_count = 3
-  provision = true
+  node_count = 0
+  provision = false
   name = "couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
@@ -290,8 +290,8 @@ module "CouchDB" {
 
 module "HAProxyCouchDB" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "haproxy-couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
