@@ -113,8 +113,8 @@ resource "digitalocean_firewall" "beats_to_logstash" {
 
 module "ElasticSearch" {
   source = "./modules/salt-minion"
-  node_count = 0
-  provision = false
+  node_count = 1
+  provision = true
   name = "elasticsearch"
   size = "c-2"
   domain_id = "terragon.us"
