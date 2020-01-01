@@ -1,4 +1,4 @@
-{% set has_lp_running salt['mine.get']('roles:elasticsearch', 'network.interface_ip', tgt_type='grain').items()|length > 0 %}
+{% set has_lp_running = salt['mine.get']('roles:elasticsearch', 'network.interface_ip', tgt_type='grain').items()|length > 0 %}
 beats:
   pkg.installed
 
