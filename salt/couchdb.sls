@@ -54,7 +54,7 @@ couchdb2:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
 
-"curl -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_users -d '' > '/root/created-users-database'":
+"curl -X PUT -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_users -d '' > '/root/created-users-database'":
   cmd.run:
       - creates: /root/created-users-database
       - hide_output: True
@@ -62,7 +62,7 @@ couchdb2:
       - require:
         - service: couchdb2
 
-"curl -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_global_changes -d '' > '/root/created-global-changes-database'":
+"curl -X PUT -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_global_changes -d '' > '/root/created-global-changes-database'":
   cmd.run:
       - creates: /root/created-global-changes-database
       - hide_output: True
@@ -70,7 +70,7 @@ couchdb2:
       - require:
         - service: couchdb2
 
-"curl -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_replicator -d '' > '/root/created-replicator-database'":
+"curl -X PUT -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_replicator -d '' > '/root/created-replicator-database'":
   cmd.run:
       - creates: /root/created-replicator-database
       - hide_output: True
