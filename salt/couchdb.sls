@@ -3,6 +3,11 @@ extend:
     service.running:
       - watch:
         - file: /usr/local/etc/salt/minion.d/mine.conf
+  /usr/local/etc/filebeat.yml:
+    file.managed:
+      - context:
+        log_files:
+          - /var/log/couchdb2/couch.log
 
 /usr/local/etc/salt/minion.d/mine.conf:
   file.managed:
