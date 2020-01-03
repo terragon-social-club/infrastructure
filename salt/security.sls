@@ -4,8 +4,7 @@
 #
 include:
   - ipfw
-{% if  %} - filebeat
-{% endif %}
+  - filebeat
 
 /etc/rc.conf:
   file.append:
