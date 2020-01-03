@@ -54,6 +54,7 @@ couchdb2:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
 
+{% if grains['id'] == 'couchdb-a' %}
 "curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_users?n=3&q=3' -d '' > '/root/created-users-database'":
   cmd.run:
       - creates: /root/created-users-database
@@ -77,4 +78,4 @@ couchdb2:
       - output_loglevel: quiet
       - require:
         - service: couchdb2
-        
+{% endif %}
