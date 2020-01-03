@@ -25,7 +25,7 @@ filebeat.inputs:
 
   # Paths that should be crawled and fetched. Glob based paths.
   paths:
-  {% for file in log_files %}
+  {% for file in log_files + specific_log_files %}
     - {{ file }}
   {% endfor %}
   # Exclude lines. A list of regular expressions to match. It drops the lines that are

@@ -11,6 +11,7 @@ beats:
     - defaults:
       log_files:
         - /var/log/auth
+      specific_log_files: []
 
 filebeat:
 {% if has_lp_running %}

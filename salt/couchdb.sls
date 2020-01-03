@@ -6,7 +6,7 @@ extend:
   /usr/local/etc/filebeat.yml:
     file.managed:
       - context:
-        log_files:
+        specific_log_files:
           - /var/log/couchdb2/couch.log
 
 /usr/local/etc/salt/minion.d/mine.conf:
