@@ -9,7 +9,7 @@ beats:
     - require:
       - pkg: beats
     - defaults:
-      - log_files:
+      log_files:
         - /var/log/auth
 
 filebeat:
