@@ -62,7 +62,7 @@ couchdb2:
       - require:
         - service: couchdb2
 
-"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_global_changes?n=3&q=3' -d '' > '/root/created-global-changes-database'":
+"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_global_changes?n=3' -d '' > '/root/created-global-changes-database'":
   cmd.run:
       - creates: /root/created-global-changes-database
       - hide_output: True
