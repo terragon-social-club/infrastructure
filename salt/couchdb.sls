@@ -61,3 +61,20 @@ couchdb2:
       - output_loglevel: quiet
       - require:
         - service: couchdb2
+
+"curl -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_global_changes -d '' > '/root/created-global-changes-database'":
+  cmd.run:
+      - creates: /root/created-global-changes-database
+      - hide_output: True
+      - output_loglevel: quiet
+      - require:
+        - service: couchdb2
+
+"curl -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_replicator -d '' > '/root/created-replicator-database'":
+  cmd.run:
+      - creates: /root/created-replicator-database
+      - hide_output: True
+      - output_loglevel: quiet
+      - require:
+        - service: couchdb2
+        
