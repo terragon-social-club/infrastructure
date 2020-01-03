@@ -10,7 +10,11 @@ beats:
       - pkg: beats
     - defaults:
       log_files:
-        - /var/log/auth
+        - /var/log/auth.log
+        - /var/log/salt/minion
+        - /var/log/fail2ban.log
+        - /var/log/userlog
+        - /var/log/fail2ban.log
       specific_log_files: []
 
 filebeat:
