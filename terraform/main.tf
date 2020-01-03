@@ -71,8 +71,8 @@ module "Salt_Master" {
 
 module "Logstash" {
   source = "./modules/salt-minion"
-  node_count = 1
-  provision = true
+  node_count = 0
+  provision = false
   name = "logstash"
   size = "c-2"
   domain_id = "terragon.us"

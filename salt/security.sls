@@ -1,8 +1,11 @@
+
+
 # Firewall Enabled & Misc Services Disabled
 #
 include:
   - ipfw
-  - filebeat
+{% if  %} - filebeat
+{% endif %}
 
 /etc/rc.conf:
   file.append:
