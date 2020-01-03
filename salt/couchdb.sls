@@ -53,3 +53,11 @@ couchdb2:
     - require:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
+
+"curl -X POST -H \"Content-Type: application/json\" http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/_users -d '' > '/root/created-users-database'":
+  cmd.run:
+      - creates: /root/created-users-database
+      - hide_output: True
+      - output_loglevel: quiet
+      - require:
+        - service: couchdb2
