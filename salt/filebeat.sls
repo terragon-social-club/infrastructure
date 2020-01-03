@@ -8,7 +8,7 @@ beats:
     - template: jinja
     - require:
       - pkg: beats
-    - default:
+    - defaults:
       - log_files:
         - /var/log/auth
 
