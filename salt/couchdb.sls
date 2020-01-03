@@ -79,9 +79,9 @@ couchdb2:
       - require:
         - service: couchdb2
 
-"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/test1' -d '' > '/root/created-replicator-database'":
+"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/test1' -d '' > '/root/created-test1-database'":
   cmd.run:
-      - creates: /root/created-replicator-database
+      - creates: /root/created-test1-database
       - hide_output: True
       - output_loglevel: quiet
       - require:
