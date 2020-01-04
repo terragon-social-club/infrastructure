@@ -31,7 +31,7 @@ resource "digitalocean_firewall" "beats_to_logstash" {
   inbound_rule {
     protocol = "tcp"
     port_range = "5044"
-    source_addresses = concat(var.all_droplet_ips,
+    source_addresses = concat([var.all_droplet_ips],
       module.ElasticSearch.salt_minion_private_ip_addresses,
       module.Logstash.salt_minion_private_ip_addresses,
       module.Kibana.salt_minion_private_ip_addresses,
