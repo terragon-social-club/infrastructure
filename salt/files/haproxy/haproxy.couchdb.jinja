@@ -1,9 +1,16 @@
 global
     daemon
     maxconn 1000
+    log /dev/log local0
 
 defaults
+    # refer to the global log definition
+    log global
+    # disable logging of normal, successful connections
+    option dontlog-normal
     mode http
+    # Enable logging of HTTP request, session state and timers
+    option httplog
     timeout connect 2000ms
     timeout client 120000ms
     timeout server 120000ms
