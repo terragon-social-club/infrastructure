@@ -8,6 +8,11 @@ extend:
       - text:
         - logstash_mode="standalone"
         - logstash_log="YES"
+  /usr/local/etc/filebeat.yml:
+    file.managed:
+      - context:
+        specific_log_files:
+          - /var/log/logstash/logstash-plain.log
 
 /usr/local/etc/salt/minion.d/mine.conf:
   file.managed:
