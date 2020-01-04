@@ -35,7 +35,7 @@ resource "digitalocean_firewall" "beats_to_logstash" {
       module.ElasticSearch.salt_minion_private_ip_addresses,
       module.Logstash.salt_minion_private_ip_addresses,
       module.Kibana.salt_minion_private_ip_addresses,
-      module.HAProxyKibana.salt_minion_private_ip_addresses)
+      module.HAProxy.salt_minion_private_ip_addresses)
 
   }
   
