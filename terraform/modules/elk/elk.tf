@@ -99,7 +99,7 @@ resource "digitalocean_firewall" "kibana_to_elasticsearch" {
   
 }
 
-module "HAProxyKibana" {
+module "HAProxy" {
   source = "../salt-minion"
   node_count = (var.elasticsearch_workers > 0) ? 1 : 0
   provision = true
@@ -123,14 +123,14 @@ resource "digitalocean_firewall" "haproxy_to_kibana" {
   inbound_rule {
     protocol = "tcp"
     port_range = "5601"
-    source_addresses = module.HAProxyKibana.salt_minion_private_ip_addresses
+    source_addresses = module.HAProxy.salt_minion_private_ip_addresses
   }
   
 }
 
 resource "digitalocean_firewall" "world_to_haproxy_kibana" {
   name="World-To-HAProxyKibana"
-  droplet_ids = module.HAProxyKibana.droplet_ids
+  droplet_ids = module.HAProxy.droplet_ids
 
   inbound_rule {
     protocol = "tcp"
@@ -151,5 +151,5 @@ resource "digitalocean_record" "kibana_frontend" {
   domain = "terragon.us"
   type = "A"
   name = "kibana"
-  value = module.HAProxyKibana.salt_minion_public_ip_addresses[0]
+  value = module.HAProxy.salt_minion_public_ip_addresses[0]
 }
