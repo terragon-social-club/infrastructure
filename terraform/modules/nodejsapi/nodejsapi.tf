@@ -51,11 +51,11 @@ module "HAProxy" {
 
 # Round robin dns for haproxy instances
 resource "digitalocean_record" "nodejsapi_frontend" {
-  count = length(module.HAProxy.salt_minion_public_ip_addresses)
+  count = var.pm2_nodes > 0 ? 1 : 0
   domain = "terragon.us"
   type = "A"
   name = "express"
-  value = module.HAProxy.salt_minion_public_ip_addresses[count.index]
+  value = module.HAProxy.salt_minion_public_ip_addresses[0]
 }
 
 resource "digitalocean_firewall" "nodejsapihaproxy_to_nodejsapi" {
