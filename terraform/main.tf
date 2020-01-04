@@ -92,6 +92,7 @@ module "ELK" {
 module "CouchDB" {
   source = "./modules/couchdb"
   couchdb_replicas = var.cluster_makeup.couchdb_replicas
+  couchdb_proxy_online = var.cluster_makeup.couchdb_proxy_online
 
   salt_master_droplet_id = module.Salt_Master.droplet_id
   salt_master_private_ip_address = module.Salt_Master.private_ip_address

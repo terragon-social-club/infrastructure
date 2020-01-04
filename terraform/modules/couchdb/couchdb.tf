@@ -3,6 +3,7 @@ variable "random_nonce" {
 }
 
 variable "couchdb_replicas" {}
+variable "couchdb_proxy_online" {}
 variable "salt_master_droplet_id" {}
 variable "salt_master_private_ip_address" {}
 variable "salt_master_public_ip_address" {}
@@ -63,8 +64,8 @@ module "CouchDBNode" {
 
 module "HAProxy" {
   source = "../salt-minion"
-  node_count = var.cluster_makeup.couchdb_replicas > 0 || var.cluster_makeup.couchdb_proxy_online ? 1 : 0
-  provision = var.cluster_makeup.couchdb_replicas > 0 || var.cluster_makeup.couchdb_proxy_online
+  node_count = var.couchdb_replicas > 0 || var.couchdb_proxy_online ? 1 : 0
+  provision = var.couchdb_replicas > 0 || var.couchdb_proxy_online
   name = "haproxy-couchdb"
   size = "s-1vcpu-1gb"
   domain_id = "terragon.us"
