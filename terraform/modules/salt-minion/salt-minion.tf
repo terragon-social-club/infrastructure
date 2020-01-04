@@ -68,15 +68,15 @@ resource "digitalocean_droplet" "salt_minion" {
     when = destroy
     
     connection {
-      host = digitalocean_droplet.salt_minion.tags[0] // Line 65 lets me write this to avoid warning
-      private_key = digitalocean_droplet.salt_minion.tags[1] // Line 65 lets me write this to avoid warning
+      host = element(digitalocean_droplet.salt_minion.*.tags[0], count.index) // Line 65 lets me write this to avoid warning
+      private_key = element(digitalocean_droplet.salt_minion.*.tags[1], count.index) // Line 65 lets me write this to avoid warning
       user = "root"
       type = "ssh"
       timeout = "2m"
     }
     
     inline = [
-      "salt-key -d ${digitalocean_droplet.salt_minion.tags[2]} -${digitalocean_droplet.salt_minion.tags[3]} -y"// Line 65 lets me write this to avoid warning
+      "salt-key -d ${element(digitalocean_droplet.salt_minion.*.tags[2], count.index)} -${element(digitalocean_droplet.salt_minion.*.tags[3], count.index)} -y"// Line 65 lets me write this to avoid warning
     ]
     
   }
