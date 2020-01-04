@@ -152,9 +152,9 @@ resource "digitalocean_firewall" "world_to_haproxy_kibana" {
 }
 
 resource "digitalocean_record" "kibana_frontend" {
-  count = length(module.Kibana.salt_minion_public_ip_addresses)
+  count = (var.elasticsearch_workers > 0) ? 1 : 0
   domain = "terragon.us"
   type = "A"
   name = "kibana"
-  value = module.HAProxyKibana.salt_minion_public_ip_addresses[count.index]
+  value = module.HAProxyKibana.salt_minion_public_ip_addresses[0]
 }
