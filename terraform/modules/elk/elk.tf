@@ -106,7 +106,7 @@ resource "digitalocean_firewall" "kibana_to_elasticsearch" {
 
 module "HAProxyKibana" {
   source = "../salt-minion"
-  node_count = (var.cluster_makeup.elasticsearch_workers > 0) ? 1 : 0
+  node_count = (var.elasticsearch_workers > 0) ? 1 : 0
   provision = true
   name = "haproxy-kibana"
   size = "s-1vcpu-1gb"
