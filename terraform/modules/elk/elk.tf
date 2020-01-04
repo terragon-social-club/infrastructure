@@ -47,7 +47,7 @@ resource "digitalocean_firewall" "beats_to_logstash" {
 }
 
 module "ElasticSearch" {
-  source = "./modules/salt-minion"
+  source = "./../modules/salt-minion"
   node_count = var.elasticsearch_workers
   provision = var.elasticsearch_workers > 0
   name = "elasticsearch"
@@ -79,7 +79,7 @@ resource "digitalocean_firewall" "logstash_to_elasticsearch" {
 }
 
 module "Kibana" {
-  source = "./modules/salt-minion"
+  source = "./../modules/salt-minion"
   node_count = (var.cluster_makeup.elasticsearch_workers > 0) ? 1 : 0
   provision = var.cluster_makeup.elasticsearch_workers > 0
   name = "kibana"
@@ -111,7 +111,7 @@ resource "digitalocean_firewall" "kibana_to_elasticsearch" {
 }
 
 module "HAProxyKibana" {
-  source = "./modules/salt-minion"
+  source = "./../modules/salt-minion"
   node_count = (var.cluster_makeup.elasticsearch_workers > 0) ? 1 : 0
   provision = true
   name = "haproxy-kibana"
