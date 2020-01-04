@@ -1,9 +1,10 @@
-/usr/local/etc/filebeat.yml:
-  file.managed:
-    - context:
-      specific_log_files:
-        - /var/log/salt/master
-        - /var/log/salt/key
+extend:
+  /usr/local/etc/filebeat.yml:
+    file.managed:
+      - context:
+        specific_log_files:
+          - /var/log/salt/master
+          - /var/log/salt/key
 
 /root/.ssh/id_rsa.pub:
   file.managed:
