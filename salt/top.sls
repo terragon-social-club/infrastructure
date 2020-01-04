@@ -11,7 +11,7 @@ base:
     - master
 
   'roles:haproxy':
-    - match: compound
+    - match: grain
     - letsencrypt
     - haproxy.haproxy
 
