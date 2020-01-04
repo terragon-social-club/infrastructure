@@ -74,7 +74,7 @@ module "ELK" {
     module.CouchDB.couchdb_node_private_ip_addresses,
     module.CouchDB.haproxy_private_ip_addresses,
     module.NodeJSApi.pm2_node_private_ip_addresses,
-    module.NodeJSAPI.haproxy_private_ip_addresses
+    module.NodeJSApi.haproxy_private_ip_addresses
   )
 
   salt_master_droplet_id = module.Salt_Master.droplet_id

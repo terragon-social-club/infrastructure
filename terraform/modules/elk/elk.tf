@@ -77,8 +77,8 @@ resource "digitalocean_firewall" "logstash_to_elasticsearch" {
 
 module "Kibana" {
   source = "../salt-minion"
-  node_count = (var.cluster_makeup.elasticsearch_workers > 0) ? 1 : 0
-  provision = var.cluster_makeup.elasticsearch_workers > 0
+  node_count = (var.elasticsearch_workers > 0) ? 1 : 0
+  provision = var.elasticsearch_workers > 0
   name = "kibana"
   size = "s-8vcpu-32gb"
   domain_id = "terragon.us"
