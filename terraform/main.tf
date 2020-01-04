@@ -34,6 +34,7 @@ variable "cluster_makeup" {
     couchdb_proxy_online = false
     logstash_workers = 0
     elasticsearch_workers = 0
+    js_api_endpoints = 0
   }
 
 }
@@ -89,7 +90,7 @@ module "ELK" {
 
 module "CouchDB" {
   source = "./modules/couchdb"
-  couchdb_replicas = 3
+  couchdb_replicas = var.cluster_makeup.couchdb_replicas
 
   salt_master_droplet_id = module.Salt_Master.droplet_id
   salt_master_private_ip_address = module.Salt_Master.private_ip_address
@@ -105,7 +106,7 @@ module "CouchDB" {
 
 module "NodeJSApi" {
   source = "./modules/nodejsapi"
-  pm2_nodes = 1
+  pm2_nodes = var.cluster_makeup.js_api_endpoints
   couchdb_user = module.CouchDB.user
   couchdb_pass = module.CouchDB.pass
   stripe_api_key = var.stripe_api_key
