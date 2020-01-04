@@ -148,7 +148,7 @@ output "couchdb_node_private_ip_addresses" {
 }
 
 output "droplet_ids" {
-  value = module.CouchDBNode.*.salt_minion_private_ip_addresses
+  value = module.CouchDBNode.*.droplet_ids
 }
 
 output "haproxy_private_ip_addresses" {
