@@ -300,8 +300,8 @@ module "CouchDB" {
 
 module "HAProxyCouchDB" {
   source = "./modules/salt-minion"
-  node_count = ((var.cluster_makeup.couchdb_replicas > 0) || var.cluster_makeup.couchdb_proxy_online) ? 1 : 0
-  provision = (var.cluster_makeup.couchdb_replicas || (var.cluster_makeup.couchdb_proxy_online > 0))
+  node_count = var.cluster_makeup.couchdb_replicas > 0 || var.cluster_makeup.couchdb_proxy_online ? 1 : 0
+  provision = var.cluster_makeup.couchdb_replicas > 0 || var.cluster_makeup.couchdb_proxy_online
   name = "haproxy-couchdb"
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
