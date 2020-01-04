@@ -12,7 +12,7 @@ variable "stripe_api_key" {}
 
 module "PM2Node" {
   source = "../salt-minion"
-  node_count = 0
+  node_count = var.pm2_nodes
   provision = false
   
   name = "nodejs-api"
@@ -35,7 +35,7 @@ module "PM2Node" {
 
 module "HAProxy" {
   source = "../salt-minion"
-  node_count = 0
+  node_count = var.pm2_nodes > 0 ? 1 : 0
   provision = false
 
   name = "haproxy-nodejsapi"

@@ -105,7 +105,7 @@ module "CouchDB" {
 
 module "NodeJSApi" {
   source = "./modules/nodejsapi"
-  couchdb_replicas = 3
+  pm2_nodes = 1
   couchdb_user = module.CouchDB.user
   couchdb_pass = module.CouchDB.pass
   stripe_api_key = var.stripe_api_key
