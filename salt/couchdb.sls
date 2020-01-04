@@ -79,11 +79,28 @@ couchdb2:
       - require:
         - service: couchdb2
 
-"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/test1' -d '' > '/root/created-test1-database'":
+"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/terragon_sysinfo' -d '' > '/root/created-terragon_sysinfo-database'":
   cmd.run:
-      - creates: /root/created-test1-database
+      - creates: /root/created-terragon_sysinfo-database
       - hide_output: True
       - output_loglevel: quiet
       - require:
         - service: couchdb2
+
+"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/terragon_sysinfo' -d '' > '/root/created-user_profiles-database'":
+  cmd.run:
+      - creates: /root/created-user_profiles-database
+      - hide_output: True
+      - output_loglevel: quiet
+      - require:
+        - service: couchdb2
+
+"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/terragon_sysinfo' -d '' > '/root/created-invite_codes-database'":
+  cmd.run:
+      - creates: /root/created-invite_codes-database
+      - hide_output: True
+      - output_loglevel: quiet
+      - require:
+        - service: couchdb2
+
 {% endif %}

@@ -71,7 +71,7 @@ module "Salt_Master" {
 
 module "Logstash" {
   source = "./modules/salt-minion"
-  node_count = 2
+  node_count = 1
   provision = true
   name = "logstash"
   size = "c-2"
@@ -269,7 +269,7 @@ resource "random_password" "couch_pass" {
 
 module "CouchDB" {
   source = "./modules/salt-minion"
-  node_count = 3
+  node_count = 0
   provision = true
   name = "couchdb"
   size = "s-2vcpu-2gb"
