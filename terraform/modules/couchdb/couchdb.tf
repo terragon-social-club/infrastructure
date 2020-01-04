@@ -45,7 +45,7 @@ resource "random_password" "couch_pass" {
 }
 
 module "CouchDBNode" {
-  source = "./modules/salt-minion"
+  source = "../salt-minion"
   node_count = var.couchdb_replicas
   provision = var.couchdb_replicas > 0
   name = "couchdb"
@@ -63,7 +63,7 @@ module "CouchDBNode" {
 }
 
 module "HAProxy" {
-  source = "./modules/salt-minion"
+  source = "../salt-minion"
   node_count = var.cluster_makeup.couchdb_replicas > 0 || var.cluster_makeup.couchdb_proxy_online ? 1 : 0
   provision = var.cluster_makeup.couchdb_replicas > 0 || var.cluster_makeup.couchdb_proxy_online
   name = "haproxy-couchdb"
