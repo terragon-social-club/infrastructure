@@ -71,7 +71,7 @@ module "Salt_Master" {
 
 module "Logstash" {
   source = "./modules/salt-minion"
-  node_count = 1
+  node_count = 2
   provision = true
   name = "logstash"
   size = "c-2"
