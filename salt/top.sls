@@ -23,8 +23,8 @@ base:
     - match: grain
     - elasticsearch
 
-  'roles:kibana':
-    - match: grain
+  'G@roles:kibana and not G@haproxy':
+    - match: compound
     - kibana
 
   'G@roles:haproxy and G@roles:kibana':
@@ -35,7 +35,7 @@ base:
     - match: compound
     - couchdb
 
-  'G@roles:haproxy and G@roles:couchdb':
+  'G@roles:couchdb and G@roles:haproxy':
     - match: compound
     - haproxy.couchdb
 
