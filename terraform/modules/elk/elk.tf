@@ -46,7 +46,7 @@ module "ElasticSearch" {
   node_count = var.elasticsearch_workers
   provision = var.elasticsearch_workers > 0
   name = "elasticsearch"
-  size = "s-3vcpu-1gb"
+  size = "s-2vcpu-4gb"
   domain_id = "terragon.us"
   keys = var.ssh_keys
   
