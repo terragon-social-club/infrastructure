@@ -62,7 +62,7 @@ module "CouchDBNode" {
   couch_pass = random_password.couch_pass.result
 }
 
-module "HAProxyCouchDB" {
+module "HAProxy" {
   source = "./modules/salt-minion"
   node_count = var.cluster_makeup.couchdb_replicas > 0 || var.cluster_makeup.couchdb_proxy_online ? 1 : 0
   provision = var.cluster_makeup.couchdb_replicas > 0 || var.cluster_makeup.couchdb_proxy_online
@@ -89,14 +89,14 @@ resource "digitalocean_firewall" "haproxy_to_couch" {
   inbound_rule {
     protocol = "tcp"
     port_range = "5984"
-    source_addresses = module.HAProxyCouchDB.salt_minion_private_ip_addresses
+    source_addresses = module.HAProxy.salt_minion_private_ip_addresses
   }
   
 }
 
 resource "digitalocean_firewall" "world_to_haproxy" {
   name="World-To-HAProxy"
-  droplet_ids = module.HAProxyCouchDB.droplet_ids
+  droplet_ids = module.HAProxy.droplet_ids
 
   inbound_rule {
     protocol = "tcp"
@@ -139,9 +139,17 @@ resource "digitalocean_firewall" "couchdb_to_couchdb" {
 
 # Round robin dns for haproxy instances
 resource "digitalocean_record" "couchdb_frontend" {
-  count = length(module.HAProxyCouchDB.salt_minion_public_ip_addresses)
+  count = length(module.HAProxy.salt_minion_public_ip_addresses)
   domain = "terragon.us"
   type = "A"
   name = "relax"
-  value = module.HAProxyCouchDB.salt_minion_public_ip_addresses[count.index]
+  value = module.HAProxy.salt_minion_public_ip_addresses[count.index]
+}
+
+output "couchdb_node_private_ip_addresses" {
+  value = module.CouchDBNode.*.ipv4_address_private
+}
+
+output "haproxy_private_ip_addresses" {
+  value = module.HAProxy.*.ipv4_address_private
 }
