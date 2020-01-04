@@ -11,7 +11,7 @@ variable "couch_pass" {}
 variable "stripe_api_key" {}
 
 module "PM2Node" {
-  source = "./modules/salt-minion"
+  source = "../salt-minion"
   node_count = 0
   provision = false
   
@@ -34,7 +34,7 @@ module "PM2Node" {
 }
 
 module "HAProxy" {
-  source = "./modules/salt-minion"
+  source = "../salt-minion"
   node_count = 0
   provision = false
 
