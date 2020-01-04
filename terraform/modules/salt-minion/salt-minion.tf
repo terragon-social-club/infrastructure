@@ -62,7 +62,7 @@ resource "digitalocean_droplet" "salt_minion" {
   size = var.size
   ssh_keys = var.keys
   ipv6 = false
-  tags = [replace(var.salt_master_public_ip_address, ".", "-"), var.name, var.alpha[count.index]] // This is a hack to ensure no outside references to avoid warning
+  tags = [replace("${var.salt_master_public_ip_address}", ".", "-"), var.name, var.alpha[count.index]] // This is a hack to ensure no outside references to avoid warning
   
   provisioner "remote-exec" {
     when = destroy
