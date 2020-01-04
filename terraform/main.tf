@@ -110,6 +110,7 @@ module "NodeJSApi" {
   couchdb_user = module.CouchDB.user
   couchdb_pass = module.CouchDB.pass
   stripe_api_key = var.stripe_api_key
+  couchdb_droplet_ids = module.CouchDB.droplet_ids
 
   salt_master_droplet_id = module.Salt_Master.droplet_id
   salt_master_private_ip_address = module.Salt_Master.private_ip_address

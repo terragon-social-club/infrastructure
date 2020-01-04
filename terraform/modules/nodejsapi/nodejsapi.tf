@@ -9,6 +9,7 @@ variable "ssh_keys" {}
 variable "couchdb_user" {}
 variable "couchdb_pass" {}
 variable "stripe_api_key" {}
+variable "couchdb_droplet_ids" {}
 
 module "PM2Node" {
   source = "../salt-minion"
@@ -89,7 +90,7 @@ resource "digitalocean_firewall" "world_to_nodejsapi_haproxy" {
 
 resource "digitalocean_firewall" "nodejsapi_to_couchdb" {
   name="NodeJSApi-To-CouchDB"
-  droplet_ids = module.CouchDB.droplet_ids
+  droplet_ids = var.couchdb_droplet_ids
   count = module.CouchDB.provision ? 1 : 0
 
   inbound_rule {
