@@ -12,7 +12,7 @@ module "Logstash" {
   node_count = var.logstash_workers
   provision = var.logstash_workers > 0
   name = "logstash"
-  size = "c-1"
+  size = "s-3vcpu-1gb"
   domain_id = "terragon.us"
   keys = var.ssh_keys
   
