@@ -1,5 +1,3 @@
-{% set pil = pillar['/usr/local/etc/filebeat.yml'] %}
-
 extend:
   /usr/local/etc/haproxy.conf:
     file.managed:
@@ -7,3 +5,5 @@ extend:
   /usr/local/etc/filebeat.yml:
     file.managed:
       - context:
+        specific_log_files:
+          - /var/log/couchdb2/couch.log
