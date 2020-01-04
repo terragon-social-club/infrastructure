@@ -144,15 +144,15 @@ resource "digitalocean_record" "couchdb_frontend" {
 }
 
 output "couchdb_node_private_ip_addresses" {
-  value = module.CouchDBNode.*.ipv4_address_private
+  value = module.CouchDBNode.*.salt_minion_private_ip_addresses
 }
 
 output "droplet_ids" {
-  value = module.CouchDBNode.*.ipv4_address_private
+  value = module.CouchDBNode.*.salt_minion_private_ip_addresses
 }
 
 output "haproxy_private_ip_addresses" {
-  value = module.HAProxy.*.ipv4_address_private
+  value = module.HAProxy.*.salt_minion_private_ip_addresses
 }
 
 output "user" {
