@@ -34,7 +34,7 @@ resource "digitalocean_record" "salt_master" {
   domain = var.domain_id
   type = "A"
   name = var.name
-  ttl = 1
+  ttl = 31
   value = digitalocean_droplet.salt_master.ipv4_address
 }
 
@@ -42,7 +42,7 @@ resource "digitalocean_record" "salt_master_private" {
   domain = var.domain_id
   type = "A"
   name = "${var.name}.private"
-  ttl = 1
+  ttl = 31
   value = digitalocean_droplet.salt_master.ipv4_address_private
 }
 

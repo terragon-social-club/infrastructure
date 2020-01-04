@@ -11,7 +11,7 @@ base:
     - master
 
   'roles:haproxy':
-    - match: grain
+    - match: compound
     - letsencrypt
     - haproxy.haproxy
 
@@ -27,19 +27,22 @@ base:
     - match: grain
     - kibana
 
-  'roles:haproxy-kibana':
-    - match: grain
+  'G@roles:haproxy and G@roles:kibana':
+    - match: compound
     - haproxy.kibana
 
-  'roles:couchdb':
-    - match: grain
+  'G@roles:couchdb and not G@roles:haproxy':
+    - match: compound
     - couchdb
 
-  'haproxy-couchdb*':
+  'G@roles:haproxy and G@roles:couchdb':
+    - match: compound
     - haproxy.couchdb
 
-  'nodejs-api*':
+  'G@roles:pm2 and not G@roles:haproxy':
+    - match: compound
     - nodejs_api
 
-  'haproxy-nodejsapi*':
+  'G@roles:pm2 and G@roles:haproxy':
+    - match: compound
     - haproxy.pm2

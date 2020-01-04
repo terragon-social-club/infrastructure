@@ -21,7 +21,7 @@ module "PM2Node" {
   domain_id = "terragon.us"
   keys = var.ssh_keys
   
-  salt_minion_roles = ["pm2-nodejs-api", "minion"]
+  salt_minion_roles = ["pm2", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
   salt_master_private_ip_address = var.salt_master_private_ip_address
   salt_master_public_ip_address = var.salt_master_public_ip_address
@@ -42,7 +42,7 @@ module "HAProxy" {
   custom_fqdn = "express"
   keys = var.ssh_keys
   
-  salt_minion_roles = ["haproxy-nodejs-api", "haproxy", "minion"]
+  salt_minion_roles = ["haproxy", "pm2", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
   salt_master_private_ip_address = var.salt_master_private_ip_address
   salt_master_public_ip_address = var.salt_master_public_ip_address
