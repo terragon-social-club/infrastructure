@@ -149,6 +149,10 @@ output "couchdb_node_private_ip_addresses" {
   value = module.CouchDBNode.*.ipv4_address_private
 }
 
+output "droplet_ids" {
+  value = module.CouchDBNode.*.ipv4_address_private
+}
+
 output "haproxy_private_ip_addresses" {
   value = module.HAProxy.*.ipv4_address_private
 }
