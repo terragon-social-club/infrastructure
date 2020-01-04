@@ -69,7 +69,7 @@ module "HAProxy" {
   name = "haproxy-couchdb"
   size = "s-1vcpu-1gb"
   domain_id = "terragon.us"
-  custom_fqdn = "relax"
+  custom_fqdn = "couchdb"
   keys = var.ssh_keys
   
   salt_minion_roles = ["couchdb", "haproxy", "minion"]
@@ -139,7 +139,7 @@ resource "digitalocean_record" "couchdb_frontend" {
   count = var.couchdb_replicas > 0 || var.couchdb_proxy_online ? 1 : 0
   domain = "terragon.us"
   type = "A"
-  name = "relax"
+  name = "couchdb"
   value = module.HAProxy.salt_minion_public_ip_addresses[0]
 }
 
