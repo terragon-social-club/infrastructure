@@ -91,6 +91,7 @@ resource "digitalocean_firewall" "world_to_nodejsapi_haproxy" {
 resource "digitalocean_firewall" "nodejsapi_to_couchdb" {
   name="NodeJSApi-To-CouchDB"
   droplet_ids = var.couchdb_droplet_ids
+  count = var.couchdb_droplet_ids.length > 0 ? 1 : 0
 
   inbound_rule {
     protocol = "tcp"
