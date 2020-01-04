@@ -3,7 +3,6 @@ variable "random_nonce" {
 }
 
 variable "couchdb_replicas" {}
-variable "all_droplet_ips" {}
 variable "salt_master_droplet_id" {}
 variable "salt_master_private_ip_address" {}
 variable "salt_master_public_ip_address" {}
@@ -152,4 +151,12 @@ output "couchdb_node_private_ip_addresses" {
 
 output "haproxy_private_ip_addresses" {
   value = module.HAProxy.*.ipv4_address_private
+}
+
+output "user" {
+  value = random_password.couch_user.result
+}
+
+output "pass" {
+  value = random_password.couch_pass.result
 }
