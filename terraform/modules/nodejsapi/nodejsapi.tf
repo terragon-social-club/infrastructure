@@ -102,9 +102,9 @@ resource "digitalocean_firewall" "nodejsapi_to_couchdb" {
 }
 
 output "pm2_node_private_ip_addresses" {
-  value = module.PM2Node.*.salt_minion_private_ip_addresses
+  value = module.PM2Node.salt_minion_private_ip_addresses
 }
 
 output "haproxy_private_ip_addresses" {
-  value = module.HAProxy.*.salt_minion_private_ip_addresses
+  value = module.HAProxy.salt_minion_private_ip_addresses
 }
