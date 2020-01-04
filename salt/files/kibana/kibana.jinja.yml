@@ -35,7 +35,7 @@ elasticsearch.url: "http://{{ elastic_search_nodes[1] }}:9200"
 
 # Kibana uses an index in Elasticsearch to store saved searches, visualizations and
 # dashboards. Kibana creates a new index if the index doesn't already exist.
-#kibana.index: ".kibana"
+kibana.index: "filebeat-*"
 
 # The default application to load.
 #kibana.defaultAppId: "home"
