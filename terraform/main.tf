@@ -32,8 +32,8 @@ variable "cluster_makeup" {
   default = {
     couchdb_replicas = 0
     couchdb_proxy_online = false
-    logstash_workers = 1
-    elasticsearch_workers = 2
+    logstash_workers = 0
+    elasticsearch_workers = 0
     js_api_endpoints = 0
   }
 
