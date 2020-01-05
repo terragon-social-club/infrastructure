@@ -1,20 +1,22 @@
-
-
-# Firewall Enabled & Misc Services Disabled
-#
 include:
-  - ipfw
-  - filebeat
+  - ipfw     # firewall
+  - filebeat # logging
 
-/etc/rc.conf:
-  file.append:
-    - text:
-      - sendmail_enable="NONE"
-      - sendmail_msp_queue_enable="NO"
-      - sendmail_outbound_enable="NO"
-      - sendmail_submit_enable="NO"
-      - firewall_script="/usr/local/etc/ipfw.rules"
-      - firewall_enable="NO"
+sendmail_enable:
+  sysrc.managed:
+    - value: "NONE"
+
+sendmail_msp_queue_enable:
+  sysrc.managed:
+    - value: "NO"
+
+sendmail_outbound_enable:
+  sysrc.managed:
+    - value: "NO"
+
+sendmail_submit_enable:
+  sysrc.managed:
+    - value: "NO"
 
 # IDS
 #aide:
@@ -27,4 +29,3 @@ include:
 #      - pkg: aide
 #    - require:
 #      - file: /etc/rc.conf
-
