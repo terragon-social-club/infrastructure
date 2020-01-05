@@ -10,6 +10,3 @@ $IPF 80 allow icmp from any to any
 # all ports open
 $IPF 110 allow tcp from any to any
 $IPF 111 allow tcp to any from any
-
-# deny and log everything 
-$IPF 500 deny log all from any to any

@@ -16,7 +16,6 @@ include:
       - firewall_script="/usr/local/etc/ipfw.rules"
       - firewall_enable="NO"
 
-
 # IDS
 #aide:
 #  pkg.installed: []

@@ -3,7 +3,6 @@ base:
     - eastern_standard_time
     - minion
     - security
-    - performance
     - fail2ban
     - fastboot
 
