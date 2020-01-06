@@ -1,10 +1,10 @@
 base:
   '*':
-    - eastern_standard_time
     - minion
+    - mine.mine
+    - eastern_standard_time
     - security
     - fastboot
-    - mine.mine
 
   'saltm':
     - master
