@@ -1,6 +1,6 @@
 firewall_type:
   sysrc.managed:
-    - value: "client"
+    - value: "open"
 
 ipfw:
   service.running:
