@@ -10,6 +10,10 @@ firewall_logging:
   sysrc.managed:
     - value: "YES"
 
+firewall_allowservices:
+  sysrc.managed:
+    - value: "any"
+
 ipfw:
   service.running:
     - enable: True
