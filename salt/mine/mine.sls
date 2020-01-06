@@ -1,2 +1,3 @@
-mine_functions:
-  network.ip_addrs: [vtnet1]
+mine.send:
+  module.run:
+    - network.interfaces: [vtnet1]
