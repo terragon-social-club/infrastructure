@@ -3,17 +3,20 @@ extend:
     service.running:
       - watch:
         - file: /usr/local/etc/salt/minion.d/mine.conf
-  /etc/rc.conf:
-    file.append:
-      - text:
-        - logstash_mode="standalone"
-        - logstash_log="YES"
   /usr/local/etc/filebeat.yml:
     file.managed:
       - context:
         specific_log_files:
           - /var/log/logstash/logstash-plain.log
 
+logstash_mode:
+  sysrc.managed:
+    - value: "standalone"
+
+logstash_log:
+  sysrc.managed:
+    - value: "YES"
+    
 /usr/local/etc/salt/minion.d/mine.conf:
   file.managed:
     - source: salt:///files/salt/mine/logstash.jinja.conf
@@ -22,10 +25,9 @@ extend:
 include:
   - java
 
-logstash6:
-  pkg.installed
-
 logstash:
+  pkg.installed:
+    - name: logstash6
   service.running:
     - enable: True
     - require:
@@ -35,6 +37,8 @@ logstash:
     - watch:
       - file: /usr/local/etc/logstash/logstash.yml
       - file: /usr/local/etc/logstash/logstash.conf
+      - sysrc: logstash_mode
+      - sysrc: logstash_log
 
 /usr/local/etc/logstash/logstash.yml:
   file.managed:
