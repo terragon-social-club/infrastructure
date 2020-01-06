@@ -1,2 +1,3 @@
-mine_functions:
-  network.ip_addrs: [vtnet1]
+"Our Mine":
+  mine_functions:
+    network.ip_addrs: [vtnet1]
