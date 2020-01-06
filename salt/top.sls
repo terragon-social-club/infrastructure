@@ -1,7 +1,7 @@
 base:
   '*':
     - minion
-    - mine
+    - mine.mine
     - eastern_standard_time
     - security
     - fastboot
