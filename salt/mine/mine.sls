@@ -1,3 +1,3 @@
 mine_functions:
   network.interface_ip:
-    interface: vtnet1
+    - interface: vtnet1
