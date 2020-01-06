@@ -10,7 +10,7 @@ include:
 
 logstash:
   pkg.installed:
-    - name: logstash6
+    - name: logstash7
   service.running:
     - enable: True
     - require:

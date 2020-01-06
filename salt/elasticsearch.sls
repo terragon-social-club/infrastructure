@@ -12,10 +12,9 @@ extend:
 include:
   - java
 
-elasticsearch6:
-  pkg.installed
-
 elasticsearch:
+  pkg.installed:
+    - name: elasticsearch7
   service.running:
     - enable: True
     - watch:
@@ -26,4 +25,4 @@ elasticsearch:
     - source: salt:///files/elasticsearch/elasticsearch.jinja.yml
     - template: jinja
     - require:
-      - pkg: elasticsearch6
+      - pkg: elasticsearch7
