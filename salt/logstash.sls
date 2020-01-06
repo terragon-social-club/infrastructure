@@ -9,19 +9,6 @@ extend:
         specific_log_files:
           - /var/log/logstash/logstash-plain.log
 
-logstash_mode:
-  sysrc.managed:
-    - value: "standalone"
-
-logstash_log:
-  sysrc.managed:
-    - value: "YES"
-    
-/usr/local/etc/salt/minion.d/mine.conf:
-  file.managed:
-    - source: salt:///files/salt/mine/logstash.jinja.conf
-    - template: jinja
-
 include:
   - java
 
@@ -39,6 +26,19 @@ logstash:
       - file: /usr/local/etc/logstash/logstash.conf
       - sysrc: logstash_mode
       - sysrc: logstash_log
+
+logstash_mode:
+  sysrc.managed:
+    - value: "standalone"
+
+logstash_log:
+  sysrc.managed:
+    - value: "YES"
+    
+/usr/local/etc/salt/minion.d/mine.conf:
+  file.managed:
+    - source: salt:///files/salt/mine/logstash.jinja.conf
+    - template: jinja
 
 /usr/local/etc/logstash/logstash.yml:
   file.managed:
