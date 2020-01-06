@@ -1,2 +1,2 @@
 mine_functions:
-  network.get_hostname: []
+  network.interface_ip: vtnet1
