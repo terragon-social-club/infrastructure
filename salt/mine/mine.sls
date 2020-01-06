@@ -1,3 +1,7 @@
+mine_functions:
+  network.interface_ip:
+    - vtnet1
+
 /usr/local/etc/salt/minion.d/mine.conf:
   file.managed:
     - source: salt:///files/salt/mine.jinja.conf
