@@ -1,6 +1,6 @@
 fail2ban:
   pkg.installed:
-    name: py37-fail2ban
+    - name: py37-fail2ban
   service.running:
     - require:
       - file: /usr/local/etc/fail2ban/jail.d/jail-ssh.conf
