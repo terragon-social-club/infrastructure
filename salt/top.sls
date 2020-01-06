@@ -1,12 +1,10 @@
 base:
   '*':
     - minion
+    - mine.mine
     - eastern_standard_time
     - security
     - fastboot
-    - mine_functions:
-      network.ip_addrs:
-        - interface: vtnet1
 
   'saltm':
     - master
