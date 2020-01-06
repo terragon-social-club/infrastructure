@@ -8,11 +8,9 @@ extend:
       - context:
         specific_log_files:
           - /var/log/couchdb2/couch.log
-
-/usr/local/etc/salt/minion.d/mine.conf:
-  file.managed:
-    - source: salt:///files/salt/mine/couchdb.jinja.conf
-    - template: jinja
+  /usr/local/etc/salt/minion.d/mine.conf:
+    file.managed:
+      - source: salt:///files/salt/mine/couchdb.jinja.conf
 
 couchdb2:
   pkg.installed: []

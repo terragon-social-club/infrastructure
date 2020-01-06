@@ -3,6 +3,10 @@ extend:
     service.running:
       - watch:
         - file: /usr/local/etc/salt/minion.d/mine.conf
+  /usr/local/etc/salt/minion.d/mine.conf:
+    file.managed:
+      - source: salt:///files/salt/mine/logstash.jinja.conf
+      - template: jinja
   /usr/local/etc/filebeat.yml:
     file.managed:
       - context:
@@ -33,11 +37,6 @@ logstash_mode:
 logstash_log:
   sysrc.managed:
     - value: "YES"
-    
-/usr/local/etc/salt/minion.d/mine.conf:
-  file.managed:
-    - source: salt:///files/salt/mine/logstash.jinja.conf
-    - template: jinja
 
 /usr/local/etc/logstash/logstash.yml:
   file.managed:
