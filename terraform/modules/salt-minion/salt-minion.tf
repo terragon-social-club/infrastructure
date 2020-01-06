@@ -76,7 +76,7 @@ resource "digitalocean_droplet" "salt_minion" {
     }
     
     inline = [
-      "salt-key -d ${element(split(\",\", self.tags), 1)}-${element(split(\",\", self.tags), 2)} -y"
+      "salt-key -d ${element(split(",", self.tags), 1)}-${element(split(",", self.tags), 2)} -y"
     ]
     
   }
