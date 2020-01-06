@@ -134,13 +134,13 @@ resource "digitalocean_firewall" "couchdb_to_couchdb" {
   
 }
 
-# Round robin dns for haproxy instances
+# Round robin dns for haproxy instances // currently not really round robin. this is broke and only supports one node
 resource "digitalocean_record" "couchdb_frontend" {
-  count = var.couchdb_replicas > 0 || var.couchdb_proxy_online ? 1 : 0
+  count = var.couchdb_proxy_online == true ? 1 : 0
   domain = "terragon.us"
   type = "A"
   name = "couchdb"
-  value = module.HAProxy.salt_minion_public_ip_addresses[0]
+  value = element(module.HAProxy.salt_minion_public_ip_addresses, 0)
 }
 
 output "couchdb_node_private_ip_addresses" {
