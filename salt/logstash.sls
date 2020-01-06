@@ -42,5 +42,4 @@ logstash_log:
 
 /usr/local/logstash/bin/logstash-plugin install logstash-input-beats > /root/installed_logstash_plugin:
   cmd.run:
-    - runas: logstash
     - creates: /root/installed_logstash_plugin
