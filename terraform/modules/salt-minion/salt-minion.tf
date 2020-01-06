@@ -157,7 +157,7 @@ resource "null_resource" "configure_firewalled_minion" {
 
   provisioner "remote-exec" {
     inline = [
-      "pkg install -y ca_root_nss py36-salt",
+      "pkg install -y ca_root_nss py37-salt",
       "mkdir -p /usr/local/etc/salt/minion.d",
       "mkdir -p /usr/local/etc/salt/pki/minion"
     ]
