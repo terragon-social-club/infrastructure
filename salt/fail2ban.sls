@@ -1,4 +1,4 @@
-py36-fail2ban:
+py37-fail2ban:
   pkg.installed
 
 /usr/local/etc/fail2ban/jail.d/jail-ssh.conf:
