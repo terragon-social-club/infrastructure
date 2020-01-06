@@ -1,2 +1,2 @@
 mine_functions:
-  network.ip_addrs: [vtnet1]
+  network.interface_ip: [vtnet1]
