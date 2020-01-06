@@ -40,7 +40,7 @@ logstash_log:
     - source: salt:///files/logstash/logstash.jinja.conf
     - template: jinja
 
-/usr/local/logstash/bin/logstash-plugin install --version 5.1.9 logstash-input-beats:
+/usr/local/logstash/bin/logstash-plugin install logstash-input-beats > /root/installed_logstash_plugin:
   cmd.run:
     - runas: logstash
-    - creates: /usr/local/logstash/vendor/bundle/jruby/2.3.0/gems/logstash-input-beats-5.1.9-java/Gemfile
+    - creates: /root/installed_logstash_plugin
