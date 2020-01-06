@@ -13,4 +13,4 @@ fail2ban:
     - source: salt:///files/fail2ban/jail-ssh.jinja.conf
     - template: jinja
     - require:
-      - pkg: py36-fail2ban
+      - pkg: py37-fail2ban
