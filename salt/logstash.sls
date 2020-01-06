@@ -32,7 +32,7 @@ logstash:
 
 logstash_mode:
   sysrc.managed:
-    - value: "standalone"
+    - value: "agent"
 
 logstash_log:
   sysrc.managed:
