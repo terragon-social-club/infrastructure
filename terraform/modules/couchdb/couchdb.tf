@@ -64,8 +64,8 @@ module "CouchDBNode" {
 
 module "HAProxy" {
   source = "../salt-minion"
-  node_count = var.couchdb_replicas > 0 || var.couchdb_proxy_online ? 1 : 0
-  provision = var.couchdb_replicas > 0 || var.couchdb_proxy_online
+  node_count = var.couchdb_proxy_online == true ? 1 : 0
+  provision = var.couchdb_proxy_online
   name = "haproxy-couchdb"
   size = "s-1vcpu-1gb"
   domain_id = "terragon.us"
