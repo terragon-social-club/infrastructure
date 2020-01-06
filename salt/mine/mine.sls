@@ -1,8 +1,7 @@
-extend:
-  base:
-    mine_functions:
-      network.interface_ip:
-        - vtnet1
+mine_functions:
+  ip_list:
+    - mine_function: network.interface_ip
+    - vtnet1
 
 /usr/local/etc/salt/minion.d/mine.conf:
   file.managed:
