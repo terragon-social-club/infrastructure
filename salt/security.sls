@@ -1,7 +1,8 @@
 include:
-  - ipfw     # firewall
   - filebeat # logging
-
+{% if 'master' in grains['roles'] %}  - ipfw     # firewall
+  - fail2ban
+{% endif %}
 sendmail_enable:
   sysrc.managed:
     - value: "NONE"
