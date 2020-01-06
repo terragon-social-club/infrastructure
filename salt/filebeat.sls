@@ -1,4 +1,4 @@
-{% set has_lp_running = salt['mine.get']('roles:elasticsearch', 'network.interface_ip', tgt_type='grain').items()|length > 0 %}
+{% set has_lp_running = salt['mine.get']('roles:logstash', 'network.interface_ip', tgt_type='grain').items()|length > 0 %}
 beats:
   pkg.installed
 
@@ -14,7 +14,7 @@ beats:
         - /var/log/salt/minion
         - /var/log/fail2ban.log
         - /var/log/userlog
-        - /var/log/fail2ban.log
+      general_log_files: []
       specific_log_files: []
 
 filebeat:

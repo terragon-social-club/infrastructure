@@ -1,3 +1,10 @@
+extend:
+  /usr/local/etc/filebeat.yml:
+    file.managed:
+      - context:
+        general_log_files:
+          - /var/log/fail2ban.log
+
 fail2ban:
   pkg.installed:
     - name: py37-fail2ban
