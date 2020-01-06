@@ -1,0 +1,6 @@
+IPF="ipfw -q add"
+ipfw -q -f flush
+
+# all ports open
+$IPF 110 allow tcp from any to any
+$IPF 111 allow tcp to any from any
