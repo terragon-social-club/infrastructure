@@ -110,6 +110,7 @@ resource "null_resource" "master_prep" {
   
   provisioner "remote-exec" {
     inline = [
+      "env ASSUME_ALWAYS_YES=YES pkg install htop",
       "env ASSUME_ALWAYS_YES=YES pkg install git",
       "env ASSUME_ALWAYS_YES=YES pkg install devel/py-gitpython"
     ]
