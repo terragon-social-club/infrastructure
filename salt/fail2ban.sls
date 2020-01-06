@@ -1,5 +1,12 @@
-py37-fail2ban:
-  pkg.installed
+fail2ban:
+  pkg.installed:
+    name: py37-fail2ban
+  service.running:
+    - require:
+      - file: /usr/local/etc/fail2ban/jail.d/jail-ssh.conf
+    - enable: True
+    - watch:
+      - file: /usr/local/etc/fail2ban/jail.d/jail-ssh.conf
 
 /usr/local/etc/fail2ban/jail.d/jail-ssh.conf:
   file.managed:
@@ -7,12 +14,3 @@ py37-fail2ban:
     - template: jinja
     - require:
       - pkg: py36-fail2ban
-
-fail2ban:
-  service.running:
-    - require: 
-      - pkg: py36-fail2ban
-      - file: /usr/local/etc/fail2ban/jail.d/jail-ssh.conf
-    - enable: True
-    - watch:
-      - file: /usr/local/etc/fail2ban/jail.d/jail-ssh.conf
