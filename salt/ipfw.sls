@@ -1,6 +1,6 @@
 firewall_type:
   sysrc.managed:
-    - value: "client"
+    - value: "UNKNOWN"
 
 ipfw:
   service.running:
