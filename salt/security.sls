@@ -1,6 +1,6 @@
 include:
   - filebeat # logging
-{% if 'master' in grains['roles'] %}  - ipfw     # firewall
+{% if 'public' in grains['roles'] %}  - ipfw     # firewall
   - fail2ban
 {% endif %}
 sendmail_enable:
