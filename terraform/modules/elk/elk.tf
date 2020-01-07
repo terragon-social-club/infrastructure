@@ -112,7 +112,7 @@ module "HAProxy" {
   domain_id = "terragon.us"
   keys = var.ssh_keys
   
-  salt_minion_roles = ["haproxy-kibana", "haproxy", "minion"]
+  salt_minion_roles = ["kibana", "haproxy", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
   salt_master_private_ip_address = var.salt_master_private_ip_address
   salt_master_public_ip_address = var.salt_master_public_ip_address
