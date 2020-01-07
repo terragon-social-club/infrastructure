@@ -67,7 +67,7 @@ module "HAProxy" {
   node_count = var.couchdb_proxy_online == true ? 1 : 0
   provision = var.couchdb_proxy_online
   name = "haproxy-couchdb"
-  size = "s-1vcpu-1gb"
+  size = "c-2"
   domain_id = "terragon.us"
   custom_fqdn = "couchdb"
   keys = var.ssh_keys
