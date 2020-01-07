@@ -2,6 +2,8 @@ global
     daemon
     maxconn 1000
     log /dev/log local0
+    tune.ssl.cachesize 1000000
+    tune.ssl.default-dh-param 2048
 
 defaults
     # refer to the global log definition
