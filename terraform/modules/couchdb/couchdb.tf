@@ -49,7 +49,7 @@ module "CouchDBNode" {
   node_count = var.couchdb_replicas
   provision = var.couchdb_replicas > 0
   name = "couchdb"
-  size = "s-3vcpu-1gb"
+  size = "c-8"
   domain_id = "terragon.us"
   keys = var.ssh_keys
   
