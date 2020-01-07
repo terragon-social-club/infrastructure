@@ -78,7 +78,7 @@ module "Kibana" {
   node_count = (var.elasticsearch_workers > 0) ? 1 : 0
   provision = var.elasticsearch_workers > 0
   name = "kibana"
-  size = "s-6vcpu-16gb"
+  size = "s-3vcpu-1gb"
   domain_id = "terragon.us"
   keys = var.ssh_keys
   
