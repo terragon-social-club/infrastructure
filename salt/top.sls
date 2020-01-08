@@ -9,6 +9,10 @@ base:
   'saltm':
     - master
 
+  'roles:storage':
+    - match: grains
+    - storage
+
   'roles:haproxy':
     - match: grain
     - letsencrypt
