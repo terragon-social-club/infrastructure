@@ -48,7 +48,7 @@ resource "digitalocean_volume" "storage" {
 }
 
 resource "digitalocean_volume_attachment" "storage" {
-  count = var.disk_size > 0 ? 1 : 0
+  count = digitalocean_volume.storage.count
   droplet_id = digitalocean_droplet.salt_master.id
   volume_id  = digitalocean_volume.storage.id
 }
