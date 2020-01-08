@@ -1,5 +1,6 @@
-/srv/storage:
-  mount.mounted:
-    - persist: True
-    - fstype: zfs
-    - device: /dev/da0
+
+/dev/da0:
+  blockdev.formatted:
+    fs_type: zfs
+    force: True
+
