@@ -1,6 +1,6 @@
 
 /dev/da0:
-  - blockdev.formatted:
+  blockdev.formatted:
     - fs_type: zfs
     - force: True
 
