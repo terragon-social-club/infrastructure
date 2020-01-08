@@ -53,7 +53,7 @@ variable "stripe_api_key" {
 }
 
 variable "disk_size" {
-  default = 20
+  default = 0
 }
 
 resource "digitalocean_droplet" "salt_minion" {
@@ -88,20 +88,15 @@ resource "digitalocean_droplet" "salt_minion" {
 }
 
 resource "digitalocean_volume" "storage" {
-  count = var.node_count
-  
-  triggers = {
-    id = element(digitalocean_droplet.salt_minion, count.index).id
-  }
-
+  count = var.disk_size > 0 ? var.node_count : 0
   region = var.region
-  name = var.name
+  name = "${var.name}-${var.alpha[count.index]}"
   size = var.disk_size
   initial_filesystem_type = "ext4" // salt will reformat to zfs
 }
 
 resource "digitalocean_volume_attachment" "storage" {
-  count = var.node_count
+  count = var.disk_size > 0 ? var.node_count : 0
   
   triggers = {
     id = element(digitalocean_volume.storage, count.index).id
