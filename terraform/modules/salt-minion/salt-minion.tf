@@ -97,11 +97,6 @@ resource "digitalocean_volume" "storage" {
 
 resource "digitalocean_volume_attachment" "storage" {
   count = var.disk_size > 0 ? var.node_count : 0
-  
-  triggers = {
-    id = element(digitalocean_volume.storage, count.index).id
-  }
-
   droplet_id = element(digitalocean_droplet.salt_minion.*.id, count.index)
   volume_id  = element(digitalocean_volume.storage.*.id, count.index)
 }
