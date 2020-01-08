@@ -18,7 +18,7 @@ variable "size" {
 }
 
 variable "disk_size" {
-  default = 1
+  default = 0
 }
 
 variable "listen_all_interfaces" {
