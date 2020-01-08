@@ -49,8 +49,8 @@ resource "digitalocean_volume" "storage" {
 
 resource "digitalocean_volume_attachment" "storage" {
   count = length(digitalocean_volume.storage)
-  droplet_id = element(digitalocean_droplet.salt_master.id, 0)
-  volume_id  = element(digitalocean_volume.storage.id, 0)
+  droplet_id = digitalocean_droplet.salt_master.id
+  volume_id  = digitalocean_volume.storage.id
 }
 
 resource "digitalocean_record" "salt_master" {
