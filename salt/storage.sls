@@ -1,6 +1,5 @@
 /srv/storage:
   mount.mounted:
-    - device: da
     - fstype: zfs
     - persist: True
     - mkmnt: True
