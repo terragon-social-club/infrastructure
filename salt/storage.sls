@@ -1,7 +1,8 @@
 /srv/storage:
   mount.mounted:
-    - device: /dev/da0
+    - device: da
     - fstype: zfs
-    - opts: defaults,nofail,discard,noatime
     - persist: True
     - mkmnt: True
+    - device_name_regex:
+      - /dev/da0
