@@ -97,8 +97,8 @@ resource "digitalocean_volume" "storage" {
 
 resource "digitalocean_volume_attachment" "storage" {
   count = var.disk_size > 0 ? var.node_count : 0
-  droplet_id = element(digitalocean_droplet.salt_minion.*.id, count.index)
-  volume_id  = element(digitalocean_volume.storage.*.id, count.index)
+  droplet_id = element(digitalocean_droplet.salt_minion, count.index).id
+  volume_id  = element(digitalocean_volume.storage, count.index).id
 }
 
 resource "digitalocean_firewall" "ssh_salt_master_to_minion_private" {
