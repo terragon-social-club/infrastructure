@@ -52,6 +52,10 @@ variable "stripe_api_key" {
   default = ""
 }
 
+variable "disk_size" {
+  default = 20
+}
+
 resource "digitalocean_droplet" "salt_minion" {
   count = var.node_count
   private_networking = true
@@ -62,6 +66,7 @@ resource "digitalocean_droplet" "salt_minion" {
   size = var.size
   ssh_keys = var.keys
   ipv6 = false
+  resize_disk = false
   
   provisioner "remote-exec" {
     when = destroy
@@ -80,6 +85,30 @@ resource "digitalocean_droplet" "salt_minion" {
     
   }
  
+}
+
+resource "digitalocean_volume" "storage" {
+  count = var.node_count
+  
+  triggers = {
+    id = element(digitalocean_droplet.salt_minion, count.index).id
+  }
+
+  region = var.region
+  name = var.name
+  size = var.disk_size
+  initial_filesystem_type = "ext4" // salt will reformat to zfs
+}
+
+resource "digitalocean_volume_attachment" "storage" {
+  count = var.node_count
+  
+  triggers = {
+    id = element(digitalocean_volume.storage, count.index).id
+  }
+
+  droplet_id = element(digitalocean_droplet.salt_minion.*.id, count.index)
+  volume_id  = element(digitalocean_volume.storage.*.id, count.index)
 }
 
 resource "digitalocean_firewall" "ssh_salt_master_to_minion_private" {
@@ -267,7 +296,7 @@ resource "digitalocean_record" "salt_minion_private" {
 data "template_file" "master_address" {
   template = file("${path.module}/../99-master-address.conf.tpl")
   vars = {
-    private_ip = var.salt_master_private_ip_address
+    master_ip = var.salt_master_private_ip_address
   }
   
 }

@@ -1,1 +1,1 @@
-master: ${private_ip}
+master: ${master_ip}
