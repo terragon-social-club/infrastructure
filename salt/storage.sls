@@ -1,4 +1,4 @@
-/dev/da0:
+da0:
   zfs.filesystem_present:
     - create_parent: true
     - properties:
