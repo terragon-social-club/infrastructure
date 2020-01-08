@@ -1,6 +1,6 @@
 /srv/storage:
   mount.mounted:
-    - device: da0
+    - device: /dev/da0
     - fstype: zfs
     - opts: defaults,nofail,discard,noatime
     - persist: True
