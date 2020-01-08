@@ -10,7 +10,7 @@ base:
     - master
 
   'roles:storage':
-    - match: grains
+    - match: grain
     - storage
 
   'roles:haproxy':
