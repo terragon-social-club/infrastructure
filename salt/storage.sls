@@ -1,2 +1,3 @@
-zfs:
-  zfs.filesystem_present
+da0:
+  zfs.filesystem_present:
+    - name: da0
