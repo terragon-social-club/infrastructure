@@ -18,7 +18,7 @@ variable "size" {
 }
 
 variable "disk_size" {
-  default = 20
+  default = 1
 }
 
 variable "listen_all_interfaces" {
@@ -40,6 +40,7 @@ resource "digitalocean_droplet" "salt_master" {
 }
 
 resource "digitalocean_volume" "storage" {
+  count = var.disk_size > 0 ? 1 : 0
   region = var.region
   name = var.name
   size = var.disk_size
@@ -47,6 +48,7 @@ resource "digitalocean_volume" "storage" {
 }
 
 resource "digitalocean_volume_attachment" "storage" {
+  count = var.disk_size > 0 ? 1 : 0
   droplet_id = digitalocean_droplet.salt_master.id
   volume_id  = digitalocean_volume.storage.id
 }
