@@ -1,6 +1,5 @@
-
 /dev/da0:
-  blockdev.formatted:
-    - fs_type: ufs
-    - force: True
-
+  zfs.filesystem_present:
+    - create_parent: true
+    - properties:
+        quota: 1G
