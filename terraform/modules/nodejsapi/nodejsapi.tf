@@ -1,5 +1,3 @@
-variable "pm2_nodes" {}
-
 variable "salt_master_droplet_id" {}
 variable "salt_master_private_ip_address" {}
 variable "salt_master_public_ip_address" {}
@@ -11,6 +9,9 @@ variable "couchdb_pass" {}
 variable "stripe_api_key" {}
 variable "couchdb_droplet_ids" {}
 variable "image" {}
+variable "pm2_nodes" {}
+variable "proxy_size" {}
+variable "api_size" {}
 
 module "PM2Node" {
   source = "../salt-minion"
@@ -18,10 +19,10 @@ module "PM2Node" {
   provision = false
   
   name = "nodejs-api"
-  size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
   keys = var.ssh_keys
   image = var.image
+  size = var.api_size
   
   salt_minion_roles = ["pm2", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
@@ -36,14 +37,14 @@ module "PM2Node" {
 module "HAProxy" {
   source = "../salt-minion"
   node_count = var.pm2_nodes > 0 ? 1 : 0
-  provision = false
-
+  provision = var.pm2_nodes > 0 ? true : false
   name = "haproxy-nodejsapi"
-  size = "s-2vcpu-2gb"
+  size = var.proxy_size
   domain_id = "terragon.us"
   custom_fqdn = "express"
   keys = var.ssh_keys
   image = var.image
+  proxy_size = var.proxy_size
   
   salt_minion_roles = ["haproxy", "pm2", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
