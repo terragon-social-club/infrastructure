@@ -35,7 +35,7 @@ variable "cluster_makeup" {
     }
 
     logging = {
-      elastic_size = "s-2vcpu-2gb"
+      elastic_size = "s-2vcpu-4gb"
       kibana_proxy_size = "s-1vcpu-1gb"
       kibana_size = "s-2vcpu-2gb"
       logstash_size = "s-1vcpu-1gb"
