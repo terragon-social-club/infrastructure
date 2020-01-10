@@ -35,7 +35,7 @@ variable "base_image" {
 variable "cluster_makeup" {
   default = {
     salt_master = {
-      size = "s-16vcpu-64gb"
+      size = "s-1vcpu-1gb"
     }
 
     logging = {
@@ -63,7 +63,6 @@ variable "cluster_makeup" {
   }
 
 }
-
 
 module "NodeJSApi" {
   source = "./modules/nodejsapi"
