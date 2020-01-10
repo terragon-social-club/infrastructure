@@ -1,5 +1,3 @@
-variable "logstash_workers" {}
-variable "elasticsearch_workers" {}
 variable "all_droplet_ips" {}
 variable "salt_master_droplet_id" {}
 variable "salt_master_private_ip_address" {}
@@ -11,12 +9,19 @@ variable "kibana_domain" {
   default = "kib"
 }
 
+variable "logstash_size" {}
+variable "logstash_workers" {}
+variable "elasticsearch_workers" {}
+variable "elasticsearch_size" {}
+variable "kibana_size" {}
+variable "kibana_proxy_size" {}
+
 module "Logstash" {
   source = "../salt-minion"
   node_count = var.logstash_workers
   provision = var.logstash_workers > 0
   name = "logstash"
-  size = "s-3vcpu-1gb"
+  size = var.logstash_size
   domain_id = "terragon.us"
   keys = var.ssh_keys
   image = var.image
@@ -51,7 +56,7 @@ module "ElasticSearch" {
   node_count = var.elasticsearch_workers
   provision = var.elasticsearch_workers > 0
   name = "elasticsearch"
-  size = "s-4vcpu-8gb"
+  size = var.elasticsearch_size
   domain_id = "terragon.us"
   keys = var.ssh_keys
   image = var.image
@@ -81,7 +86,7 @@ module "Kibana" {
   node_count = (var.elasticsearch_workers > 0) ? 1 : 0
   provision = var.elasticsearch_workers > 0
   name = "kibana"
-  size = "s-3vcpu-1gb"
+  size = var.kibana_size
   domain_id = "terragon.us"
   keys = var.ssh_keys
   image = var.image
@@ -111,7 +116,7 @@ module "HAProxy" {
   node_count = (var.elasticsearch_workers > 0) ? 1 : 0
   provision = true
   name = "haproxy-kibana"
-  size = "s-1vcpu-1gb"
+  size = var.kibana_proxy_size
   custom_fqdn = var.kibana_domain
   domain_id = "terragon.us"
   keys = var.ssh_keys

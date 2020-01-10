@@ -2,6 +2,8 @@ variable "random_nonce" {
   default = 0
 }
 
+variable "couchdb_size" {}
+variable "proxy_size" {}
 variable "couchdb_replicas" {}
 variable "couchdb_proxy_online" {}
 variable "salt_master_droplet_id" {}
@@ -50,7 +52,7 @@ module "CouchDBNode" {
   node_count = var.couchdb_replicas
   provision = var.couchdb_replicas > 0
   name = "couchdb"
-  size = "c-32"
+  size = var.couchdb_size
   domain_id = "terragon.us"
   keys = var.ssh_keys
   image = var.image
@@ -69,7 +71,7 @@ module "HAProxy" {
   node_count = var.couchdb_proxy_online == true ? 1 : 0
   provision = var.couchdb_proxy_online
   name = "haproxy-couchdb"
-  size = "c-32"
+  size = var.proxy_size
   domain_id = "terragon.us"
   custom_fqdn = "couchdb"
   keys = var.ssh_keys
