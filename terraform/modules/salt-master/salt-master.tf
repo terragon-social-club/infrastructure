@@ -214,7 +214,7 @@ resource "null_resource" "master_prep" {
 data "template_file" "grains" {
   template = file("${path.module}/../grains.tpl")
   vars = {
-    roles = "- master\n\r- public"
+    roles = var.disk_size > 0 ? "  - master\r\n  - public\r\n  - storage" : "  - master\r\n  - public"
     fqdn = "${var.name}.terragon.us"
   }
   
