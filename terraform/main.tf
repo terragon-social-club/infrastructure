@@ -39,8 +39,8 @@ variable "cluster_makeup" {
       kibana_proxy_size = "s-1vcpu-1gb"  
       kibana_size = "s-2vcpu-2gb"
       logstash_size = "s-1vcpu-1gb"
-      logstash_node_count = 1
-      elastic_node_count = 1
+      logstash_node_count = 0
+      elastic_node_count = 0
     }
 
     couchdb = {
