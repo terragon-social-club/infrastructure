@@ -41,7 +41,7 @@ variable "cluster_makeup" {
     couchdb = {
       couch_size = "c-32"
       node_count = 0
-      proxy_provisioned = true
+      proxy_provisioned = false
       proxy_size = "c-32"
     }
 
