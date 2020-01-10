@@ -10,6 +10,7 @@ variable "couchdb_user" {}
 variable "couchdb_pass" {}
 variable "stripe_api_key" {}
 variable "couchdb_droplet_ids" {}
+variable "image" {}
 
 module "PM2Node" {
   source = "../salt-minion"
@@ -20,6 +21,7 @@ module "PM2Node" {
   size = "s-2vcpu-2gb"
   domain_id = "terragon.us"
   keys = var.ssh_keys
+  image = var.image
   
   salt_minion_roles = ["pm2", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
@@ -41,6 +43,7 @@ module "HAProxy" {
   domain_id = "terragon.us"
   custom_fqdn = "express"
   keys = var.ssh_keys
+  image = var.image
   
   salt_minion_roles = ["haproxy", "pm2", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id

@@ -33,7 +33,7 @@ variable "region" {
 }
 
 variable "image" {
-  default = "freebsd-12-x64-zfs"
+  default = ""
 }
 
 variable "size" {

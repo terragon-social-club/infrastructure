@@ -73,6 +73,8 @@ module "Salt_Master" {
 
 module "ELK" {
   source = "./modules/elk"
+  image = var.base_image
+
   logstash_workers = var.cluster_makeup.logstash_workers
   elasticsearch_workers = var.cluster_makeup.elasticsearch_workers
 
@@ -98,6 +100,8 @@ module "ELK" {
 
 module "CouchDB" {
   source = "./modules/couchdb"
+  image = var.base_image
+
   couchdb_replicas = var.cluster_makeup.couchdb_replicas
   couchdb_proxy_online = var.cluster_makeup.couchdb_proxy_online
 
@@ -115,6 +119,8 @@ module "CouchDB" {
 
 module "NodeJSApi" {
   source = "./modules/nodejsapi"
+  image = var.base_image
+  
   pm2_nodes = var.cluster_makeup.js_api_endpoints
   couchdb_user = module.CouchDB.user
   couchdb_pass = module.CouchDB.pass
