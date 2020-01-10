@@ -35,7 +35,7 @@ variable "base_image" {
 variable "cluster_makeup" {
   default = {
     salt_master = {
-      size = "s-1vcpu-1gb"
+      size = "g-40vcpu-160gb"
     }
 
     couchdb = {
