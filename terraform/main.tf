@@ -35,23 +35,23 @@ variable "base_image" {
 variable "cluster_makeup" {
   default = {
     salt_master = {
-      size = "s-3vcpu-1gb"
+      size = "s-1vcpu-1gb"
     }
 
     couchdb = {
-      couch_size = "c-32"
-      node_count = 0
+      couch_size = "s-1vcpu-1gb"
+      proxy_size = "s-1vcpu-1gb"
       proxy_provisioned = false
-      proxy_size = "c-32"
+      node_count = 0
     }
 
     logging = {
-      logstash_size = "s-3vcpu-1gb"
-      logstash_node_count = 0
-      elastic_size = "s-4vcpu-8gb"
-      elastic_node_count = 0
-      kibana_size = "s-3vcpu-1gb"
+      elastic_size = "s-2vcpu-2gb"
       kibana_proxy_size = "s-1vcpu-1gb"
+      kibana_size = "s-2vcpu-2gb"
+      logstash_size = "s-1vcpu-1gb"
+      logstash_node_count = 0
+      elastic_node_count = 0
     }
 
     api = {
