@@ -44,7 +44,6 @@ module "HAProxy" {
   custom_fqdn = "express"
   keys = var.ssh_keys
   image = var.image
-  proxy_size = var.proxy_size
   
   salt_minion_roles = ["haproxy", "pm2", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
