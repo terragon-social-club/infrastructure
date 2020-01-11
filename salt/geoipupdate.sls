@@ -1,0 +1,2 @@
+geoipupdate:
+  pkg.installed

@@ -5,11 +5,9 @@ extend:
         specific_log_files:
           - /var/log/logstash/logstash-plain.log
 
-geoipupdate:
-  pkg.installed
-
 include:
   - java
+  - geoipupdate
 
 logstash:
   pkg.installed:
