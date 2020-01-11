@@ -10,3 +10,4 @@ gitfs_remotes:
 gitfs_root: salt
 transport: zeromq
 file_recv: True
+pillar_roots: salt://pillar
