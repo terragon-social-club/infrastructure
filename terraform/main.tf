@@ -87,13 +87,14 @@ module "ELK" {
   source = "./modules/elk"
   image = var.base_image
 
+  kibana_domain = "dashboard"
+  kibana_size = var.cluster_makeup.logging.kibana_size
+  kibana_proxy_size = var.cluster_makeup.logging.kibana_proxy_size
+  kibana_proxy_provisioned = var.cluster_makeup.logging.kibana_proxy_provisioned
   logstash_size = var.cluster_makeup.logging.logstash_size
   logstash_workers = var.cluster_makeup.logging.logstash_node_count
   elasticsearch_workers = var.cluster_makeup.logging.elastic_node_count
   elasticsearch_size = var.cluster_makeup.logging.elastic_size
-  kibana_size = var.cluster_makeup.logging.kibana_size
-  kibana_proxy_size = var.cluster_makeup.logging.kibana_proxy_size
-  kibana_proxy_provisioned = var.cluster_makeup.logging.kibana_proxy_provisioned
 
   geoip_license_key = var.geoip_license_key
   geoip_account_id = var.geoip_account_id
