@@ -17,3 +17,14 @@ extend:
 salt_master:
   service.running:
     - enable: True
+    - watch:
+      - file: /root/pillar/top.sls
+      - file: /root/pillar/data.sls
+
+/root/pillar/top.sls:
+  file.managed:
+    - source: salt:///pillar/top.sls
+
+/root/pillar/data.sls:
+  file.managed:
+    - source: salt:///pillar/data.sls
