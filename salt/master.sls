@@ -21,12 +21,12 @@ salt_master:
       - file: /root/pillar/top.sls
       - file: /root/pillar/data.sls
 
-/root/pillar/top.sls:
+/srv/root/pillar/top.sls:
   file.managed:
     - makedirs: True
     - source: salt:///pillar/top.sls
 
-/root/pillar/data.sls:
+/srv/root/pillar/data.sls:
   file.managed:
     - makedirs: True
     - source: salt:///pillar/data.sls
