@@ -56,8 +56,13 @@ variable "disk_size" {
   default = 0
 }
 
-variable "geoip_license_key" {}
-variable "geoip_account_id" {}
+variable "geoip_license_key" {
+  default = ""
+}
+
+variable "geoip_account_id" {
+  default = ""
+}
 
 resource "digitalocean_droplet" "salt_minion" {
   count = var.node_count
