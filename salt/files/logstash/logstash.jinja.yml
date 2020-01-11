@@ -219,7 +219,7 @@ path.config: /usr/local/etc/logstash/logstash.conf
 xpack.monitoring.enabled: true
 #xpack.monitoring.elasticsearch.username: logstash_system
 #xpack.monitoring.elasticsearch.password: password
-xpack.monitoring.elasticsearch.url: [{% for address in salt['mine.get']('roles:elasticsearch', 'network.interface_ip', tgt_type='grain').items() %}"{{ address[1] }}:9200"{{ "," if not loop.last else "" }}{% endfor %}]
+xpack.monitoring.elasticsearch.hosts: [{% for address in salt['mine.get']('roles:elasticsearch', 'network.interface_ip', tgt_type='grain').items() %}"{{ address[1] }}:9200"{{ "," if not loop.last else "" }}{% endfor %}]
 #xpack.monitoring.elasticsearch.ssl.ca: [ "/path/to/ca.crt" ]
 #xpack.monitoring.elasticsearch.ssl.truststore.path: path/to/file
 #xpack.monitoring.elasticsearch.ssl.truststore.password: password
