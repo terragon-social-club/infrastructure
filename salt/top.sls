@@ -48,8 +48,3 @@ base:
   'G@roles:pm2 and G@roles:haproxy':
     - match: compound
     - haproxy.pm2
-
-mine_functions:
-  network.interface_ip:
-    - vtnet1
-    
