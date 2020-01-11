@@ -7,11 +7,7 @@ variable "ssh_keys" {}
 variable "image" {}
 variable "geoip_license_key" {}
 variable "geoip_account_id" {}
-
-variable "kibana_domain" {
-  default = "dashboard"
-}
-
+variable "kibana_domain" {}
 variable "logstash_size" {}
 variable "logstash_workers" {}
 variable "elasticsearch_workers" {}
