@@ -56,6 +56,9 @@ variable "disk_size" {
   default = 0
 }
 
+variable "geoip_license_key" {}
+variable "geoip_account_id" {}
+
 resource "digitalocean_droplet" "salt_minion" {
   count = var.node_count
   private_networking = true
@@ -188,7 +191,7 @@ resource "null_resource" "configure_firewalled_minion" {
   }
   
   provisioner "file" {
-    content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${length(var.custom_fqdn) > 0 ? var.custom_fqdn : "${var.name}-${var.alpha[count.index]}"}.terragon.us\ncouch_user: ${var.couch_user}\ncouch_pass: ${var.couch_pass}\nstripe_api_key: ${var.stripe_api_key}\n"
+    content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${length(var.custom_fqdn) > 0 ? var.custom_fqdn : "${var.name}-${var.alpha[count.index]}"}.terragon.us\ncouch_user: ${var.couch_user}\ncouch_pass: ${var.couch_pass}\nstripe_api_key: ${var.stripe_api_key}\ngeoip_license_key: ${var.geoip_license_key}\ngeoip_account_id: ${var.geoip_account_id}"
     destination = "/usr/local/etc/salt/grains"
   }
 

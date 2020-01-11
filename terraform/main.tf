@@ -1,6 +1,8 @@
 variable "stripe_api_key" {}
 variable "digitalocean_api_token" {}
 variable "terraform_cloud_api_token" {}
+variable "geoip_license_key" {}
+variable "geoip_account_id" {}
 
 variable "mwk_key_fingerprint" {
   type = string
@@ -39,8 +41,8 @@ variable "cluster_makeup" {
       kibana_proxy_size = "s-1vcpu-1gb"  
       kibana_size = "s-2vcpu-2gb"
       logstash_size = "s-1vcpu-1gb"
-      logstash_node_count = 1
-      elastic_node_count = 1
+      logstash_node_count = 0
+      elastic_node_count = 0
     }
 
     couchdb = {
@@ -89,6 +91,9 @@ module "ELK" {
   elasticsearch_size = var.cluster_makeup.logging.elastic_size
   kibana_size = var.cluster_makeup.logging.kibana_size
   kibana_proxy_size = var.cluster_makeup.logging.kibana_proxy_size
+
+  geoip_license_key = var.geoip_license_key
+  geoip_account_id = var.geoip_account_id
 
   all_droplet_ips = concat(
     [module.Salt_Master.private_ip_address],
