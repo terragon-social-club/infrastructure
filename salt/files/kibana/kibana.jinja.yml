@@ -114,3 +114,4 @@ elasticsearch.url: "http://{{ elastic_search_nodes[1] }}:9200"
 #i18n.locale: "en"
 
 xpack.reporting.enabled: false
+xpack.monitoring.enabled: true
