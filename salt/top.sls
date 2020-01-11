@@ -7,7 +7,6 @@ base:
 
   'saltm':
     - master
-    - data
 
   'roles:storage':
     - match: grain
