@@ -9,7 +9,7 @@ variable "geoip_license_key" {}
 variable "geoip_account_id" {}
 
 variable "kibana_domain" {
-  default = "kib"
+  default = "dashboard"
 }
 
 variable "logstash_size" {}
