@@ -18,6 +18,9 @@ variable "elasticsearch_workers" {}
 variable "elasticsearch_size" {}
 variable "kibana_size" {}
 variable "kibana_proxy_size" {}
+variable "kibana_proxy_active" {
+  default = true
+}
 
 module "Logstash" {
   source = "../salt-minion"
@@ -118,7 +121,7 @@ resource "digitalocean_firewall" "kibana_to_elasticsearch" {
 
 module "HAProxy" {
   source = "../salt-minion"
-  node_count = (var.elasticsearch_workers > 0) ? 1 : 0
+  node_count = (var.kibana_proxy_active) ? 1 : 0
   provision = true
   name = "haproxy-kibana"
   size = var.kibana_proxy_size
@@ -165,7 +168,7 @@ resource "digitalocean_firewall" "world_to_haproxy_kibana" {
 }
 
 resource "digitalocean_record" "kibana_frontend" {
-  count = (var.elasticsearch_workers > 0) ? 1 : 0
+  count = var.kibana_proxy_active ? 1 : 0
   domain = "terragon.us"
   type = "A"
   name = var.kibana_domain
