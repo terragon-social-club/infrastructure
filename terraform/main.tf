@@ -40,9 +40,10 @@ variable "cluster_makeup" {
       elastic_size = "s-2vcpu-4gb"       # Minimum size is s-2vcpu-4gb
       kibana_proxy_size = "s-1vcpu-1gb"  
       kibana_size = "s-2vcpu-2gb"
+      kibana_proxy_provisioned = true
       logstash_size = "s-1vcpu-1gb"
-      logstash_node_count = 0
-      elastic_node_count = 0
+      logstash_node_count = 1
+      elastic_node_count = 1
     }
 
     couchdb = {
@@ -91,6 +92,7 @@ module "ELK" {
   elasticsearch_size = var.cluster_makeup.logging.elastic_size
   kibana_size = var.cluster_makeup.logging.kibana_size
   kibana_proxy_size = var.cluster_makeup.logging.kibana_proxy_size
+  kibana_proxy_provisioned = var.cluster_makeup.logging.kibana_proxy_provisioned
 
   geoip_license_key = var.geoip_license_key
   geoip_account_id = var.geoip_account_id
