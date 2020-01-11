@@ -18,15 +18,15 @@ salt_master:
   service.running:
     - enable: True
     - watch:
-      - file: /srv/root/pillar/top.sls
-      - file: /srv/root/pillar/data.sls
+      - file: /srv/pillar/top.sls
+      - file: /srv/pillar/data.sls
 
-/srv/root/pillar/top.sls:
+/srv/pillar/top.sls:
   file.managed:
     - makedirs: True
     - source: salt:///pillar/top.sls
 
-/srv/root/pillar/data.sls:
+/srv/pillar/data.sls:
   file.managed:
     - makedirs: True
     - source: salt:///pillar/data.sls
