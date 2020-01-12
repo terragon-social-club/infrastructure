@@ -98,6 +98,7 @@ module "ELK" {
   elasticsearch_workers = var.cluster_makeup.logging.elastic_node_count
   elasticsearch_size = var.cluster_makeup.logging.elastic_size
   heartbeat_size = var.cluster_makeup.logging.heartbeat_size
+  heartbeat_provisioned = var.cluster_makeup.logging.heartbeat_provisioned
 
   geoip_license_key = var.geoip_license_key
   geoip_account_id = var.geoip_account_id
