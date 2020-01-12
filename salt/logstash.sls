@@ -45,11 +45,6 @@ logstash_log:
     - source: salt:///files/logstash/fail2ban.jinja.conf
     - template: jinja
 
-/usr/local/etc/logstash/pipelines.yml:
-  file.managed:
-    - source: salt:///files/logstash/pipelines.jinja.yml
-    - template: jinja
-
 /usr/local/logstash/bin/logstash-plugin install logstash-input-beats > /root/installed_logstash_plugin:
   cmd.run:
     - creates: /root/installed_logstash_plugin
