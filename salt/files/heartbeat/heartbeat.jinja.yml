@@ -159,7 +159,7 @@ logging.to_files: true
 # reporting is disabled by default.
 
 # Set to true to enable the monitoring reporter.
-#xpack.monitoring.enabled: false
+xpack.monitoring.enabled: true
 
 # Uncomment to send the metrics to Elasticsearch. Most settings from the
 # Elasticsearch output are accepted here as well. Any setting that is not set is
