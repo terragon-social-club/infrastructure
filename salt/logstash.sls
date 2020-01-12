@@ -18,7 +18,7 @@ logstash:
       - file: /usr/local/etc/logstash/logstash.yml
       - file: /usr/local/etc/logstash/logstash.conf
       - file: /usr/local/etc/logstash/fail2ban.conf
-      - file: /usr/local/etc/logstash/logstash.yml
+      - file: /usr/local/etc/logstash/pipelines.yml
       - sysrc: logstash_mode
       - sysrc: logstash_log
 
@@ -47,7 +47,8 @@ logstash_log:
 
 /usr/local/etc/logstash/pipelines.yml:
   file.managed:
-    - source: salt:///files/logstash/logstash.jinja.conf
+    - source: salt:///files/logstash/pipelines.jinja.yml
+    - template: jinja
 
 /usr/local/logstash/bin/logstash-plugin install logstash-input-beats > /root/installed_logstash_plugin:
   cmd.run:
