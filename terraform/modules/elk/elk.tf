@@ -55,6 +55,21 @@ resource "digitalocean_firewall" "beats_to_logstash" {
   
 }
 
+resource "digitalocean_firewall" "es_kibana_to_logstash" {
+  name="ES-Kibana-To-Logstash"
+  droplet_ids = module.Logstash.droplet_ids
+  count = module.Logstash.provision ? 1 : 0
+
+  inbound_rule {
+    protocol = "tcp"
+    port_range = "9600"
+    source_addresses = concat(module.Kibana.salt_minion_private_ip_addresses,
+                              module.ElasticSearch.salt_minion_private_ip_addresses)
+
+  }
+  
+}
+
 module "ElasticSearch" {
   source = "../salt-minion"
   node_count = var.elasticsearch_workers
