@@ -174,7 +174,7 @@ heartbeat.monitors:
 - type: http
   schedule: '@every 5s'
   urls: [{% for haproxy_node in haproxy_nodes %}"http://{{ haproxy_node[1] }}"{{ "," if not loop.index == haproxy_nodes|length else "" }}{% endfor %}]
-  check.response.status: 200
+  check.response.status: 302
 heartbeat.scheduler:
   limit: 10
 
