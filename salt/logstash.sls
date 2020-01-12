@@ -18,7 +18,6 @@ logstash:
       - file: /usr/local/etc/logstash/logstash.yml
       - file: /usr/local/etc/logstash/logstash.conf
       - file: /usr/local/etc/logstash/fail2ban.conf
-      - file: /usr/local/etc/logstash/pipelines.yml
       - sysrc: logstash_mode
       - sysrc: logstash_log
 
