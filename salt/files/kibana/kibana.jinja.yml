@@ -1,4 +1,4 @@
-{% set elastic_search_nodes = salt['mine.get']('roles:elasticsearch', 'network.interface_ip', tgt_type='grain').items()|first %}
+{% set elastic_search_nodes = salt['mine.get']('roles:elasticsearch', 'local_ip', tgt_type='grain').items()|first %}
 # Kibana is served by a back end server. This setting specifies the port to use.
 server.port: 5601
 
