@@ -169,7 +169,7 @@ logging.to_files: true
 #xpack.monitoring.elasticsearch:
 
 heartbeat.monitors:
-- type: http
+- type: https
   schedule: '@every 5s'
   hosts: ["https://dashboard.terragon.us"]
   check.response.status: 200
