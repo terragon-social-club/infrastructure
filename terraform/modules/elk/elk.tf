@@ -104,8 +104,8 @@ resource "digitalocean_firewall" "logstash_to_elasticsearch" {
 
 module "Heartbeat" {
   source = "../salt-minion"
-  node_count = var.elasticsearch_workers
-  provision = var.elasticsearch_workers > 0
+  node_count = 1
+  provision = true
   name = "heartbeat"
   size = var.heartbeat_size
   domain_id = "terragon.us"
