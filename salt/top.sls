@@ -21,6 +21,10 @@ base:
     - match: grain
     - logstash
 
+  'roles:heartbeat':
+    - match: grain
+    - heartbeat
+
   'roles:elasticsearch':
     - match: grain
     - elasticsearch
