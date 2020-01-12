@@ -171,7 +171,7 @@ xpack.monitoring.enabled: true
 heartbeat.monitors:
 - type: http
   schedule: '@every 5s'
-  hosts: ["https://dashboard.terragon.us"]
+  urls: ["https://dashboard.terragon.us"]
   check.response.status: 200
 heartbeat.scheduler:
   limit: 10
