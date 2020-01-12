@@ -13,6 +13,7 @@ variable "logstash_workers" {}
 variable "elasticsearch_workers" {}
 variable "elasticsearch_size" {}
 variable "kibana_size" {}
+variable "heartbeat_size" {}
 variable "kibana_proxy_size" {}
 variable "kibana_proxy_provisioned" {
   default = false
@@ -106,7 +107,7 @@ module "Heartbeat" {
   node_count = var.elasticsearch_workers
   provision = var.elasticsearch_workers > 0
   name = "heartbeat"
-  size = var.elasticsearch_size
+  size = var.heartbeat_size
   domain_id = "terragon.us"
   keys = var.ssh_keys
   image = var.image

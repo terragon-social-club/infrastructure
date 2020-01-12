@@ -37,6 +37,7 @@ variable "cluster_makeup" {
     }
 
     logging = {
+      heartbeat_size = "s-1vcpu-1gb"
       elastic_size = "s-2vcpu-4gb"       # Minimum size is s-2vcpu-4gb
       kibana_proxy_size = "s-1vcpu-1gb"  
       kibana_size = "s-2vcpu-2gb"
@@ -95,6 +96,7 @@ module "ELK" {
   logstash_workers = var.cluster_makeup.logging.logstash_node_count
   elasticsearch_workers = var.cluster_makeup.logging.elastic_node_count
   elasticsearch_size = var.cluster_makeup.logging.elastic_size
+  heartbeat_size = var.cluster_makeup.logging.heartbeat_size
 
   geoip_license_key = var.geoip_license_key
   geoip_account_id = var.geoip_account_id
