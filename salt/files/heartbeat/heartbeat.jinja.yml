@@ -178,4 +178,3 @@ heartbeat.scheduler:
 
 output.elasticsearch:
   hosts: [{% for address in salt['mine.get']('roles:elasticsearch', 'network.interface_ip', tgt_type='grain').items() %}"{{ address[1] }}:9200"{{ "," if not loop.last else "" }}{% endfor %}]
-  index: "heartbeat-%{[agent.version]}-%{+yyyy.MM.dd}"
