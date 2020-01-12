@@ -50,7 +50,7 @@ variable "cluster_makeup" {
     couchdb = {
       couch_size = "s-1vcpu-1gb"
       proxy_size = "s-1vcpu-1gb"
-      proxy_provisioned = false
+      proxy_provisioned = true
       node_count = 0
     }
 
