@@ -9,16 +9,6 @@
 
 ############################# Heartbeat ######################################
 
-# Define a directory to load monitor definitions from. Definitions take the form
-# of individual yaml files.
-heartbeat.config.monitors:
-  # Directory + glob pattern to search for configuration files
-  path: ${path.config}/monitors.d/*.yml
-  # If enabled, heartbeat will periodically check the config.monitors path for changes
-  reload.enabled: false
-  # How often to check for changes
-  reload.period: 5s
-
 #==================== Elasticsearch template setting ==========================
 
 setup.template.settings:
@@ -160,8 +150,8 @@ processors:
 # To enable all selectors use ["*"]. Examples of other selectors are "beat",
 # "publish", "service".
 #logging.selectors: ["*"]
-logging.to_syslog: true
-logging.to_files: false
+logging.to_syslog: false
+logging.to_files: true
 
 #============================== Xpack Monitoring ===============================
 # heartbeat can export internal metrics to a central Elasticsearch monitoring
@@ -176,8 +166,7 @@ logging.to_files: false
 # automatically inherited from the Elasticsearch output configuration, so if you
 # have the Elasticsearch output configured, you can simply uncomment the
 # following line.
-#xpack.monitoring.elasticsearch:
-
+xpack.monitoring.elasticsearch:
 
 heartbeat.monitors:
 - type: http
