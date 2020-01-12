@@ -11,7 +11,7 @@ include:
 
 logstash:
   pkg.installed:
-    - name: logstash7
+    - name: logstash6
   service.running:
     - enable: True
     - watch:

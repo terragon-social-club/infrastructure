@@ -44,15 +44,15 @@ variable "cluster_makeup" {
       kibana_proxy_provisioned = true
       kibana_domain = "dashboard"
       logstash_size = "s-1vcpu-1gb"
-      logstash_node_count = 1
-      elastic_node_count = 1
+      logstash_node_count = 0
+      elastic_node_count = 0
     }
 
     couchdb = {
       couch_size = "s-1vcpu-1gb"
       proxy_size = "s-1vcpu-1gb"
       proxy_provisioned = true
-      node_count = 1
+      node_count = 0
     }
 
     api = {
