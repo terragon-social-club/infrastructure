@@ -168,10 +168,12 @@ xpack.monitoring.enabled: true
 # following line.
 #xpack.monitoring.elasticsearch:
 
+{% set haproxy_nodes = salt['mine.get']('roles:haproxy', 'network.interface_ip', tgt_type='grains').items() %}
+
 heartbeat.monitors:
 - type: http
   schedule: '@every 5s'
-  urls: ["https://dashboard.terragon.us"]
+  urls: [{% for haproxy_node in haproxy_nodes %}https://{{ peer[1] }}{{ "," if not loop.index == couchdb_nodes|length else "" }}{% endfor %}]
   check.response.status: 200
 heartbeat.scheduler:
   limit: 10
