@@ -92,3 +92,4 @@ http.port: 9200
 # ml is not supported on FreeBSD
 xpack.ml.enabled: false
 xpack.monitoring.enabled: true
+xpack.monitoring.collection.enabled: true
