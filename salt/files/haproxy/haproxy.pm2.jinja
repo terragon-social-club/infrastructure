@@ -20,6 +20,6 @@
     backend servers
         mode http
         balance roundrobin
-        {% for address in salt['mine.get']('roles:pm2-nodejs-api', 'network.interface_ip', tgt_type='grain').items() %}
+        {% for address in salt['mine.get']('roles:pm2-nodejs-api', 'local_ip', tgt_type='grain').items() %}
         server {{address[0]}} {{ address[1] }}:3000 check
         {% endfor %}

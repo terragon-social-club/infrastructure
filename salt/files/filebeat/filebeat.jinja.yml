@@ -163,7 +163,7 @@ setup.kibana:
 
 #----------------------------- Logstash output --------------------------------
 output.logstash:
-  hosts: [{% for address in salt['mine.get']('roles:logstash', 'network.interface_ip', tgt_type='grain').items() %}"{{ address[1] }}:5044"{{ "," if not loop.last else "" }}{% endfor %}]
+  hosts: [{% for address in salt['mine.get']('roles:logstash', 'local_ip', tgt_type='grain').items() %}"{{ address[1] }}:5044"{{ "," if not loop.last else "" }}{% endfor %}]
 
 #----------------------------- Logstash output --------------------------------
 #output.logstash:
