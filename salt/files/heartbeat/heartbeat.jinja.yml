@@ -168,7 +168,7 @@ xpack.monitoring.enabled: true
 # following line.
 #xpack.monitoring.elasticsearch:
 
-{% set haproxy_nodes = salt['mine.get']('roles:haproxy', 'network.interface_ip', tgt_type='grains').items() %}
+{% set haproxy_nodes = salt['mine.get']('roles:haproxy', 'network.interface_ip', tgt_type='grain').items() %}
 
 heartbeat.monitors:
 - type: http
