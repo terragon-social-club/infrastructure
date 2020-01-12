@@ -1,3 +1,10 @@
+extend:
+  /usr/local/etc/filebeat.yml:
+    file.managed:
+      - context:
+        specific_log_files:
+          - /var/db/beats/heartbeat/logs/heartbeat
+
 heartbeat:
   service.running:
     - enable: True
