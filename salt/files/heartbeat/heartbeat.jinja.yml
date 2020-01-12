@@ -173,7 +173,7 @@ xpack.monitoring.enabled: true
 heartbeat.monitors:
 - type: http
   schedule: '@every 5s'
-  urls: [{% for haproxy_node in haproxy_nodes %}https://{{ peer[1] }}{{ "," if not loop.index == couchdb_nodes|length else "" }}{% endfor %}]
+  urls: [{% for haproxy_node in haproxy_nodes %}https://{{ haproxy_node[1] }}{{ "," if not loop.index == haproxy_nodes|length else "" }}{% endfor %}]
   check.response.status: 200
 heartbeat.scheduler:
   limit: 10
