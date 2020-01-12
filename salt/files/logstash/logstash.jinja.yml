@@ -204,7 +204,7 @@ path.config: /usr/local/etc/logstash/logstash.conf
 #   * debug
 #   * trace
 #
-# log.level: info
+log.level: info
 # path.logs:
 #
 # ------------ Other Settings --------------
