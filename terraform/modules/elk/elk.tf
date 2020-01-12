@@ -14,6 +14,7 @@ variable "elasticsearch_workers" {}
 variable "elasticsearch_size" {}
 variable "kibana_size" {}
 variable "heartbeat_size" {}
+variable "heartbeat_provisioned" {}
 variable "kibana_proxy_size" {}
 variable "kibana_proxy_provisioned" {
   default = false
@@ -104,8 +105,8 @@ resource "digitalocean_firewall" "logstash_to_elasticsearch" {
 
 module "Heartbeat" {
   source = "../salt-minion"
-  node_count = 1
-  provision = true
+  node_count = var.heartbeat_provisioned ? 1 : 0
+  provision = var.heartbeat_provisioned
   name = "heartbeat"
   size = var.heartbeat_size
   domain_id = "terragon.us"
