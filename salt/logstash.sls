@@ -17,6 +17,8 @@ logstash:
     - watch:
       - sysrc: logstash_mode
       - sysrc: logstash_log
+      - file: /usr/local/etc/logstash/logstash.yml
+      - file: /usr/local/etc/logstash/logstash.conf
 
 logstash_mode:
   sysrc.managed:
