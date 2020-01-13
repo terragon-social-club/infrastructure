@@ -15,9 +15,6 @@ logstash:
   service.running:
     - enable: True
     - watch:
-      - file: /usr/local/etc/logstash/logstash.yml
-      - file: /usr/local/etc/logstash/logstash.conf
-      - file: /usr/local/etc/logstash/fail2ban.conf
       - sysrc: logstash_mode
       - sysrc: logstash_log
 
@@ -37,11 +34,6 @@ logstash_log:
 /usr/local/etc/logstash/logstash.conf:
   file.managed:
     - source: salt:///files/logstash/logstash.jinja.conf
-    - template: jinja
-
-/usr/local/etc/logstash/fail2ban.conf:
-  file.managed:
-    - source: salt:///files/logstash/fail2ban.jinja.conf
     - template: jinja
 
 /usr/local/logstash/bin/logstash-plugin install logstash-input-beats > /root/installed_logstash_plugin:
