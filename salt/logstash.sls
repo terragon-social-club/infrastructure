@@ -12,12 +12,11 @@ include:
 logstash:
   pkg.installed:
     - name: logstash6
-    - require: java
+    - require:
+      - cmd: mount -a > /root/initial-java-mount
   service.running:
     - enable: True
     - watch:
-      - sysrc: logstash_mode
-      - sysrc: logstash_log
       - file: /usr/local/etc/logstash/logstash.yml
       - file: /usr/local/etc/logstash/logstash.conf
 
@@ -42,3 +41,5 @@ logstash_log:
 /usr/local/logstash/bin/logstash-plugin install logstash-input-beats > /root/installed_logstash_plugin:
   cmd.run:
     - creates: /root/installed_logstash_plugin
+    - require:
+      - pkg: logstash
