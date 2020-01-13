@@ -204,8 +204,8 @@ http.port: 9700
 #   * debug
 #   * trace
 #
-log.level: info
-path.logs: /var/log/logstash
+#log.level: info
+#path.logs: /var/log/logstash
 #
 # ------------ Other Settings --------------
 #
