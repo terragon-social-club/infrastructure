@@ -34,7 +34,7 @@ elasticsearch.hosts: {% for address in salt['mine.get']('roles:elasticsearch', '
 
 # Kibana uses an index in Elasticsearch to store saved searches, visualizations and
 # dashboards. Kibana creates a new index if the index doesn't already exist.
-# kibana.index: "filebeat-*"
+kibana.index: "logstash-*"
 
 # The default application to load.
 #kibana.defaultAppId: "home"
