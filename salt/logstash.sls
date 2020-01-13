@@ -12,6 +12,7 @@ include:
 logstash:
   pkg.installed:
     - name: logstash6
+    - require: java
   service.running:
     - enable: True
     - watch:
