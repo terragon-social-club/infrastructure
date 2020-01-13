@@ -42,11 +42,11 @@ variable "cluster_makeup" {
       elastic_size = "s-2vcpu-4gb"       # Min s-2vcpu-4gb
       kibana_proxy_size = "s-1vcpu-1gb"
       kibana_size = "s-2vcpu-2gb"
-      kibana_proxy_provisioned = false
+      kibana_proxy_provisioned = true
       kibana_domain = "dashboard"
       logstash_size = "s-1vcpu-1gb"
-      logstash_node_count = 0
-      elastic_node_count = 0
+      logstash_node_count = 1
+      elastic_node_count = 1
     }
 
     couchdb = {
