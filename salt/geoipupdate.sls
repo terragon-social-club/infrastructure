@@ -9,3 +9,8 @@ geoipupdate:
     - template: jinja
     - require:
         - pkg: geoipupdate
+
+/usr/local/bin/geoipupdate:
+  cron.present:
+    - user: root
+    - hour: 1
