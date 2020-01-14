@@ -53,7 +53,7 @@ variable "cluster_makeup" {
       couch_size = "s-1vcpu-1gb"
       proxy_size = "s-1vcpu-1gb"
       proxy_provisioned = true
-      node_count = 0
+      node_count = 1
     }
 
     api = {

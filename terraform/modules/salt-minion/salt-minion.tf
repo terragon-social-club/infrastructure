@@ -178,7 +178,7 @@ resource "null_resource" "configure_firewalled_minion" {
     host = element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)
     user = "root"
     type = "ssh"
-    timeout = "5m"
+    timeout = "15m"
   }
 
   provisioner "remote-exec" {
@@ -263,7 +263,7 @@ resource "null_resource" "start_minion" {
     host = element(digitalocean_droplet.salt_minion.*.ipv4_address_private, count.index)
     user = "root"
     type = "ssh"
-    timeout = "5m"
+    timeout = "15m"
   }
   
   provisioner "remote-exec" {
