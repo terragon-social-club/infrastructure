@@ -72,7 +72,13 @@ module "Mail" {
 
 resource "digitalocean_firewall" "ping_all_public" {
   name="all-public-pinged"
-  droplet_ids = concat([var.salt_master_droplet_id], var.salt_minion_droplet_ids)
+  droplet_ids = concat(
+    [module.Salt_Master.private_ip_address],
+    module.CouchDB.couchdb_node_private_ip_addresses,
+    module.CouchDB.haproxy_private_ip_addresses,
+    module.NodeJSApi.pm2_node_private_ip_addresses,
+    module.NodeJSApi.haproxy_private_ip_addresses
+  )
   
   inbound_rule {
     protocol = "icmp"
