@@ -20,8 +20,8 @@ salt_master:
   service.running:
     - enable: True
     - watch:
-      - file: /srv/pillar/top.sls
-      - file: /srv/pillar/data.sls
+        - file: /srv/pillar/top.sls
+        - file: /srv/pillar/data.sls
 
 /srv/pillar/top.sls:
   file.managed:
