@@ -157,7 +157,7 @@ resource "digitalocean_firewall" "kibana_to_elasticsearch" {
   inbound_rule {
     protocol = "tcp"
     port_range = "9200"
-    source_addresses = module.Kibana.salt_minion_private_ip_addresses
+    source_addresses = concat(module.Kibana.salt_minion_private_ip_addresses, module.HAProxy.salt_minion_private_ip_addresses)
   }
   
 }
