@@ -70,6 +70,17 @@ module "Mail" {
   source = "./modules/mail"
 }
 
+resource "digitalocean_firewall" "ping_all_public" {
+  name="all-public-pinged"
+  droplet_ids = concat([var.salt_master_droplet_id], var.salt_minion_droplet_ids)
+  
+  inbound_rule {
+    protocol = "icmp"
+    source_addresses = ["0.0.0.0/1"]
+  }
+  
+}
+
 module "Salt_Master" {
   source = "./modules/salt-master"
   name = "saltm"
