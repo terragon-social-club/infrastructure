@@ -73,11 +73,7 @@ module "Mail" {
 resource "digitalocean_firewall" "ping_all_public" {
   name="all-public-pinged"
   droplet_ids = concat(
-    [module.Salt_Master.private_ip_address],
-    module.CouchDB.couchdb_node_private_ip_addresses,
-    module.CouchDB.haproxy_private_ip_addresses,
-    module.NodeJSApi.pm2_node_private_ip_addresses,
-    module.NodeJSApi.haproxy_private_ip_addresses
+    [module.Salt_Master.droplet_id]
   )
   
   inbound_rule {
