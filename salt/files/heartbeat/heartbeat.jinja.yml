@@ -169,6 +169,7 @@ xpack.monitoring.enabled: true
 #xpack.monitoring.elasticsearch:
 
 {% set haproxy_nodes = salt['mine.get']('roles:haproxy', 'public_ip', tgt_type='grain').items() %}
+{% set couchdb_db_nodes = salt['mine.get']('G@roles:couchdb and not G@roles:haproxy', 'public_ip', tgt_type='compound').items() %}
 
 heartbeat.monitors:
 {% for haproxy_node in haproxy_nodes %}
@@ -178,6 +179,14 @@ heartbeat.monitors:
   name: "{{ haproxy_node[0] }}"
   urls: ["http://{{ haproxy_node[1] }}"]
   check.response.status: 302
+{% endfor %}
+{% for couchdb_db_node in couchdb_db_nodes %}
+- type: http
+  schedule: '@every 1s'
+  id: "haproxy"
+  name: "{{ couchdb_db_node[0] }}"
+  urls: ["http://{{ couchdb_db_node[1] }}"]
+  check.response.status: 200
 {% endfor %}
 heartbeat.scheduler:
   limit: 10
