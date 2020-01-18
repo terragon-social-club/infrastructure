@@ -171,11 +171,14 @@ xpack.monitoring.enabled: true
 {% set haproxy_nodes = salt['mine.get']('roles:haproxy', 'public_ip', tgt_type='grain').items() %}
 
 heartbeat.monitors:
+{% for haproxy_node in haproxy_nodes %}
 - type: http
-  schedule: '@every 5s'
+  schedule: '@every 1s'
   id: "haproxy"
-  urls: [{% for haproxy_node in haproxy_nodes %}"http://{{ haproxy_node[1] }}"{{ "," if not loop.index == haproxy_nodes|length else "" }}{% endfor %}]
+  name: "{{ haproxy_node[0] }}"
+  urls: ["http://{{ haproxy_node[1] }}"]
   check.response.status: 302
+{% endfor %}
 heartbeat.scheduler:
   limit: 10
 
