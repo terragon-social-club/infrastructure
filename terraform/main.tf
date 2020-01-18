@@ -112,6 +112,7 @@ module "ELK" {
   elasticsearch_size = var.cluster_makeup.logging.elastic_size
   heartbeat_size = var.cluster_makeup.logging.heartbeat_size
   heartbeat_provisioned = var.cluster_makeup.logging.heartbeat_provisioned
+  heartbeat_access_droplet_ids = module.CouchDB.droplet_ids
 
   geoip_license_key = var.geoip_license_key
   geoip_account_id = var.geoip_account_id
