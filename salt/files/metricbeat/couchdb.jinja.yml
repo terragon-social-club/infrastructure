@@ -56,7 +56,6 @@ metricbeat.max_start_delay: 10s
 #==========================  Modules configuration =============================
 metricbeat.modules:
 - module: couchdb
-  metricsets: ["server"]
   period: 10s
   hosts: ["{{ salt['network.interface_ip']('vtnet1') }}:5984"]
 
