@@ -185,7 +185,7 @@ heartbeat.monitors:
   schedule: '@every 1s'
   id: "haproxy"
   name: "{{ couchdb_db_node[0] }}"
-  urls: ["http://{{ couchdb_db_node[1] }}"]
+  urls: ["http://{{ couchdb_db_node[1] }}:5984/"]
   check.response.status: 200
 {% endfor %}
 heartbeat.scheduler:
