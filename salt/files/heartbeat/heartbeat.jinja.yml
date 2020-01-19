@@ -169,7 +169,7 @@ xpack.monitoring.enabled: true
 #xpack.monitoring.elasticsearch:
 
 {% set haproxy_nodes = salt['mine.get']('roles:haproxy', 'public_ip', 'grain').items() %}
-{% set couchdb_db_nodes = salt['mine.get']('G@roles:couchdb and not G@roles:haproxy', 'private_ip', 'compound').items() %}
+{% set couchdb_db_nodes = salt['mine.get']('couchdb-*', 'private_ip').items() %}
 
 heartbeat.monitors:
 {% for haproxy_node in haproxy_nodes %}
