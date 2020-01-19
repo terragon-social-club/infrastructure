@@ -12,7 +12,7 @@ metricbeat:
   service.running:
     - enable: True
     - requires:
-        - cmd: "./metricbeat modules enable system > /root/.metricbeat-system-enabled"
+        - cmd: "./metricbeat modules enable system > /root/metricbeat-system-enabled"
     - watch:
         - file: /usr/local/etc/metricbeat.yml
 {% else %}
@@ -21,9 +21,9 @@ metricbeat:
 {% endif %}
 
 {% if has_lp_running %}
-"./metricbeat modules enable system > /root/.metricbeat-system-enabled":
+"metricbeat modules enable system > /root/metricbeat-system-enabled":
   cmd.run:
-    - creates: "/root/.metricbeat-system-enabled"
+    - creates: "/root/metricbeat-system-enabled"
     - requires:
         - pkg: beats
 {% endif %}
