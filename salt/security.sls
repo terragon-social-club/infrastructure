@@ -19,6 +19,16 @@ sendmail_submit_enable:
   sysrc.managed:
     - value: "NO"
 
+/etc/ssh/sshd_config:
+  file.append:
+    - text: "UseDNS no"
+
+sshd:
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/ssh/sshd_config
+
 # IDS
 #aide:
 #  pkg.installed: []
