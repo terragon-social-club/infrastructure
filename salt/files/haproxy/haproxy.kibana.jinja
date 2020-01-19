@@ -9,6 +9,11 @@ defaults
     timeout client 120000ms
     timeout server 120000ms
 
+listen stats
+   bind {{ salt['network.interface_ip']('vtnet1') }}:14567
+   stats enable
+   stats uri /stats
+
 frontend http-in
     bind *:80
     bind *:443 ssl crt /usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem

@@ -2,7 +2,7 @@
 
 /usr/local/etc/metricbeat.yml:
   file.managed:
-    - source: salt:///files/metricbeat/couchdb.jinja.yml
+    - source: salt:///files/metricbeat/haproxy.jinja.yml
     - template: jinja
     - require:
       - pkg: beats
@@ -12,7 +12,7 @@ metricbeat:
   service.running:
     - enable: True
     - requires:
-        - cmd: "metricbeat modules enable couchdb > /root/metricbeat-couchdb-enabled"
+        - cmd: "metricbeat modules enable haproxy > /root/metricbeat-haproxy-enabled"
     - watch:
         - file: /usr/local/etc/metricbeat.yml
 {% else %}
@@ -21,9 +21,9 @@ metricbeat:
 {% endif %}
 
 {% if has_lp_running %}
-"metricbeat modules enable couchdb > /root/metricbeat-couchdb-enabled":
+"metricbeat modules enable haproxy > /root/metricbeat-haproxy-enabled":
   cmd.run:
-    - creates: "/root/metricbeat-couchdb-enabled"
+    - creates: "/root/metricbeat-system-enabled"
     - requires:
         - pkg: beats
 {% endif %}

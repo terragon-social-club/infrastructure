@@ -1,3 +1,6 @@
+include:
+  - metricbeat.haproxy
+
 haproxy:
   pkg.installed: []
   service.running:

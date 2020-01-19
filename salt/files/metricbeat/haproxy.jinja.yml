@@ -1,0 +1,120 @@
+########################## Metricbeat Configuration ###########################
+
+# This file is a full configuration example documenting all non-deprecated
+# options in comments. For a shorter configuration example, that contains only
+# the most common options, please see metricbeat.yml in the same directory.
+#
+# You can find the full configuration reference here:
+# https://www.elastic.co/guide/en/beats/metricbeat/index.html
+
+#============================  Config Reloading ===============================
+
+# Config reloading allows to dynamically load modules. Each file which is
+# monitored must contain one or multiple modules as a list.
+metricbeat.config.modules:
+
+  # Glob pattern for configuration reloading
+  path: /usr/local/etc/beats/metricbeat.modules.d/*.yml
+
+  # Period on which files under path should be checked for changes
+  reload.period: 10s
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+# Maximum amount of time to randomly delay the start of a metricset. Use 0 to
+# disable startup delay.
+metricbeat.max_start_delay: 10s
+
+#============================== Autodiscover ===================================
+
+# Autodiscover allows you to detect changes in the system and spawn new modules
+# as they happen.
+
+#metricbeat.autodiscover:
+  # List of enabled autodiscover providers
+#  providers:
+#    - type: docker
+#      templates:
+#        - condition:
+#            equals.docker.container.image: etcd
+#          config:
+#            - module: etcd
+#              metricsets: ["leader", "self", "store"]
+#              period: 10s
+#              hosts: ["${host}:2379"]
+
+#=========================== Timeseries instance ===============================
+
+# Enabling this will add a `timeseries.instance` keyword field to all metric
+# events. For a given metricset, this field will be unique for every single item
+# being monitored.
+# This setting is experimental.
+
+#timeseries.enabled: false
+
+#==========================  Modules configuration =============================
+metricbeat.modules:
+
+#-------------------------------- System Module --------------------------------
+metricbeat.modules:
+- module: haproxy
+  metricsets: ["info", "stat"]
+  period: 10s
+  hosts: ["tcp://{{ salt['network.interface_ip']('vtnet1') }}:14567"]
+  enabled: true
+
+  # A list of filesystem types to ignore. The filesystem metricset will not
+  # collect data from filesystems matching any of the specified types, and
+  # fsstats will not include data from these filesystems in its summary stats.
+  # If not set, types associated to virtual filesystems are automatically
+  # added when this information is available in the system (e.g. the list of
+  # `nodev` types in `/proc/filesystem`).
+  #filesystem.ignore_types: []
+
+  # These options allow you to filter out all processes that are not
+  # in the top N by CPU or memory, in order to reduce the number of documents created.
+  # If both the `by_cpu` and `by_memory` options are used, the union of the two sets
+  # is included.
+  #process.include_top_n:
+
+    # Set to false to disable this feature and include all processes
+    #enabled: true
+
+    # How many processes to include from the top by CPU. The processes are sorted
+    # by the `system.process.cpu.total.pct` field.
+    #by_cpu: 0
+
+    # How many processes to include from the top by memory. The processes are sorted
+    # by the `system.process.memory.rss.bytes` field.
+    #by_memory: 0
+
+  # If false, cmdline of a process is not cached.
+  #process.cmdline.cache.enabled: true
+
+  # Enable collection of cgroup metrics from processes on Linux.
+  #process.cgroups.enabled: true
+
+  # A list of regular expressions used to whitelist environment variables
+  # reported with the process metricset's events. Defaults to empty.
+  #process.env.whitelist: []
+
+  # Include the cumulative CPU tick values with the process metrics. Defaults
+  # to false.
+  #process.include_cpu_ticks: false
+
+  # Raid mount point to monitor
+  #raid.mount_point: '/'
+
+  # Configure reverse DNS lookup on remote IP addresses in the socket metricset.
+  #socket.reverse_lookup.enabled: false
+  #socket.reverse_lookup.success_ttl: 60s
+  #socket.reverse_lookup.failure_ttl: 60s
+
+  # Diskio configurations
+
+output.elasticsearch:
+  hosts: [{% for address in salt['mine.get']('roles:elasticsearch', 'private_ip', tgt_type='grain').items() %}"{{ address[1] }}:9200"{{ "," if not loop.last else "" }}{% endfor %}]
+
+setup.kibana:
+  host: "{% for address in salt['mine.get']('G@roles:kibana and not G@roles:haproxy', 'private_ip', tgt_type='compound').items() %}http://{{ address[1] }}:5601{% endfor %}"
