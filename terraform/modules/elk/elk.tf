@@ -129,7 +129,7 @@ resource "digitalocean_firewall" "heartbeat_http_local" {
 
   inbound_rule {
     protocol = "tcp"
-    port_range = "5984"
+    port_range = "5984" // Really this needs to be 80, 443 also
     source_addresses = module.Heartbeat.salt_minion_private_ip_addresses
   }
   
