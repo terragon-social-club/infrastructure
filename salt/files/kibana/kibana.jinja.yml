@@ -24,7 +24,7 @@ server.host: "{{ salt['network.interface_ip']('vtnet1') }}"
 # The Kibana server's name.  This is used for display purposes.
 #server.name: "your-hostname"
 
-elasticsearch.hosts: {% for address in salt['mine.get']('roles:elasticsearch', 'local_ip', tgt_type='grain').items() %}
+elasticsearch.hosts: {% for address in salt['mine.get']('roles:elasticsearch', 'private_ip', tgt_type='grain').items() %}
   - http://{{ address[1] }}:9200{% endfor %}
 
 # When this setting's value is true Kibana uses the hostname specified in the server.host

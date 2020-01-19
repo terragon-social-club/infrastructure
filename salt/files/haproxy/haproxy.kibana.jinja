@@ -16,5 +16,5 @@ frontend http-in
     default_backend servers
 
 backend servers
-    {% for address in salt['mine.get']('G@roles:kibana and not G@roles:haproxy', 'local_ip', tgt_type='compound').items() %}server kibana{{ loop.index }} {{ address[1] }}:5601 maxconn 500 check on-marked-down shutdown-sessions
+    {% for address in salt['mine.get']('G@roles:kibana and not G@roles:haproxy', 'private_ip', tgt_type='compound').items() %}server kibana{{ loop.index }} {{ address[1] }}:5601 maxconn 500 check on-marked-down shutdown-sessions
     {% endfor %}
