@@ -17,3 +17,11 @@ metricbeat:
   service.dead:
     - enable: False
 {% endif %}
+
+{% if has_lp_running %}
+"./metricbeat modules enable system > /root/.metricbeat-system-enabled":
+  cmd.run:
+    - creates: "/root/.metricbeat-system-enabled"
+    - requires:
+      - service: metricbeat
+{% endif %}
