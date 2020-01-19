@@ -6,7 +6,7 @@ extend:
           - /var/log/couchdb2/couch.log
   /usr/local/etc/salt/minion.d/mine.conf:
     file.managed:
-      - source: salt:///files/salt/mine.couchdb.conf
+      - source: salt:///files/salt/mine.couchdb.jinja.conf
 
 couchdb2:
   pkg.installed: []
