@@ -164,7 +164,7 @@ resource "digitalocean_firewall" "kibana_and_es_to_logstash" {
   
 }
 
-resource "digitalocean_firewall" "kibana_to_elasticsearch" {
+resource "digitalocean_firewall" "kibana_to_elasticsearch" { # Rename to reflect this is all local to ES. Also, no. Should be all to logstash but not ES
   name="Kibana-To-ElasticSearch"
   droplet_ids = module.ElasticSearch.droplet_ids
   count = module.Kibana.provision ? 1 : 0

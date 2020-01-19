@@ -1,5 +1,5 @@
 include:
-  - metricbeat
+  - metricbeat.metricbeat
 
 salt_minion:
   service.running:
