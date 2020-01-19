@@ -1,6 +1,3 @@
-include:
-  - metricbeat.metricbeat
-
 salt_minion:
   service.running:
     - enable: True

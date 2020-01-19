@@ -1,3 +1,6 @@
+include:
+  - metricbeat.couchdb
+
 extend:
   /usr/local/etc/filebeat.yml:
     file.managed:
