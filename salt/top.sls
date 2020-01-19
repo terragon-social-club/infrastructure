@@ -29,7 +29,7 @@ base:
     - match: grain
     - elasticsearch
 
-  'G@roles:kibana and not G@haproxy':
+  'G@roles:kibana and not G@roles:haproxy':
     - match: compound
     - kibana
 
