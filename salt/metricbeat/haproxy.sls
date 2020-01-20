@@ -12,7 +12,7 @@ metricbeat:
   service.running:
     - enable: True
     - requires:
-        - cmd: "metricbeat modules enable haproxy > /root/metricbeat-haproxy-enabled"
+        - cmd: "metricbeat --path.config /usr/local/etc modules enable haproxy > /root/metricbeat-haproxy-enabled"
     - watch:
         - file: /usr/local/etc/metricbeat.yml
 {% else %}
@@ -21,7 +21,7 @@ metricbeat:
 {% endif %}
 
 {% if has_lp_running %}
-"metricbeat modules enable haproxy > /root/metricbeat-haproxy-enabled":
+"metricbeat --path.config /usr/local/etc modules enable haproxy > /root/metricbeat-haproxy-enabled":
   cmd.run:
     - creates: "/root/metricbeat-system-enabled"
     - requires:
