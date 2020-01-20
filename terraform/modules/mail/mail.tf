@@ -1,6 +1,8 @@
+variable "tld" {}
+
 # Mail Records
 resource "digitalocean_record" "hushmail-1" {
-  domain = "terragon.us"
+  domain = var.tld
   type = "MX"
   name = "@"
   value = "plsmtp2.hushmail.com."
@@ -8,7 +10,7 @@ resource "digitalocean_record" "hushmail-1" {
 }
 
 resource "digitalocean_record" "hushmail-2" {
-  domain = "terragon.us"
+  domain = var.tld
   type = "MX"
   name = "@"
   value = "plsmtp1.hushmail.com."

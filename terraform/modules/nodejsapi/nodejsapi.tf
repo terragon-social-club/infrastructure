@@ -12,6 +12,7 @@ variable "image" {}
 variable "pm2_nodes" {}
 variable "proxy_size" {}
 variable "api_size" {}
+variable "tld" {}
 
 module "PM2Node" {
   source = "../salt-minion"
@@ -19,7 +20,7 @@ module "PM2Node" {
   provision = false
   
   name = "nodejs-api"
-  domain_id = "terragon.us"
+  domain_id = var.tld
   keys = var.ssh_keys
   image = var.image
   size = var.api_size
@@ -40,7 +41,7 @@ module "HAProxy" {
   provision = var.pm2_nodes > 0 ? true : false
   name = "haproxy-nodejsapi"
   size = var.proxy_size
-  domain_id = "terragon.us"
+  domain_id = var.tld
   custom_fqdn = "express"
   keys = var.ssh_keys
   image = var.image
@@ -55,7 +56,7 @@ module "HAProxy" {
 # Round robin dns for haproxy instances
 resource "digitalocean_record" "nodejsapi_frontend" {
   count = var.pm2_nodes > 0 ? 1 : 0
-  domain = "terragon.us"
+  domain = var.tld
   type = "A"
   name = "express"
   value = module.HAProxy.salt_minion_public_ip_addresses[0]

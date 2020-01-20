@@ -70,7 +70,7 @@ resource "digitalocean_droplet" "salt_minion" {
   backups = false
   region = var.region
   image = var.image
-  name = "${var.name}-${var.alpha[count.index]}.private.terragon.us"
+  name = "${var.name}-${var.alpha[count.index]}.private.${var.domain_id}"
   size = var.size
   ssh_keys = var.keys
   ipv6 = false
@@ -196,7 +196,7 @@ resource "null_resource" "configure_firewalled_minion" {
   }
   
   provisioner "file" {
-    content = "roles:\n${join("\n", [for role in var.salt_minion_roles : "  - ${role}"])}\nfqdn: ${length(var.custom_fqdn) > 0 ? var.custom_fqdn : "${var.name}-${var.alpha[count.index]}"}.terragon.us\ncouch_user: ${var.couch_user}\ncouch_pass: ${var.couch_pass}\nstripe_api_key: ${var.stripe_api_key}\ngeoip_license_key: ${var.geoip_license_key}\ngeoip_account_id: ${var.geoip_account_id}"
+    content = "roles:\r\n${join("\r\n", [for role in var.salt_minion_roles : "  - ${role}"])}\r\nfqdn: ${length(var.custom_fqdn) > 0 ? var.custom_fqdn : "${var.name}-${var.alpha[count.index]}"}.${var.domain_id}\r\ncouch_user: ${var.couch_user}\r\ncouch_pass: ${var.couch_pass}\r\nstripe_api_key: ${var.stripe_api_key}\r\ngeoip_license_key: ${var.geoip_license_key}\r\ngeoip_account_id: ${var.geoip_account_id}"
     destination = "/usr/local/etc/salt/grains"
   }
 

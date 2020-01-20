@@ -16,6 +16,7 @@ variable "kibana_size" {}
 variable "heartbeat_size" {}
 variable "heartbeat_provisioned" {}
 variable "kibana_proxy_size" {}
+variable "tld" {}
 variable "heartbeat_access_droplet_ids" {
   default = []
 }
@@ -29,7 +30,7 @@ module "Logstash" {
   provision = var.logstash_workers > 0
   name = "logstash"
   size = var.logstash_size
-  domain_id = "terragon.us"
+  domain_id = var.tld
   keys = var.ssh_keys
   image = var.image
   geoip_license_key = var.geoip_license_key
@@ -55,7 +56,6 @@ resource "digitalocean_firewall" "beats_to_logstash" {
       module.Logstash.salt_minion_private_ip_addresses,
       module.Kibana.salt_minion_private_ip_addresses,
       module.HAProxy.salt_minion_private_ip_addresses)
-
   }
   
 }
@@ -70,7 +70,6 @@ resource "digitalocean_firewall" "es_kibana_to_logstash" {
     port_range = "9600"
     source_addresses = concat(module.Kibana.salt_minion_private_ip_addresses,
                               module.ElasticSearch.salt_minion_private_ip_addresses)
-
   }
   
 }
@@ -81,7 +80,7 @@ module "ElasticSearch" {
   provision = var.elasticsearch_workers > 0
   name = "elasticsearch"
   size = var.elasticsearch_size
-  domain_id = "terragon.us"
+  domain_id = var.tld
   keys = var.ssh_keys
   image = var.image
   
@@ -112,7 +111,7 @@ module "Heartbeat" {
   provision = var.heartbeat_provisioned
   name = "heartbeat"
   size = var.heartbeat_size
-  domain_id = "terragon.us"
+  domain_id = var.tld
   keys = var.ssh_keys
   image = var.image
   
@@ -141,7 +140,7 @@ module "Kibana" {
   provision = var.elasticsearch_workers > 0
   name = "kibana"
   size = var.kibana_size
-  domain_id = "terragon.us"
+  domain_id = var.tld
   keys = var.ssh_keys
   image = var.image
   
@@ -184,7 +183,7 @@ module "HAProxy" {
   name = "haproxy-kibana"
   size = var.kibana_proxy_size
   custom_fqdn = var.kibana_domain
-  domain_id = "terragon.us"
+  domain_id = var.tld
   keys = var.ssh_keys
   image = var.image
   
@@ -227,7 +226,7 @@ resource "digitalocean_firewall" "world_to_haproxy_kibana" {
 
 resource "digitalocean_record" "kibana_frontend" {
   count = var.kibana_proxy_provisioned ? 1 : 0
-  domain = "terragon.us"
+  domain = var.tld
   type = "A"
   name = var.kibana_domain
   value = module.HAProxy.salt_minion_public_ip_addresses[0]
