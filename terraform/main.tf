@@ -39,12 +39,12 @@ variable "cluster_makeup" {
     }
 
     logging = {
-      heartbeat_provisioned = false
+      heartbeat_provisioned = true
       heartbeat_size = "s-1vcpu-1gb"
       elastic_size = "s-2vcpu-4gb"       # Min s-2vcpu-4gb
       kibana_proxy_size = "s-1vcpu-1gb"
       kibana_size = "s-2vcpu-2gb"
-      kibana_proxy_provisioned = false
+      kibana_proxy_provisioned = true
       kibana_domain = "dashboard"
       logstash_size = "s-1vcpu-1gb"
       logstash_node_count = 0
@@ -54,7 +54,7 @@ variable "cluster_makeup" {
     couchdb = {
       couch_size = "s-1vcpu-1gb"
       proxy_size = "s-1vcpu-1gb"
-      proxy_provisioned = false
+      proxy_provisioned = true
       haproxy_domain = "couchdb"
       node_count = 0
     }
