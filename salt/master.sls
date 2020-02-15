@@ -19,8 +19,3 @@ extend:
 salt_master:
   service.running:
     - enable: True
-
-/srv/pillar/data.sls:
-  file.managed:
-    - makedirs: True
-    - source: salt:///pillar/data.sls
