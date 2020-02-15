@@ -23,7 +23,7 @@ metricbeat:
 {% if has_lp_running %}
 "metricbeat --path.config /usr/local/etc modules enable haproxy > /root/metricbeat-haproxy-enabled":
   cmd.run:
-    - creates: "/root/metricbeat-system-enabled"
+    - creates: "/root/metricbeat-haproxy-enabled"
     - requires:
         - pkg: beats
 {% endif %}
