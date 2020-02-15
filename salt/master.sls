@@ -19,14 +19,6 @@ extend:
 salt_master:
   service.running:
     - enable: True
-    - watch:
-        - file: /srv/pillar/top.sls
-        - file: /srv/pillar/data.sls
-
-/srv/pillar/top.sls:
-  file.managed:
-    - makedirs: True
-    - source: salt:///pillar/top.sls
 
 /srv/pillar/data.sls:
   file.managed:
