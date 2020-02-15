@@ -30,6 +30,9 @@ sshd:
     - watch:
       - file: /etc/ssh/sshd_config
 
+keep system updated:
+  pkg.uptodate
+
 # IDS
 #aide:
 #  pkg.installed: []
