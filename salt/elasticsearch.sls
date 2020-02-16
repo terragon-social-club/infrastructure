@@ -14,7 +14,7 @@ include:
 
 elasticsearch:
   pkg.installed:
-    - name: elasticsearch6
+    - name: elasticsearch7
   service.running:
     - enable: True
     - watch:
