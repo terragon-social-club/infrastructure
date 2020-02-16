@@ -17,6 +17,11 @@ base:
     - letsencrypt
     - haproxy.haproxy
 
+  'roles:apache':
+    - match: grain
+    - letsencrypt
+    - apache.apache
+
   'roles:logstash':
     - match: grain
     - logstash
@@ -52,10 +57,6 @@ base:
   'G@roles:pm2 and G@roles:haproxy':
     - match: compound
     - haproxy.pm2
-
-  'roles:apache':
-    - match: grain
-    - apache.apache
 
   'roles:angular':
     - match: grain
