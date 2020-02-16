@@ -5,13 +5,13 @@ libnghttp2:
 pkg install -y libnghttp2:
   cmd.run:
     - unless: npm version
-  
+
 www/npm:
   pkg.installed:
     - require:
       - cmd: pkg install -y libnghttp2
 
-"@terragon/api@1.5.26":
+"@terragon/api@1.6.0":
   npm.installed:
     - require:
       - pkg: www/npm
@@ -20,7 +20,7 @@ pm2:
   npm.installed:
     - require:
       - pkg: www/npm
-      
+
 pm2 startup:
   cmd.run:
     - runas: root
@@ -37,9 +37,9 @@ pm2 start /usr/local/etc/process.yml:
     - unless: pm2 describe terragon
     - require:
       - npm: pm2
-      - npm: "@terragon/api@1.5.26"
+      - npm: "@terragon/api@1.6.0"
       - file: /usr/local/etc/process.yml
-        
+
 pm2_root:
   service.running:
     - enable: True
