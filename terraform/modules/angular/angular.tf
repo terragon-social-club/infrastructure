@@ -15,7 +15,7 @@ module "Apache" {
   name = "www"
   size = var.size
   domain_id = var.tld
-  custom_fqdn = "express"
+  custom_fqdn = "www"
   keys = var.ssh_keys
   image = var.image
 
@@ -35,7 +35,7 @@ resource "digitalocean_record" "apache_www" {
 }
 
 resource "digitalocean_firewall" "world_to_angular_apache" {
-  name="World-To-Angular-Apache"
+  name = "World-To-Angular-Apache"
   droplet_ids = module.Apache.droplet_ids
 
   inbound_rule {
