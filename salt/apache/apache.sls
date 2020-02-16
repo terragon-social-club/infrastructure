@@ -11,4 +11,4 @@ apache24:
     - source: salt:///files/apache/httpd.default.jinja
     - template: jinja
     - require:
-      - pkg: haproxy
+      - pkg: apache24
