@@ -58,13 +58,13 @@ couchdb2:
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
 
 {% if grains['id'] == 'couchdb-a' %}
-  {% for database in databases %}
-  "curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/{{ database }}' -d '' > '/root/created-{{ database }}-database'":
-    cmd.run:
-        - creates: /root/created-{{ database }}-database
-        - hide_output: True
-        - output_loglevel: quiet
-        - require:
-          - service: couchdb2
-  {% endfor %}
+{% for database in databases %}
+"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/{{ database }}' -d '' > '/root/created-{{ database }}-database'":
+  cmd.run:
+      - creates: /root/created-{{ database }}-database
+      - hide_output: True
+      - output_loglevel: quiet
+      - require:
+        - service: couchdb2
+{% endfor %}
 {% endif %}
