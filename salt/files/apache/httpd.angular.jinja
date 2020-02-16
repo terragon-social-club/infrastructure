@@ -1,11 +1,15 @@
 ServerRoot "/usr/local"
-Listen 80
+Listen 80 443
 
 LoadModule mpm_prefork_module libexec/apache24/mod_mpm_prefork.so
 LoadModule reqtimeout_module libexec/apache24/mod_reqtimeout.so
 LoadModule filter_module libexec/apache24/mod_filter.so
 LoadModule mime_module libexec/apache24/mod_mime.so
 LoadModule log_config_module libexec/apache24/mod_log_config.so
+LoadModule authn_core_module libexec/apache24/mod_authn_core.so
+LoadModule authz_host_module libexec/apache24/mod_authz_host.so
+LoadModule authz_groupfile_module libexec/apache24/mod_authz_groupfile.so
+LoadModule authz_user_module libexec/apache24/mod_authz_user.so
 #LoadModule log_debug_module libexec/apache24/mod_log_debug.so
 #LoadModule log_forensic_module libexec/apache24/mod_log_forensic.so
 #LoadModule logio_module libexec/apache24/mod_logio.so
@@ -72,7 +76,6 @@ DocumentRoot "/usr/local/lib/node_modules/@terragon/terragon/dist/terragon"
     Require all granted
 </Directory>
 
-Listen 443
 <VirtualHost *:443>
     SSLEngine on
     SSLCertificateFile "/usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem"
