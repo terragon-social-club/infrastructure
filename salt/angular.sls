@@ -4,7 +4,7 @@ git:
 www/npm:
   pkg.installed
 
-"@terragon/terragon@0.0.2":
+"@terragon/terragon@0.0.3":
   npm.installed:
     - require:
       - pkg: www/npm
