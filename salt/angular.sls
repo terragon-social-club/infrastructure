@@ -1,10 +1,10 @@
 git:
   pkg.installed
 
-https://github.com/terragon-social-club/terragon.git:
-  git.latest:
-    - target: /usr/local/www/apache24/data
-    - force_clone: true
+www/npm:
+  pkg.installed
+
+"@terragon/terragon@0.0.2":
+  npm.installed:
     - require:
-      - pkg: apache24
-      - pkg: git
+      - pkg: www/npm
