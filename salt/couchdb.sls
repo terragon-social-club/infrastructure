@@ -1,3 +1,12 @@
+{% set databases = ['_users',
+                    '_global_changes',
+                    '_replicator',
+                    'terragon_sysinfo',
+                    'user_profiles',
+                    'invite_codes',
+                    'feed_hotclicks',
+                    'feeds'] %}
+
 extend:
   /usr/local/etc/filebeat.yml:
     file.managed:
@@ -47,15 +56,6 @@ couchdb2:
     - require:
       - pkg: couchdb2
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
-
-{% set databases = ['_users',
-                    '_global_changes',
-                    '_replicator',
-                    'terragon_sysinfo',
-                    'user_profiles',
-                    'invite_codes',
-                    'feed_hotclicks',
-                    'feeds'] %}
 
 {% if grains['id'] == 'couchdb-a' %}
   {% for database in databases %}
