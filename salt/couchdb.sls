@@ -105,4 +105,12 @@ couchdb2:
       - require:
         - service: couchdb2
 
+"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/feeds' -d '' > '/root/created-feeds-database'":
+  cmd.run:
+      - creates: /root/created-feeds-database
+      - hide_output: True
+      - output_loglevel: quiet
+      - require:
+        - service: couchdb2
+
 {% endif %}
