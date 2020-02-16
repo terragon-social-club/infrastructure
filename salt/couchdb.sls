@@ -23,7 +23,7 @@ couchdb2:
     - group: couchdb
     - require:
       - pkg: couchdb2
-        
+
 /usr/local/etc/couchdb2/local.d/custom.ini:
   file.managed:
     - source: salt:///files/couchdb/local.jinja.ini
@@ -92,6 +92,14 @@ couchdb2:
 "curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/invite_codes' -d '' > '/root/created-invite_codes-database'":
   cmd.run:
       - creates: /root/created-invite_codes-database
+      - hide_output: True
+      - output_loglevel: quiet
+      - require:
+        - service: couchdb2
+
+"curl -X PUT -H \"Content-Type: application/json\" 'http://{{ grains['couch_user'] }}:{{ grains['couch_pass'] }}@{{ salt['network.interface_ip']('vtnet1') }}:5984/feed_hotclicks' -d '' > '/root/created-feed_hotclicks-database'":
+  cmd.run:
+      - creates: /root/created-feed_hotclicks-database
       - hide_output: True
       - output_loglevel: quiet
       - require:
