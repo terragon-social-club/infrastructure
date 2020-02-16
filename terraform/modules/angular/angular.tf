@@ -51,11 +51,3 @@ resource "digitalocean_firewall" "world_to_angular_apache" {
   }
 
 }
-
-output "private_ip_addresses" {
-  value = module.Apache.salt_minion_private_ip_addresses[0]
-}
-
-output "public_ip_addresses" {
-  value = module.Apache.salt_minion_public_ip_addresses[0]
-}
