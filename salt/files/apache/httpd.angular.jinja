@@ -145,7 +145,7 @@ LoadModule version_module libexec/apache24/mod_version.so
 #LoadModule session_dbd_module libexec/apache24/mod_session_dbd.so
 #LoadModule slotmem_shm_module libexec/apache24/mod_slotmem_shm.so
 #LoadModule slotmem_plain_module libexec/apache24/mod_slotmem_plain.so
-#LoadModule ssl_module libexec/apache24/mod_ssl.so
+LoadModule ssl_module libexec/apache24/mod_ssl.so
 #LoadModule dialup_module libexec/apache24/mod_dialup.so
 #LoadModule http2_module libexec/apache24/mod_http2.so
 #LoadModule proxy_http2_module libexec/apache24/mod_proxy_http2.so
@@ -274,6 +274,14 @@ DocumentRoot "/usr/local/lib/node_modules/@terragon/terragon/dist/terragon"
     #
     Require all granted
 </Directory>
+
+Listen 443
+<VirtualHost *:443>
+    ServerName {{ grains['fqdn'] }}
+    SSLEngine on
+    SSLCertificateFile "/usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem"
+    SSLCertificateKeyFile "/usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem"
+</VirtualHost>
 
 #
 # DirectoryIndex: sets the file that Apache will serve if a directory
