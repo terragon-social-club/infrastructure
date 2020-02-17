@@ -63,6 +63,7 @@ variable "cluster_makeup" {
       api_size = "s-1vcpu-1gb"
       proxy_size = "s-1vcpu-1gb"
       api_node_count = 0
+      proxy_provisioned = true
     }
 
     angular = {
@@ -178,6 +179,7 @@ module "NodeJSApi" {
 
   api_size = var.cluster_makeup.api.api_size
   proxy_size = var.cluster_makeup.api.proxy_size
+  proxy_provisioned = var.cluster_makeup.api.proxy_provisioned
   pm2_nodes = var.cluster_makeup.api.api_node_count
   couchdb_user = module.CouchDB.user
   couchdb_pass = module.CouchDB.pass

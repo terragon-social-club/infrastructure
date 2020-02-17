@@ -10,6 +10,7 @@ variable "stripe_api_key" {}
 variable "couchdb_droplet_ids" {}
 variable "image" {}
 variable "pm2_nodes" {}
+variable "proxy_provisioned" {}
 variable "proxy_size" {}
 variable "api_size" {}
 variable "tld" {}
@@ -37,8 +38,8 @@ module "PM2Node" {
 
 module "HAProxy" {
   source = "../salt-minion"
-  node_count = var.pm2_nodes > 0 ? 1 : 0
-  provision = var.pm2_nodes > 0 ? true : false
+  node_count = var.proxy_provisioned ? 1 : 0
+  provision = var.proxy_provisioned
   name = "haproxy-nodejsapi"
   size = var.proxy_size
   domain_id = var.tld
@@ -55,7 +56,7 @@ module "HAProxy" {
 
 # Round robin dns for haproxy instances
 resource "digitalocean_record" "nodejsapi_frontend" {
-  count = var.pm2_nodes > 0 ? 1 : 0
+  count = var.proxy_provisioned ? 1 : 0
   domain = var.tld
   type = "A"
   name = "express"
