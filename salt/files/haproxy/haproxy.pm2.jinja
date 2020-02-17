@@ -10,6 +10,8 @@ defaults
     timeout connect 5000ms
     timeout client 50000ms
     timeout server 50000ms
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
 listen stats
    bind {{ salt['network.interface_ip']('vtnet1') }}:14567

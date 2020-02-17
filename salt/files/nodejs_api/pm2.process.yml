@@ -1,6 +1,6 @@
 apps:
   - script: /usr/local/lib/node_modules/@terragon/api/dist/server.js
-    instances: max
+    instances: 1
     name: terragon
     env:
       API_BIND_IP: {{ salt['network.interface_ip']('vtnet1') }}
