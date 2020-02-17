@@ -26,14 +26,14 @@ pm2 startup:
     - runas: root
     - creates: /usr/local/etc/rc.d/pm2_root
     - env:
-      - PM2_API_IPADDR: {{ grains['private_ip_address'] }}
+      - PM2_API_IPADDR: {{ salt['network.interface_ip']('vtnet1') }}
     - require:
       - cmd: pm2 start /usr/local/etc/process.yml
 
 pm2 start /usr/local/etc/process.yml:
   cmd.run:
     - env:
-      - PM2_API_IPADDR: {{ grains['private_ip_address'] }}
+      - PM2_API_IPADDR: {{ salt['network.interface_ip']('vtnet1') }}
     - unless: pm2 describe terragon
     - require:
       - npm: pm2
