@@ -117,24 +117,6 @@ LoadModule dir_module libexec/apache24/mod_dir.so
 LoadModule alias_module libexec/apache24/mod_alias.so
 #LoadModule rewrite_module libexec/apache24/mod_rewrite.so
 
-<IfModule !mpm_prefork_module>
-	#LoadModule cgid_module libexec/apache24/mod_cgid.so
-</IfModule>
-<IfModule mpm_prefork_module>
-	#LoadModule cgi_module libexec/apache24/mod_cgi.so
-</IfModule>
-#LoadModule dav_fs_module libexec/apache24/mod_dav_fs.so
-#LoadModule dav_lock_module libexec/apache24/mod_dav_lock.so
-#LoadModule vhost_alias_module libexec/apache24/mod_vhost_alias.so
-#LoadModule negotiation_module libexec/apache24/mod_negotiation.so
-LoadModule dir_module libexec/apache24/mod_dir.so
-#LoadModule imagemap_module libexec/apache24/mod_imagemap.so
-#LoadModule actions_module libexec/apache24/mod_actions.so
-#LoadModule speling_module libexec/apache24/mod_speling.so
-#LoadModule userdir_module libexec/apache24/mod_userdir.so
-LoadModule alias_module libexec/apache24/mod_alias.so
-#LoadModule rewrite_module libexec/apache24/mod_rewrite.so
-
 # Third party modules
 IncludeOptional etc/apache24/modules.d/[0-9][0-9][0-9]_*.conf
 
