@@ -17,14 +17,14 @@ variable "tld" {}
 module "PM2Node" {
   source = "../salt-minion"
   node_count = var.pm2_nodes
-  provision = false
-  
+  provision = true
+
   name = "nodejs-api"
   domain_id = var.tld
   keys = var.ssh_keys
   image = var.image
   size = var.api_size
-  
+
   salt_minion_roles = ["pm2", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
   salt_master_private_ip_address = var.salt_master_private_ip_address
@@ -45,7 +45,7 @@ module "HAProxy" {
   custom_fqdn = "express"
   keys = var.ssh_keys
   image = var.image
-  
+
   salt_minion_roles = ["haproxy", "pm2", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
   salt_master_private_ip_address = var.salt_master_private_ip_address
@@ -71,7 +71,7 @@ resource "digitalocean_firewall" "nodejsapihaproxy_to_nodejsapi" {
     port_range = "3000"
     source_addresses = module.HAProxy.salt_minion_private_ip_addresses
   }
-  
+
 }
 
 resource "digitalocean_firewall" "world_to_nodejsapi_haproxy" {
@@ -89,7 +89,7 @@ resource "digitalocean_firewall" "world_to_nodejsapi_haproxy" {
     port_range = "443"
     source_addresses = ["0.0.0.0/0"]
   }
-  
+
 }
 
 resource "digitalocean_firewall" "nodejsapi_to_couchdb" {
@@ -101,7 +101,7 @@ resource "digitalocean_firewall" "nodejsapi_to_couchdb" {
     port_range = "5984"
     source_addresses = module.PM2Node.salt_minion_private_ip_addresses
   }
-  
+
 }
 
 output "pm2_node_private_ip_addresses" {
