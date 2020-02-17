@@ -1,5 +1,5 @@
 ServerRoot "/usr/local"
-Listen 80 443
+Listen 80
 
 #LoadModule mpm_event_module libexec/apache24/mod_mpm_event.so
 LoadModule mpm_prefork_module libexec/apache24/mod_mpm_prefork.so
@@ -159,6 +159,7 @@ DocumentRoot "/usr/local/lib/node_modules/@terragon/terragon/dist/terragon"
     Require all granted
 </Directory>
 
+Listen 443
 <VirtualHost *:443>
     SSLEngine on
     SSLCertificateFile "/usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem"
