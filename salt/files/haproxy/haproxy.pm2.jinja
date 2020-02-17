@@ -25,6 +25,6 @@ frontend http-in
 backend servers
     mode http
     balance roundrobin
-    {% for address in salt['mine.get']('G@roles:haproxy and G@roles:pm2', 'private_ip', tgt_type='compound').items() %}
+    {% for address in salt['mine.get']('G@roles:pm2 and not G@roles:haproxy', 'private_ip', tgt_type='compound').items() %}
     server {{address[0]}} {{ address[1] }}:3000 check
     {% endfor %}
