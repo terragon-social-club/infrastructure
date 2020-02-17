@@ -28,13 +28,13 @@ pm2 startup --hp /:
     - env:
       - PM2_API_IPADDR: {{ salt['network.interface_ip']('vtnet1') }}
     - require:
-      - cmd: pm2 start /usr/local/etc/process.yml
+      - cmd: pm2 start /usr/local/etc/process.yml --hp /
 
-pm2 start /usr/local/etc/process.yml:
+pm2 start /usr/local/etc/process.yml --hp /:
   cmd.run:
     - env:
       - PM2_API_IPADDR: {{ salt['network.interface_ip']('vtnet1') }}
-    - unless: pm2 describe terragon
+    - unless: pm2 describe terragon --hp /
     - require:
       - npm: pm2
       - npm: "@terragon/api@1.7.3"
