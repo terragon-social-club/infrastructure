@@ -21,7 +21,7 @@ pm2:
     - require:
       - pkg: www/npm
 
-pm2 startup --hp /.pm2:
+pm2 startup --hp /root/.pm2:
   cmd.run:
     - runas: root
     - creates: /usr/local/etc/rc.d/pm2_root
@@ -44,7 +44,7 @@ pm2_root:
   service.running:
     - enable: True
     - require:
-      - cmd: pm2 startup --hp /.pm2
+      - cmd: pm2 startup --hp /root/.pm2
 
 /usr/local/etc/process.yml:
   file.managed:
