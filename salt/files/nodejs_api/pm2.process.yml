@@ -1,5 +1,3 @@
-{% set couch_addresses = salt['mine.get']('roles:couchdb', 'network.interface_ip', tgt_type='grain').items() %}
-
 apps:
   - script: /usr/local/lib/node_modules/@terragon/api/dist/server.js
     instances: max
@@ -11,4 +9,5 @@ apps:
       COUCH_USER: {{ grains['couch_user'] }}
       COUCH_PASS: {{ grains['couch_pass'] }}
       STRIPE_KEY: {{ grains['stripe_api_key'] }}
+      COUCH_PORT: 443
       ORIGIN: https://www.terragon.us
