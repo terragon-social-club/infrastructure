@@ -7,7 +7,8 @@ apps:
     name: terragon
     env:
       API_BIND_IP: {{ salt['network.interface_ip']('vtnet1') }}
-      COUCH_ADDRESSES: [{% for address in couch_addresses %}"{{ address[1] }}"{% if loop.index != couch_addresses|length %},{% endif %}{% endfor %}]
+      COUCH_HOST: couchdb.terragon.us
       COUCH_USER: {{ grains['couch_user'] }}
       COUCH_PASS: {{ grains['couch_pass'] }}
       STRIPE_KEY: {{ grains['stripe_api_key'] }}
+      ORIGIN: https://www.terragon.us
