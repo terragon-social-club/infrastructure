@@ -146,7 +146,7 @@ Listen 443
     SSLEngine on
     SSLCertificateFile "/usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem"
     SSLCertificateKeyFile "/usr/local/etc/letsencrypt/live/{{ grains['fqdn'] }}/{{ grains['fqdn'] }}.pem"
-    <Location /myreactapp >
+    <Location />
 		    RewriteEngine on
 		    RewriteCond %{REQUEST_FILENAME} !-d
 		    RewriteCond %{REQUEST_FILENAME} !-f
