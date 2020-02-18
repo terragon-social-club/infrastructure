@@ -1,4 +1,4 @@
-{% set databases = ['_users', '_global_changes', '_replicator', 'terragon_sysinfo', 'user_profiles', 'invite_codes', 'feed_hotclicks', 'feeds'] %}
+{% set databases = ['_users', '_global_changes', '_replicator', 'terragon_sysinfo', 'user_profiles', 'invite_codes', 'feed_hotclicks', 'feeds', 'comments'] %}
 
 extend:
   /usr/local/etc/filebeat.yml:
