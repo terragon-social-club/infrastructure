@@ -1,5 +1,5 @@
 apps:
-  - script: /usr/local/lib/node_modules/@pipeline/api/dist/server.js
+  - script: /usr/local/lib/node_modules/@terragon/api/dist/server.js
     instances: 1
     name: terragon
     env:
