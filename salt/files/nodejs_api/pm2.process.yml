@@ -4,7 +4,7 @@ apps:
     name: terragon
     env:
       API_BIND_IP: {{ salt['network.interface_ip']('vtnet1') }}
-      COUCH_HOST: {{ salt['mine.get']('couchdb-a', 'private_ip') }}
+      COUCH_HOST: {{ salt['mine.get']('couchdb-a', 'private_ip')['couchdb-a'] }}
       COUCH_USER: {{ grains['couch_user'] }}
       COUCH_PASS: {{ grains['couch_pass'] }}
       STRIPE_KEY: {{ grains['stripe_api_key'] }}
