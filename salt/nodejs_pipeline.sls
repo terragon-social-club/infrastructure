@@ -11,7 +11,7 @@ www/npm:
     - require:
       - cmd: pkg install -y libnghttp2
 
-"@terragon/api@0.0.2":
+"@terragon/pipeline@0.0.2":
   npm.installed:
     - require:
       - pkg: www/npm
