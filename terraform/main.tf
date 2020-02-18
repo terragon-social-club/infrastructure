@@ -209,6 +209,7 @@ module "NodeJSPipeline" {
   pm2_nodes = var.cluster_makeup.api.api_node_count
   couchdb_user = module.CouchDB.user
   couchdb_pass = module.CouchDB.pass
+  stripe_api_key = var.stripe_api_key
   couchdb_droplet_ids = module.CouchDB.droplet_ids
 
   salt_master_droplet_id = module.Salt_Master.droplet_id
