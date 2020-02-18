@@ -58,6 +58,10 @@ base:
     - match: compound
     - haproxy.pm2
 
+  'roles:pm3':
+    - match: grain
+    - nodejs_pipeline
+
   'roles:angular':
     - match: grain
     - apache.angular
