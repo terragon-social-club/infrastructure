@@ -9,4 +9,4 @@ apps:
       COUCH_PASS: {{ grains['couch_pass'] }}
       STRIPE_KEY: {{ grains['stripe_api_key'] }}
       COUCH_PORT: 5984
-      ORIGIN: http://www.terragon.us
+      ORIGIN: https://www.terragon.us
