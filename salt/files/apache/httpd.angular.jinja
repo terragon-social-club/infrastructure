@@ -141,6 +141,10 @@ DocumentRoot "/usr/local/lib/node_modules/@terragon/terragon/dist/terragon"
     Require all granted
 </Directory>
 
+<VirtualHost *:80>
+   Redirect / https://www.terragon.us
+</VirtualHost>
+
 Listen 443
 <VirtualHost *:443>
     SSLEngine on
