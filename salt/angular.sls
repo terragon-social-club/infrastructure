@@ -2,7 +2,7 @@ extend:
   apache24:
     service.running:
       - require:
-        - npm: "@terragon/terragon@0.0.13"
+        - npm: "@terragon/terragon@0.0.14"
 
 git:
   pkg.installed
@@ -10,7 +10,7 @@ git:
 www/npm:
   pkg.installed
 
-"@terragon/terragon@0.0.13":
+"@terragon/terragon@0.0.14":
   npm.installed:
     - require:
       - pkg: www/npm
