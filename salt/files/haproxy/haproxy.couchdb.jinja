@@ -13,8 +13,6 @@ defaults
     mode http
     # Enable logging of HTTP request, session state and timers
     option httplog
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
 listen stats
    bind {{ salt['network.interface_ip']('vtnet1') }}:14567
