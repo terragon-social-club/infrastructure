@@ -14,6 +14,7 @@ variable "ssh_keys" {}
 variable "image" {}
 variable "haproxy_domain" {}
 variable "tld" {}
+variable "disk_size" {}
 
 resource "random_integer" "couch_admin_user_length" {
   min = 10
@@ -58,8 +59,9 @@ module "CouchDBNode" {
   domain_id = var.tld
   keys = var.ssh_keys
   image = var.image
+  disk_size = var.disk_size
 
-  salt_minion_roles = ["couchdb", "minion"]
+  salt_minion_roles = ["couchdb", "minion", "storage"]
   salt_master_droplet_id = var.salt_master_droplet_id
   salt_master_private_ip_address = var.salt_master_private_ip_address
   salt_master_public_ip_address = var.salt_master_public_ip_address
@@ -78,7 +80,7 @@ module "HAProxy" {
   custom_fqdn = var.haproxy_domain
   keys = var.ssh_keys
   image = var.image
-  
+
   salt_minion_roles = ["couchdb", "haproxy", "minion"]
   salt_master_droplet_id = var.salt_master_droplet_id
   salt_master_private_ip_address = var.salt_master_private_ip_address
@@ -95,7 +97,7 @@ resource "digitalocean_firewall" "haproxy_to_couch" {
     port_range = "5984"
     source_addresses = module.HAProxy.salt_minion_private_ip_addresses
   }
-  
+
 }
 
 resource "digitalocean_firewall" "world_to_haproxy" {
@@ -113,7 +115,7 @@ resource "digitalocean_firewall" "world_to_haproxy" {
     port_range = "443"
     source_addresses = ["0.0.0.0/0"]
   }
-  
+
 }
 
 resource "digitalocean_firewall" "couchdb_to_couchdb" {
@@ -138,7 +140,7 @@ resource "digitalocean_firewall" "couchdb_to_couchdb" {
     port_range = "9100-9200"
     source_addresses = module.CouchDBNode.salt_minion_private_ip_addresses
   }
-  
+
 }
 
 # Round robin dns for haproxy instances // currently not really round robin. this is broke and only supports one node
