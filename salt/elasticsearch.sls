@@ -13,7 +13,7 @@ include:
   - java
   - portsnap
 
-portsnap extract textproc/elasticsearch7:
+portsnap extract:
   cmd.run:
     - creates: /usr/ports/textproc/elasticsearch7
     - require:
@@ -22,6 +22,8 @@ portsnap extract textproc/elasticsearch7:
 elasticsearch:
   ports.installed:
     - name: textproc/elasticsearch7
+    - require:
+      - cmd: portsnap extract
   service.running:
     - enable: True
     - watch:
