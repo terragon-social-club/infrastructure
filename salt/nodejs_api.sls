@@ -19,7 +19,7 @@ www/npm:
     - require:
       - cmd: pkg install -y libnghttp2
 
-"@terragon/api@1.7.10":
+"@terragon/api@1.7.11":
   npm.installed:
     - require:
       - pkg: www/npm
@@ -45,7 +45,7 @@ pm2 start --hp / /usr/local/etc/process.yml:
     - unless: pm2 describe --hp / terragon
     - require:
       - npm: pm2
-      - npm: "@terragon/api@1.7.10"
+      - npm: "@terragon/api@1.7.11"
       - file: /usr/local/etc/process.yml
 
 pm2_root:
