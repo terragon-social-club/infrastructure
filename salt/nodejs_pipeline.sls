@@ -1,3 +1,11 @@
+extend:
+  /usr/local/etc/filebeat.yml:
+    file.managed:
+      - context:
+        specific_log_files:
+          - /.pm2/logs/terragon-error-0.log
+          - /.pm2/logs/terragon-out-0.log
+
 libnghttp2:
   pkg.installed:
     - refresh_db: True
