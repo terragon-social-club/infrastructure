@@ -154,6 +154,8 @@ module "CouchDB" {
   image = var.base_image
   tld = var.cluster_makeup.tld
 
+  disk_size = 30
+
   haproxy_domain = var.cluster_makeup.couchdb.haproxy_domain
   couchdb_size = var.cluster_makeup.couchdb.couch_size
   proxy_size = var.cluster_makeup.couchdb.proxy_size
