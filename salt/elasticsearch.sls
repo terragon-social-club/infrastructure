@@ -34,4 +34,4 @@ elasticsearch:
     - source: salt:///files/elasticsearch/elasticsearch.jinja.yml
     - template: jinja
     - require:
-      - ports: elasticsearch7
+      - ports: textproc/elasticsearch7
