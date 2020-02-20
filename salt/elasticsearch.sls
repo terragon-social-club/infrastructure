@@ -13,16 +13,16 @@ include:
   - java
 
 elasticsearch:
-  pkg.installed:
-    - name: elasticsearch6
+  ports.install:
+    - name: textproc/elasticsearch7
   service.running:
     - enable: True
     - watch:
-        - file: /usr/local/etc/elasticsearch/elasticsearch.yml
+      - file: /usr/local/etc/elasticsearch/elasticsearch.yml
 
 /usr/local/etc/elasticsearch/elasticsearch.yml:
   file.managed:
     - source: salt:///files/elasticsearch/elasticsearch.jinja.yml
     - template: jinja
     - require:
-      - pkg: elasticsearch6
+      - ports: elasticsearch7
