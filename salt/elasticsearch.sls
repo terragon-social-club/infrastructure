@@ -13,7 +13,7 @@ include:
   - java
 
 elasticsearch:
-  ports.install:
+  freebsdports.install:
     - name: textproc/elasticsearch7
   service.running:
     - enable: True
@@ -25,4 +25,4 @@ elasticsearch:
     - source: salt:///files/elasticsearch/elasticsearch.jinja.yml
     - template: jinja
     - require:
-      - ports: elasticsearch7
+      - freebsdports: elasticsearch7
