@@ -14,6 +14,8 @@ couchdb2:
   pkg.installed: []
   service.running:
     - enable: True
+    - require:
+      - cmd: storage_bootstrap
     - watch:
       - file: /usr/local/etc/couchdb2/local.d/custom.ini
       - file: /usr/local/etc/couchdb2/vm.args
