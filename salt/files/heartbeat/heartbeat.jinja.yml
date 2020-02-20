@@ -169,25 +169,40 @@ xpack.monitoring.enabled: true
 #xpack.monitoring.elasticsearch:
 
 {% set haproxy_nodes = salt['mine.get']('roles:haproxy', 'public_ip', 'grain').items() %}
+{% set apache_nodes = salt['mine.get']('roles:apache', 'public_ip', 'grain').items() %}
 {% set couchdb_db_nodes = salt['mine.get']('couchdb-*', 'private_ip').items() %}
 
 heartbeat.monitors:
-{% for haproxy_node in haproxy_nodes %}
-- type: http
-  schedule: '@every 1s'
-  id: "haproxy"
-  name: "{{ haproxy_node[0] }}"
-  urls: ["http://{{ haproxy_node[1] }}"]
-  check.response.status: 302
-{% endfor %}
-{% for couchdb_db_node in couchdb_db_nodes %}
-- type: http
-  schedule: '@every 1s'
-  id: "haproxy"
-  name: "{{ couchdb_db_node[0] }}"
-  urls: ["http://{{ couchdb_db_node[1] }}:5984/"]
-  check.response.status: 200
-{% endfor %}
+  - type: http
+      schedule: '@every 1s'
+      id: haproxy
+      name: HAProxy
+      urls:
+      {% for haproxy_node in haproxy_nodes %}
+        - "http://{{ haproxy_node[1] }}"
+      {% endfor %}
+      check.response.status: 302
+
+  - type: http
+    schedule: '@every 1s'
+    id: "haproxy"
+    name: "{{ apache_node[0] }}"
+    urls:
+    {% for apache_node in apache_nodes %}
+      - ["http://{{ apache_node[1] }}"]
+    {% endfor %}
+    check.response.status: 302
+
+  - type: http
+    schedule: '@every 1s'
+    id: "haproxy"
+    name: "CouchDB"
+    urls:
+    {% for couchdb_db_node in couchdb_db_nodes %}
+      - "http://{{ couchdb_db_node[1] }}:5984/"
+    {% endfor %}
+    check.response.status: 200
+
 heartbeat.scheduler:
   limit: 10
 
