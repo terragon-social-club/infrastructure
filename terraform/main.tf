@@ -56,7 +56,8 @@ variable "cluster_makeup" {
       proxy_size = "s-1vcpu-1gb"
       proxy_provisioned = true
       haproxy_domain = "couchdb"
-      node_count = 3
+      node_count = 0
+      disk_size = 30
     }
 
     api = {
@@ -154,7 +155,7 @@ module "CouchDB" {
   image = var.base_image
   tld = var.cluster_makeup.tld
 
-  disk_size = 30
+  disk_size = var.cluster_makeup.couchdb.disk_size
 
   haproxy_domain = var.cluster_makeup.couchdb.haproxy_domain
   couchdb_size = var.cluster_makeup.couchdb.couch_size
