@@ -1,3 +1,3 @@
-portsnap_cron:
+portsnap_fetch:
   cmd.run:
-    - name: portsnap cron
+    - name: portsnap fetch --not-running-from-cron

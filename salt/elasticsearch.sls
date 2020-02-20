@@ -17,7 +17,7 @@ portsnap extract textproc/elasticsearch7:
   cmd.run:
     - creates: /usr/ports/textproc/elasticsearch7
     - require:
-      - cmd: portsnap_cron
+      - cmd: portsnap_fetch
 
 elasticsearch:
   ports.installed:
