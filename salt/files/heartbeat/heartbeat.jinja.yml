@@ -186,10 +186,10 @@ heartbeat.monitors:
   - type: http
     schedule: '@every 1s'
     id: "haproxy"
-    name: "{{ apache_node[0] }}"
+    name: "Apache"
     urls:
     {% for apache_node in apache_nodes %}
-      - ["http://{{ apache_node[1] }}"]
+      - "http://{{ apache_node[1] }}"
     {% endfor %}
     check.response.status: 302
 
