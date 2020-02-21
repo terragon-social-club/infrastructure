@@ -14,13 +14,20 @@ variable "proxy_provisioned" {}
 variable "proxy_size" {}
 variable "api_size" {}
 variable "tld" {}
+variable "name" {}
+variable "app_npm_package" {}
+variable "app_npm_config" {}
+
+variable "http_interface" {
+  default = false
+}
 
 module "PM2Node" {
   source = "../salt-minion"
   node_count = var.pm2_nodes
   provision = true
 
-  name = "nodejs-api"
+  name = "nodejs-${var.name}"
   domain_id = var.tld
   keys = var.ssh_keys
   image = var.image
@@ -38,12 +45,12 @@ module "PM2Node" {
 
 module "HAProxy" {
   source = "../salt-minion"
-  node_count = var.proxy_provisioned ? 1 : 0
-  provision = var.proxy_provisioned
-  name = "haproxy-nodejsapi"
+  node_count = var.proxy_provisioned && var.http_interface ? 1 : 0
+  provision = var.proxy_provisioned && var.http_interface ? true : false;
+  name = "haproxy-nodejs-${var.name}"
   size = var.proxy_size
   domain_id = var.tld
-  custom_fqdn = "express"
+  custom_fqdn = var.name
   keys = var.ssh_keys
   image = var.image
 
@@ -56,15 +63,15 @@ module "HAProxy" {
 
 # Round robin dns for haproxy instances
 resource "digitalocean_record" "nodejsapi_frontend" {
-  count = var.proxy_provisioned ? 1 : 0
+  count = var.proxy_provisioned && var.http_interface ? 1 : 0
   domain = var.tld
   type = "A"
-  name = "express"
+  name = var.name
   value = module.HAProxy.salt_minion_public_ip_addresses[0]
 }
 
 resource "digitalocean_firewall" "nodejsapihaproxy_to_nodejsapi" {
-  name="NodeJSAPI-HAProxy-To-NodeJSApi"
+  name="JS-${var.name}-HAProxy-NodeJSApi"
   droplet_ids = module.PM2Node.droplet_ids
 
   inbound_rule {
@@ -76,7 +83,7 @@ resource "digitalocean_firewall" "nodejsapihaproxy_to_nodejsapi" {
 }
 
 resource "digitalocean_firewall" "world_to_nodejsapi_haproxy" {
-  name="World-To-NodeJSApi-HAProxy"
+  name="World-To-JS-${var.name}-HAProxy"
   droplet_ids = module.HAProxy.droplet_ids
 
   inbound_rule {
@@ -94,7 +101,7 @@ resource "digitalocean_firewall" "world_to_nodejsapi_haproxy" {
 }
 
 resource "digitalocean_firewall" "nodejsapi_to_couchdb" {
-  name="NodeJSApi-To-CouchDB"
+  name="JS-${var.name}-To-CouchDB"
   droplet_ids = var.couchdb_droplet_ids
 
   inbound_rule {

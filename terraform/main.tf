@@ -175,10 +175,13 @@ module "CouchDB" {
 
 }
 
-module "NodeJSApi" {
-  source = "./modules/nodejsapi"
+module "NodeJS" {
+  source = "./modules/nodejs"
   image = var.base_image
   tld = var.cluster_makeup.tld
+
+  name = "api"
+  app_npm_package = "@terragon/api"
 
   api_size = var.cluster_makeup.api.api_size
   proxy_size = var.cluster_makeup.api.proxy_size
@@ -201,10 +204,13 @@ module "NodeJSApi" {
 
 }
 
-module "NodeJSPipeline" {
-  source = "./modules/nodejspipeline"
+module "Pipeline-Reactions" {
+  source = "./modules/nodejs"
   image = var.base_image
   tld = var.cluster_makeup.tld
+
+  name = "pipeline"
+  app_npm_package = "@terragon/pipeline"
 
   api_size = var.cluster_makeup.api.api_size
   proxy_size = var.cluster_makeup.api.proxy_size
