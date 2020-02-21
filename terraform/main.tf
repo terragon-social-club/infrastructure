@@ -134,8 +134,10 @@ module "ELK" {
     [module.Salt_Master.private_ip_address],
     module.CouchDB.couchdb_node_private_ip_addresses,
     module.CouchDB.haproxy_private_ip_addresses,
-    module.NodeJSApi.pm2_node_private_ip_addresses,
-    module.NodeJSApi.haproxy_private_ip_addresses
+    module.Pipeline-Reactions.pm2_node_private_ip_addresses,
+    module.Pipeline-Reactions.haproxy_private_ip_addresses
+    module.API.pm2_node_private_ip_addresses,
+    module.API.haproxy_private_ip_addresses
   )
 
   salt_master_droplet_id = module.Salt_Master.droplet_id
@@ -175,7 +177,7 @@ module "CouchDB" {
 
 }
 
-module "NodeJS" {
+module "API" {
   source = "./modules/nodejs"
   image = var.base_image
   tld = var.cluster_makeup.tld
