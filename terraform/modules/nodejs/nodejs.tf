@@ -16,7 +16,6 @@ variable "api_size" {}
 variable "tld" {}
 variable "name" {}
 variable "app_npm_package" {}
-variable "app_npm_config" {}
 
 variable "http_interface" {
   default = false
