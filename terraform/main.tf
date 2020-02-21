@@ -135,7 +135,7 @@ module "ELK" {
     module.CouchDB.couchdb_node_private_ip_addresses,
     module.CouchDB.haproxy_private_ip_addresses,
     module.Pipeline-Reactions.pm2_node_private_ip_addresses,
-    module.Pipeline-Reactions.haproxy_private_ip_addresses
+    module.Pipeline-Reactions.haproxy_private_ip_addresses,
     module.API.pm2_node_private_ip_addresses,
     module.API.haproxy_private_ip_addresses
   )
