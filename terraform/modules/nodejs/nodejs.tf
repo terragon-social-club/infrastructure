@@ -46,7 +46,7 @@ module "PM2Node" {
 module "HAProxy" {
   source = "../salt-minion"
   node_count = var.proxy_provisioned && var.http_interface ? 1 : 0
-  provision = var.proxy_provisioned && var.http_interface ? true : false;
+  provision = var.proxy_provisioned && var.http_interface ? true : false
   name = "haproxy-nodejs-${var.name}"
   size = var.proxy_size
   domain_id = var.tld
