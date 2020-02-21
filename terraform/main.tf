@@ -1,11 +1,8 @@
+variable "stripe_api_key" {}
 variable "digitalocean_api_token" {}
 variable "terraform_cloud_api_token" {}
 variable "geoip_license_key" {}
 variable "geoip_account_id" {}
-
-variable "stripe_api_key" {
-  default = ""
-}
 
 variable "mwk_key_fingerprint" {
   type = string
@@ -185,6 +182,7 @@ module "NodeJS" {
 
   name = "api"
   app_npm_package = "@terragon/api"
+  http_interface = true
 
   api_size = var.cluster_makeup.api.api_size
   proxy_size = var.cluster_makeup.api.proxy_size
@@ -214,6 +212,7 @@ module "Pipeline-Reactions" {
 
   name = "pipeline"
   app_npm_package = "@terragon/pipeline"
+  http_interface = false
 
   api_size = var.cluster_makeup.api.api_size
   proxy_size = var.cluster_makeup.api.proxy_size
